@@ -1,0 +1,21 @@
+crawl name: basic
+crawl status: Finished - Maximum number of documents limit hit
+duration: 3m45s878ms
+
+seeds crawled: 3
+seeds uncrawled: 0
+
+hosts visited: 135
+
+URIs processed: 1062
+URI successes: 1060
+URI failures: 2
+URI disregards: 0
+
+novel URIs: 1060
+
+total crawled bytes: 42351872 (40 MiB) 
+novel crawled bytes: 42351872 (40 MiB)
+
+URIs/sec: 4.69
+KB/sec: 183

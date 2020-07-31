@@ -271,7 +271,7 @@ public class ModifyProcessorWarc extends ModifyProcessor {
                 }
                 log.debug("WARC-Date: {}", writerDF.format(warcDate));
 
-                tempFile = this.downloadFile(job, harvestResultNumber, fProps);
+                tempFile = wctClient.dasDownloadFile(fileDir, job, harvestResultNumber, fProps);
 
                 InputStream fin = Files.newInputStream(tempFile.toPath());
                 URI recordId = new URI("urn:uuid:" + tempFile.getName());

@@ -1,0 +1,2 @@
+FromFileName	FromFileLength	ToFileName	ToFileLength	TotalRecords	SkippedRecords	PrunedRecords	CopiedRecords	FailedRecords
+IAH-20200715033322106-00000-27740~ide~8443.warc	26026	IAH-20200715033322106-00000-27740~ide~8443~2.warc.open	20532	10	0	0	10	0

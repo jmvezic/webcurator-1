@@ -136,12 +136,12 @@ public class QaIndicatorRobotsReportController {
         HarvestResult hr = results.get(results.size() - 1);
 
         //Get the "robots.txt" resource urls
-        NetworkMapResult networkMapResult=networkMapClient.searchUrlNames(ti.getOid(), hr.getHarvestNumber(), "robots.txt");
-        if (networkMapResult.getRspCode()!=NetworkMapResult.RSP_CODE_SUCCESS){
+        NetworkMapResult networkMapResult = networkMapClient.searchUrlNames(ti.getOid(), hr.getHarvestNumber(), "robots.txt");
+        if (networkMapResult.getRspCode() != NetworkMapResult.RSP_CODE_SUCCESS) {
             log.warn(networkMapResult.getRspMsg());
             return;
         }
-        List<String> robotUrls = networkMapClient.getArrayListOfNetworkMapNode((String)networkMapResult.getPayload());;
+        List<String> robotUrls = networkMapClient.getListOfString((String) networkMapResult.getPayload());
         List<String> lines = new ArrayList<String>();
         robotUrls.forEach(resourceUrl -> {
             try {

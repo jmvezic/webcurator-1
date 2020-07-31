@@ -37,17 +37,17 @@ public class ProfileDTO implements AgencyOwnable {
 	private String description;
 	
 	/** The current status of the profile. **/
-	private int status;
+	private Integer status;
 	
 	/** The profile selection level required for a user to be able
 	 * to use this profile on a target. */
-	private int requiredLevel;
+	private Integer requiredLevel;
 	
 	/** The owningAgency */
 	private Agency owningAgency;
 	
 	/** Whether this is the default profile */
-	private boolean defaultProfile;
+	private Boolean defaultProfile;
 	
 	/** The original Oid for this Profile */
 	private Long origOid;
@@ -65,7 +65,7 @@ public class ProfileDTO implements AgencyOwnable {
 	private String timeLimitUnit;
 
 	/** Is this an imported profile or one created by WCT? */
-	private boolean imported;
+	private Boolean imported;
 
 	/** The profile XML */
 	private String profile;
@@ -88,15 +88,15 @@ public class ProfileDTO implements AgencyOwnable {
 	public ProfileDTO(Long anOid,
 				      String aName,
 				      String aDescription,
-				      int aStatus,
-				      int aRequiredLevel,
+					  Integer aStatus,
+					  Integer aRequiredLevel,
 				      Agency anAgency,
 				      String harvesterType,
 				      String dataLimitUnit,
 				      String maxFileSizeUnit,
 				      String timeLimitUnit,
-				      boolean defaultProfile,
-					  boolean imported,
+				      Boolean defaultProfile,
+					  Boolean imported,
 					  String profile) {
 		oid = anOid;
 		name = aName;
@@ -133,16 +133,16 @@ public class ProfileDTO implements AgencyOwnable {
 	public ProfileDTO(Long anOid,
 				      String aName,
 				      String aDescription,
-				      int aStatus,
-				      int aRequiredLevel,
+					  Integer aStatus,
+					  Integer aRequiredLevel,
 				      Agency anAgency,
-				      boolean defaultProfile,
+				      Boolean defaultProfile,
 				      Long origOid,
 					  String harvesterType,
 					  String dataLimitUnit,
 					  String maxFileSizeUnit,
 					  String timeLimitUnit,
-					  boolean imported,
+					  Boolean imported,
 					  String profile) {
 		oid = anOid;
 		name = aName;
@@ -212,7 +212,7 @@ public class ProfileDTO implements AgencyOwnable {
 	/**
 	 * @param requiredLevel The requiredLevel to set.
 	 */
-	public void setRequiredLevel(int requiredLevel) {
+	public void setRequiredLevel(Integer requiredLevel) {
 		this.requiredLevel = requiredLevel;
 	}
 
@@ -226,7 +226,7 @@ public class ProfileDTO implements AgencyOwnable {
 	/**
 	 * @param status The status to set.
 	 */
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
@@ -254,7 +254,7 @@ public class ProfileDTO implements AgencyOwnable {
 	/**
 	 * @param defaultProfile The defaultProfile to set.
 	 */
-	public void setDefaultProfile(boolean defaultProfile) {
+	public void setDefaultProfile(Boolean defaultProfile) {
 		this.defaultProfile = defaultProfile;
 	}	
 
@@ -344,7 +344,7 @@ public class ProfileDTO implements AgencyOwnable {
 		return imported;
 	}
 
-	public void setImported(boolean imported) {
+	public void setImported(Boolean imported) {
 		this.imported = imported;
 	}
 

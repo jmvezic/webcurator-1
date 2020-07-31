@@ -1,0 +1,4 @@
+[code] [status] [seed] [redirect]
+200 CRAWLED http://www.baidu.com/
+200 CRAWLED http://www.google.com/
+200 CRAWLED http://www.baidu.com/baidu.html?from=noscript

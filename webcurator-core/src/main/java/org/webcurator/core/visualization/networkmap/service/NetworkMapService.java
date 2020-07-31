@@ -1,5 +1,6 @@
 package org.webcurator.core.visualization.networkmap.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.webcurator.core.visualization.VisualizationServiceInterface;
 import org.webcurator.core.visualization.networkmap.metadata.NetworkMapNodeDTO;
@@ -100,5 +101,21 @@ public interface NetworkMapService extends VisualizationServiceInterface {
         }
         n.setOutlinks(outlinks);
         return n;
+    }
+
+    default public List<NetworkMapNodeDTO> getListOfNetworkMapNode(String json) {
+        if (json == null) {
+            return null;
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.readValue(json, new TypeReference<List<NetworkMapNodeDTO>>() {
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

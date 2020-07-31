@@ -83,12 +83,12 @@ public class TestIndexProcessor extends BaseVisualizationTest {
         assert seedsResult.getRspCode() == VisualizationConstants.RESP_CODE_SUCCESS;
         assert seedsResult.getPayload() != null;
 
-        List<NetworkMapNodeDTO> indexedSeedUrls = localClient.getArrayListOfNetworkMapNode(seedsResult.getPayload());
+        List<NetworkMapNodeDTO> indexedSeedUrls = localClient.getListOfNetworkMapNode(seedsResult.getPayload());
         Map<String, NetworkMapNodeDTO> indexedSeedUrlsMap = new HashMap<>();
         indexedSeedUrls.forEach(e -> {
             indexedSeedUrlsMap.put(e.getUrl(), e);
         });
-        Set<SeedHistoryDTO> seedsHistory = wctClient.getSeedUrls(targetInstanceId, harvestResultNumber);
+        Set<SeedHistoryDTO> seedsHistory = wctClient.dasGetSeedUrls(targetInstanceId, harvestResultNumber);
         assert indexedSeedUrls.size() >= seedsHistory.size();
         seedsHistory.forEach(seed -> {
             String seedUrl = seed.getSeed();
@@ -111,7 +111,7 @@ public class TestIndexProcessor extends BaseVisualizationTest {
         assert invalidUrlResult.getRspCode() == VisualizationConstants.RESP_CODE_SUCCESS;
         assert invalidUrlResult.getPayload() != null;
 
-        List<NetworkMapNodeDTO> indexedInvalidUrls = localClient.getArrayListOfNetworkMapNode(invalidUrlResult.getPayload());
+        List<NetworkMapNodeDTO> indexedInvalidUrls = localClient.getListOfNetworkMapNode(invalidUrlResult.getPayload());
         assert indexedInvalidUrls.size() == 0;
     }
 

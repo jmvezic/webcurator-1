@@ -16,13 +16,13 @@ public class VisualizationProcessorManager {
     private final Map<String, ProcessorHandler> queued_processors = new Hashtable<>();
     private final ExecutorService thread_pool;
     private final VisualizationDirectoryManager visualizationDirectoryManager;
-    private final WctCoordinatorClient wctCoordinatorClient;
+    private final WctCoordinatorClient wctClient;
 
     public VisualizationProcessorManager(VisualizationDirectoryManager visualizationDirectoryManager,
-                                         WctCoordinatorClient wctCoordinatorClient,
+                                         WctCoordinatorClient wctClient,
                                          int maxConcurrencyModThreads) {
         this.visualizationDirectoryManager = visualizationDirectoryManager;
-        this.wctCoordinatorClient = wctCoordinatorClient;
+        this.wctClient = wctClient;
         this.thread_pool = Executors.newFixedThreadPool(maxConcurrencyModThreads);
     }
 
@@ -33,7 +33,7 @@ public class VisualizationProcessorManager {
         }
 
         //Execute processor with thread pool
-        processor.init(this, visualizationDirectoryManager, wctCoordinatorClient);
+        processor.init(this, visualizationDirectoryManager, wctClient);
         Future<Boolean> futureResult = thread_pool.submit(processor);
 
         //Cache the current running
@@ -46,11 +46,11 @@ public class VisualizationProcessorManager {
         queued_processors.remove(processor.getKey());
 
         if (processor.getProcessorStage().equalsIgnoreCase(HarvestResult.PATCH_STAGE_TYPE_MODIFYING)) {
-            wctCoordinatorClient.notifyModificationComplete(processor.getTargetInstanceId(), processor.getHarvestResultNumber());
+            wctClient.dasFinaliseModify(processor.getTargetInstanceId(), processor.getHarvestResultNumber());
             //Move the current metadata to history fold to avoid duplicated execution
             PatchUtil.modifier.moveJob2History(visualizationDirectoryManager.getBaseDir(), processor.getTargetInstanceId(), processor.getHarvestResultNumber());
         } else if (processor.getProcessorStage().equalsIgnoreCase(HarvestResult.PATCH_STAGE_TYPE_INDEXING)) {
-            wctCoordinatorClient.finaliseIndex(processor.getTargetInstanceId(), processor.getHarvestResultNumber());
+            wctClient.dasFinaliseIndex(processor.getTargetInstanceId(), processor.getHarvestResultNumber());
             //Move the current metadata to history fold to avoid duplicated execution
             PatchUtil.indexer.moveJob2History(visualizationDirectoryManager.getBaseDir(), processor.getTargetInstanceId(), processor.getHarvestResultNumber());
         }

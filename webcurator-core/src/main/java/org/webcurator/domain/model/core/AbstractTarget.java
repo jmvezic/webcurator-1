@@ -168,7 +168,7 @@ public abstract class AbstractTarget extends AbstractIdentityObject implements U
      * fully initialised by Hibernate.
      */
     @Column(name = "AT_OBJECT_TYPE")
-    protected int objectType;
+    protected Integer objectType;
     /** reference number to use when storing instances to the SIP.*/
     @Size(max=255)
     @Column(name = "AT_REFERENCE")

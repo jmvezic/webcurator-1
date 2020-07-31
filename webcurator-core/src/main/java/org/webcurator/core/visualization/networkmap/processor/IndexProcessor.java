@@ -46,7 +46,7 @@ public abstract class IndexProcessor extends VisualizationAbstractProcessor {
 
     @Override
     protected void initInternal() throws IOException {
-        Set<SeedHistoryDTO> seedsHistory = wctClient.getSeedUrls(targetInstanceId, harvestResultNumber);
+        Set<SeedHistoryDTO> seedsHistory = wctClient.dasGetSeedUrls(targetInstanceId, harvestResultNumber);
         seedsHistory.forEach(seed -> {
             this.seeds.put(seed.getSeed(), seed.isPrimary());
         });

@@ -72,14 +72,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 @SuppressWarnings("all")
 @Component("wctCoordinator")
-@Scope(BeanDefinition.SCOPE_SINGLETON)
 public class WctCoordinatorImpl implements WctCoordinator {
     private static final long HOUR_MILLISECONDS = 60 * 60 * 1000;
-
     @Autowired
     private TargetInstanceManager targetInstanceManager;
-
-    // Functionality segregated to reduce complexity and increase testability
     @Autowired
     private HarvestAgentManager harvestAgentManager;
     @Autowired
@@ -133,8 +129,6 @@ public class WctCoordinatorImpl implements WctCoordinator {
     private int numHarvestersExcludedFromOptimisation;
     @Value("${wctCoordinator.harvestOptimizationEnabled}")
     private boolean harvestOptimizationEnabled;
-
-    @Autowired
     private HarvestResultManager harvestResultManager;
 
     /**
@@ -336,15 +330,16 @@ public class WctCoordinatorImpl implements WctCoordinator {
 
             origHarvestResult.setState(HarvestResult.STATE_ABORTED);
             newHarvestResult.setState(HarvestResult.STATE_INDEXING);
-
-            List<HarvestResult> hrs = ti.getHarvestResults();
-            hrs.add(newHarvestResult);
-            ti.setHarvestResults(hrs);
-
             ti.setState(TargetInstance.STATE_HARVESTED);
 
-            targetInstanceDao.save(newHarvestResult);
+//            List<HarvestResult> hrs = ti.getHarvestResults();
+//            hrs.add(newHarvestResult);
+//            ti.setHarvestResults(hrs);
+            ti.getHarvestResults().add(newHarvestResult);
+
             targetInstanceDao.save(ti);
+            targetInstanceDao.save(origHarvestResult);
+            targetInstanceDao.save(newHarvestResult);
 
             try {
                 digitalAssetStoreFactory.getDAS().initiateIndexing(
@@ -1512,7 +1507,7 @@ public class WctCoordinatorImpl implements WctCoordinator {
         ModifyRowMetadata metadata = cmd.getMetadata();
         File uploadedFilePath = new File(visualizationDirectoryManager.getUploadDir(job));
         if (!uploadedFilePath.exists()) {
-            uploadedFilePath.mkdir();
+            uploadedFilePath.mkdirs();
         }
 
         uploadedFilePath = new File(uploadedFilePath, metadata.getName());
@@ -1951,5 +1946,73 @@ public class WctCoordinatorImpl implements WctCoordinator {
         } else if (hrDTO.getState() == HarvestResult.STATE_MODIFYING && hrDTO.getStatus() == HarvestResult.STATUS_FINISHED) {
             initiateIndexing(hrDTO.getTargetInstanceOid(), hrDTO.getHarvestNumber());
         }
+    }
+
+    public void setHarvestResultManager(HarvestResultManager harvestResultManager) {
+        this.harvestResultManager = harvestResultManager;
+    }
+
+    public TargetInstanceManager getTargetInstanceManager() {
+        return targetInstanceManager;
+    }
+
+    public HarvestAgentManager getHarvestAgentManager() {
+        return harvestAgentManager;
+    }
+
+    public HarvestLogManager getHarvestLogManager() {
+        return harvestLogManager;
+    }
+
+    public HarvestBandwidthManager getHarvestBandwidthManager() {
+        return harvestBandwidthManager;
+    }
+
+    public HarvestQaManager getHarvestQaManager() {
+        return harvestQaManager;
+    }
+
+    public TargetInstanceDAO getTargetInstanceDao() {
+        return targetInstanceDao;
+    }
+
+    public DigitalAssetStoreFactory getDigitalAssetStoreFactory() {
+        return digitalAssetStoreFactory;
+    }
+
+    public VisualizationDirectoryManager getVisualizationDirectoryManager() {
+        return visualizationDirectoryManager;
+    }
+
+    public VisualizationImportedFileDAO getVisualizationImportedFileDAO() {
+        return visualizationImportedFileDAO;
+    }
+
+    public TargetManager getTargetManager() {
+        return targetManager;
+    }
+
+    public InTrayManager getInTrayManager() {
+        return inTrayManager;
+    }
+
+    public int getDaysBeforeDASPurge() {
+        return daysBeforeDASPurge;
+    }
+
+    public int getDaysBeforeAbortedTargetInstancePurge() {
+        return daysBeforeAbortedTargetInstancePurge;
+    }
+
+    public SipBuilder getSipBuilder() {
+        return sipBuilder;
+    }
+
+    public Logger getLog() {
+        return log;
+    }
+
+    public HarvestResultManager getHarvestResultManager() {
+        return harvestResultManager;
     }
 }

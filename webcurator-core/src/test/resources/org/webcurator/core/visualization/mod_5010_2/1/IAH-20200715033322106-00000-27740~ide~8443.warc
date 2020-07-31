@@ -1,0 +1,380 @@
+WARC/1.0
+WARC-Type: warcinfo
+WARC-Date: 2020-07-15T03:33:22Z
+WARC-Filename: IAH-20200715033322106-00000-27740~ide~8443.warc
+WARC-Record-ID: <urn:uuid:f63a82df-b4fc-41ae-983a-b59fdf46bfa9>
+Content-Type: application/warc-fields
+Content-Length: 431
+
+software: Heritrix/3.4.0-SNAPSHOT-2019-08-28T19:43:22Z http://crawler.archive.org
+ip: 127.0.1.1
+hostname: ide
+format: WARC File Format 1.0
+conformsTo: http://bibnum.bnf.fr/WARC/WARC_ISO_28500_version1_latestdraft.pdf
+isPartOf: basic
+description: Basic crawl starting with useful defaults
+robots: ignore
+http-header-user-agent: Mozilla/5.0 (compatible; heritrix/3.4.0-SNAPSHOT-2019-08-28T19:43:22Z + http://dia.govt.nz/)
+
+
+
+WARC/1.0
+WARC-Type: response
+WARC-Target-URI: dns:66.media.tumblr.com
+WARC-Date: 2020-07-15T03:33:21Z
+WARC-IP-Address: 127.0.0.53
+WARC-Record-ID: <urn:uuid:94b869f4-15b7-4701-acbc-6bbd38e1d255>
+Content-Type: text/dns
+Content-Length: 63
+
+20200715033321
+cs1141.wpc.chicdn.net.	3276	IN	A	152.199.38.136
+
+
+WARC/1.0
+WARC-Type: response
+WARC-Target-URI: https://66.media.tumblr.com/robots.txt
+WARC-Date: 2020-07-15T03:33:25Z
+WARC-IP-Address: 152.199.38.136
+WARC-Payload-Digest: sha1:N2CGTLWG7EPVP3G6VMOP2XI4VX43RQXY
+WARC-Record-ID: <urn:uuid:0b435ba7-0e2d-4665-bc57-927d8b2db155>
+Content-Type: application/http; msgtype=response
+Content-Length: 4604
+
+HTTP/1.0 404 Not Found
+Access-Control-Allow-Origin: *
+Content-Type: text/html
+Date: Wed, 15 Jul 2020 03:33:25 GMT
+Etag: "5f08e446-10fb"
+Server: openresty
+Strict-Transport-Security: max-age=31536000; preload
+Content-Length: 4347
+Connection: close
+
+<!DOCTYPE html>
+<!--
+       .o                                8888       8888
+      .88                                8888       8888
+    o8888oo  ooo  oooo  ooo. .oo.  .oo.   888oooo.   888  oooo d8b
+    ""888""  888  "888  "888P"Y88bP"Y88b  d88' `88b  888  "888""8P
+      888    888   888   888   888   888  888   888  888   888
+      888 .  888   888   888   888   888  888.  888  888   888
+      "888Y  `V88V"V8P' o888o o888o o888o 88`bod8P' o888o d888b
+
+                                                                        -->
+<!--[if lt IE 9]><html class="ie"><![endif]-->
+<!--[if IE 9]><html class="ie9"><![endif]-->
+<!--[if gt IE 9]><!--><html><!--<![endif]-->
+    <head>
+        <title>Not found.</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="x-dns-prefetch-control" content="off">
+        <meta name="robots" content="noindex">
+        <meta name="viewport" content="width=device-width">
+        <meta name="msapplication-TileImage" content="//assets.tumblr.com/images/msfavicon.png?_v=245323c5cb69e705ea213d9ed60e543a">
+        <meta http-equiv="refresh" content="3;url=https://www.tumblr.com/explore?referer=404">
+        <link rel="shortcut icon" href="//assets.tumblr.com/images/favicons/favicon.ico?_v=8bfa6dd3e1249cd567350c606f8574dc">
+        <link rel="stylesheet" media="screen" href="//assets.tumblr.com/client/prod/standalone/error-pages/index.build.css?_v=da302762836d5bf2aeee0f6522476e59">
+    </head>
+    <body class="has-background-image" data-status-code="404">
+
+        <div class="fullscreen-background" data-js-fullscreen-background></div>
+
+        <div class="error-message-container">
+            <div class="error-message-content">
+                <h1 class="error-message-title" data-localization="heading">
+                    There's nothing here.
+                </h1>
+
+                <p class="error-message-text" data-localization="message">
+                    Whatever you were looking for doesn't currently exist at this address.
+                    Unless you were looking for this error page, in which case: Congrats!
+                    You totally found it.
+                </p>
+
+                <div class="logged-out-buttons" data-js-logged-out-buttons>
+                    <a class="tx-button gray" href="https://www.tumblr.com/login" data-localization="log_in">Log in</a>
+                    <a class="tx-button blue" href="https://www.tumblr.com/register" data-localization="sign_up">Sign up</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="l-header-container">
+            <div class="l-header">
+                <h1 class="logo">
+                    <a tabindex="-1" class="logo-anchor" target="_blank" href="https://www.tumblr.com" aria-label="Tumblr">
+                        <div class="png-logo"></div>
+                    </a>
+                </h1>
+
+                <form class="search-field-form" method="get" action="//www.tumblr.com/search" role="search">
+                    <input type="hidden" name="referring_page" value="404">
+                    <input type="hidden" name="scope" value="all_of_tumblr">
+                    <div class="search-field-box" class="search_form_row">
+                        <input class="search-field-input" tabindex="1" type="text" name="q" placeholder="Search Tumblr" value="" autocomplete="off" data-localization="search_tags" data-js-search-field>
+                        <button class="search-field-button" type="submit" data-localization="search">Search</button>
+                    </div>
+                </form>
+
+                <div class="logged-out-buttons" data-js-logged-out-buttons>
+                    <a class="tx-button gray" href="https://www.tumblr.com/login" data-localization="log_in">Log in</a>
+                    <a class="tx-button blue" href="https://www.tumblr.com/register" data-localization="sign_up">Sign up</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="error-message-post-attribution" data-js-post-attribution></div>
+
+        <script src="//assets.tumblr.com/languages/errors.js?_v=aa8ebc5ca20b127a3a667152c15432a2"></script>
+        <script src="//assets.tumblr.com/client/prod/standalone/error-pages/index.build.js?_v=f7b55c2ded2a9d2552e4508af77a98a4"></script>
+
+    </body>
+</html>
+
+
+WARC/1.0
+WARC-Type: request
+WARC-Target-URI: https://66.media.tumblr.com/robots.txt
+WARC-Date: 2020-07-15T03:33:25Z
+WARC-Concurrent-To: <urn:uuid:0b435ba7-0e2d-4665-bc57-927d8b2db155>
+WARC-Record-ID: <urn:uuid:f8f7a731-ce49-4bff-8d70-d38569965a8c>
+Content-Type: application/http; msgtype=request
+Content-Length: 253
+
+GET /robots.txt HTTP/1.0
+Connection: Close
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Host: 66.media.tumblr.com
+User-Agent: Mozilla/5.0 (compatible; heritrix/3.4.0-SNAPSHOT-2019-08-28T19:43:22Z + http://dia.govt.nz/)
+
+
+
+WARC/1.0
+WARC-Type: metadata
+WARC-Target-URI: https://66.media.tumblr.com/robots.txt
+WARC-Date: 2020-07-15T03:33:25Z
+WARC-Concurrent-To: <urn:uuid:0b435ba7-0e2d-4665-bc57-927d8b2db155>
+WARC-Record-ID: <urn:uuid:2d6eb6b2-2576-407c-8a75-477dc1710bff>
+Content-Type: application/warc-fields
+Content-Length: 1074
+
+force-fetch:
+via: https://66.media.tumblr.com/tumblr_lwc5kvXz8s1qdlh1io1_r1_400.gif
+hopsFromSeed: P
+fetchTimeMs: 765
+charsetForLinkExtraction: UTF-8
+outlink: https://66.media.tumblr.com/favicon.ico I =INFERRED_MISC
+outlink: https://assets.tumblr.com/images/msfavicon.png?_v=245323c5cb69e705ea213d9ed60e543a X meta
+outlink: https://www.tumblr.com/explore?referer=404 R meta
+outlink: https://assets.tumblr.com/images/favicons/favicon.ico?_v=8bfa6dd3e1249cd567350c606f8574dc E link/@href
+outlink: https://assets.tumblr.com/client/prod/standalone/error-pages/index.build.css?_v=da302762836d5bf2aeee0f6522476e59 E link/@href
+outlink: https://www.tumblr.com/login L a/@href
+outlink: https://www.tumblr.com/register L a/@href
+outlink: https://www.tumblr.com/ L a/@href
+outlink: https://www.tumblr.com/search L form/@action
+outlink: https://assets.tumblr.com/languages/errors.js?_v=aa8ebc5ca20b127a3a667152c15432a2 E script/@src
+outlink: https://assets.tumblr.com/client/prod/standalone/error-pages/index.build.js?_v=f7b55c2ded2a9d2552e4508af77a98a4 E script/@src
+
+
+
+WARC/1.0
+WARC-Type: response
+WARC-Target-URI: https://66.media.tumblr.com/tumblr_lwc5kvXz8s1qdlh1io1_r1_400.gif
+WARC-Date: 2020-07-15T03:33:29Z
+WARC-IP-Address: 152.199.38.136
+WARC-Payload-Digest: sha1:2EBIC7RIQ6XOQASXQRSCGQDG25ANWN22
+WARC-Record-ID: <urn:uuid:2a722836-fd11-4e88-b03f-9c1354d1fd57>
+Content-Type: application/http; msgtype=response
+Content-Length: 11855
+
+HTTP/1.0 200 OK
+Accept-Ranges: bytes
+Access-Control-Allow-Origin: *
+Cache-Control: private, max-age=0
+Content-Security-Policy: script-src 'self' 'unsafe-eval' https://www.google.com/recaptcha/api.js https://fc.yahoo.com/sdarla/php/client.php https://s.yimg.com/rq/darla/ https://s3-us-west-2.amazonaws.com/sftemp/sf_v1.0.1/ https://assets.tumblr.com/pop/ 'nonce-YmZlNjU2OTRkYzBiMTFiNTEzNzVlMDRiOTk2ZWRiY2Y='; object-src 'none'; worker-src blob: 'self'; base-uri 'self'; report-uri https://www.tumblr.com/svc/cspreports
+Content-Type: text/html; charset=utf-8
+Date: Wed, 15 Jul 2020 03:33:30 GMT
+Etag: W/"2abd-0QKBfiiHrugCV4RkI0Bm10DbN1o"
+Server: openresty
+Strict-Transport-Security: max-age=31536000; preload
+Vary: Accept
+X-Content-Type-Options: nosniff
+X-Response-Time: 389ms
+X-RID: 136056036244927109717802369512687949651
+X-Xss-Protection: 1; mode=block
+Content-Length: 10941
+Connection: close
+
+
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta data-rh="" charSet="utf-8"/><meta data-rh="" name="viewport" content="width=device-width, initial-scale=1"/><link data-rh="" rel="shortcut icon" href="https://assets.tumblr.com/pop/favicons/favicon-bc461bb2.ico" type="image/png"/><link data-rh="" rel="apple-touch-icon" sizes="40x40" href="https://assets.tumblr.com/pop/manifest/icon_40-a17390a1.png"/><link data-rh="" rel="apple-touch-icon" sizes="80x80" href="https://assets.tumblr.com/pop/manifest/icon_80-d2a21227.png"/><link data-rh="" rel="apple-touch-icon" sizes="120x120" href="https://assets.tumblr.com/pop/manifest/icon_120-e7b839b0.png"/><link data-rh="" rel="apple-touch-icon" sizes="180x180" href="https://assets.tumblr.com/pop/manifest/icon_180-977de9c8.png"/><title data-rh="">Tumblr: Image</title><meta data-rh="" name="description" content="Tumblr is a place to express yourself, discover yourself, and bond over the stuff you love. It&#x27;s where your interests connect you with your people."/><meta data-rh="" name="keywords" content="tumblelog, blog, tumblog, tumbler, tumblr, tlog, microblog"/><meta data-rh="" property="og:title" content="Tumblr: Image"/><meta data-rh="" property="og:description" content="Tumblr is a place to express yourself, discover yourself, and bond over the stuff you love. It&#x27;s where your interests connect you with your people."/>
+    <link rel="stylesheet" type="text/css" href="https://assets.tumblr.com/pop/shared-4cbb6190.css" />
+<link rel="stylesheet" type="text/css" href="https://assets.tumblr.com/pop/main-59210bb4.css" />
+<link rel="stylesheet" type="text/css" href="https://assets.tumblr.com/pop/image-url-page-5ed4c510.css" />
+    
+  </head>
+  <body id="tumblr">
+    <div id="root"><style>:root {
+    --rgb-white: 255, 255, 255;
+    --rgb-white-on-dark: 255, 255, 255;
+    --rgb-black: 0, 0, 0;
+
+    --navy: #001935;
+    --red: #ff492f;
+    --orange: #ff8a00;
+    --yellow: #e8d738;
+    --green: #00cf35;
+    --blue: #00b8ff;
+    --purple: #7c5cff;
+    --pink: #ff62ce;
+
+    --accent: #00b8ff;
+    --secondary-accent: #e5e7ea;
+    --follow: #f3f8fb;
+
+    --white: rgb(var(--rgb-white));
+    --white-on-dark: rgb(var(--rgb-white-on-dark));
+    --black: rgb(var(--rgb-black));
+
+    --transparent-white-87: rgba(var(--rgb-white-on-dark), 0.87);
+    --transparent-white-65: rgba(var(--rgb-white-on-dark), 0.65);
+    --transparent-white-40: rgba(var(--rgb-white-on-dark), 0.4);
+    --transparent-white-25: rgba(var(--rgb-white-on-dark), 0.25);
+    --transparent-white-13: rgba(var(--rgb-white-on-dark), 0.13);
+    --transparent-white-7: rgba(var(--rgb-white-on-dark), 0.07);
+
+    --gray-65: rgba(var(--rgb-black), 0.65);
+    --gray-40: rgba(var(--rgb-black), 0.4);
+    --gray-25: rgba(var(--rgb-black), 0.25);
+    --gray-13: rgba(var(--rgb-black), 0.13);
+    --gray-7: rgba(var(--rgb-black), 0.07);
+
+    --font-family: 
+    "Favorit",
+    "Helvetica Neue",
+    "HelveticaNeue",
+    Helvetica,
+    Arial,
+    sans-serif
+  ;
+  }</style><div id="base-container"><style>body { background-color: #000000; }</style><div class="_2m_Z-"><a href="https://www.tumblr.com/dashboard"><svg width="107" height="22" viewBox="0 0 400 81.897" class="_33Kcx" fill="rgba(255, 255, 255, 0.65)"><path d="M17.241 1.571c0 6.328-6.682 15.885-13.371 19.123L0 22.568v13.639h10.177l.321 15.302c.528 25.205 4.083 29.417 25.493 30.206l10.561.39v-17.45h-5.643c-9.171 0-9.875-1.163-9.875-16.34V36.207H45.69V19.828H31.034V0h-6.896c-6.097 0-6.897.182-6.897 1.571m219.828 5.326v6.896h8.621v68.104h18.965v-2.156c0-2.617-.019-2.616 3.996-.248 5.368 3.167 17.807 3.327 23.979.307 10.27-5.025 13.836-12.594 13.836-29.369 0-21.321-7.683-30.677-25.1-30.566-5.257.034-8.013.638-13.478 2.956-1.394.591-1.509-.25-1.509-11.091V0h-29.31v6.897m71.552 0v6.896h8.62v54.31h-6.896v13.794h34.483V68.103h-7.759V0h-28.448v6.897M53.606 42.457c.348 25.726 1.055 28.895 7.717 34.597 7.88 6.745 25.797 6.506 33.194-.443l2.035-1.912v7.198h23.276V68.103h-6.035V19.828H86.207v14.655h7.759v11.292c0 15.732-2.335 19.742-11.493 19.742-7.195 0-7.473-.932-7.473-25.116V19.828H53.3l.306 22.629M125 27.155v7.328h8.621v33.62h-6.897v13.794h33.621V68.103h-6.897V56.869c0-15.754 1.962-19.662 10.272-20.46 7.808-.751 8.694 1.07 8.694 17.862v13.832h-6.897v13.794H200V68.103h-6.897V55.992c0-9.14.321-12.733 1.308-14.641 2.687-5.195 10.458-6.804 14.808-3.066l2.419 2.079.275 13.87.275 13.869h-7.016v13.794h33.621V68.103h-6.896V53.547c0-17.777-1.01-21.846-6.873-27.709-8.058-8.057-24.92-8.285-33.229-.448l-2.956 2.787-1.963-2.133c-7.299-7.936-23.087-8.407-33.49-.999l-2.524 1.797v-7.014H125v7.327m225 0v7.328h7.759v33.62h-6.897v13.794h33.621V68.103h-7.13l.412-10.678c.613-15.922 3.54-19.494 15.972-19.494H400V19.828h-6.062c-6.77 0-11.229 1.486-14.843 4.948l-2.371 2.271v-7.219H350v7.327m-68.546 10.059c6.507 5.119 6.487 23.55-.031 27.821-8.395 5.5-16.643-2.8-15.712-15.812.828-11.573 8.681-17.564 15.743-12.009"></path></svg></a><div class="_1bxfH"><div class="_16Les _1idEG koBc0"><a href="https://www.tumblr.com/login" target="_blank">Log in</a></div><div class="_16Les _2Usma koBc0"><a href="https://www.tumblr.com/register" target="_blank">Sign up</a></div></div></div><div class="_3W94h"><div class="_3gSmi"><div class="_2hSPR"><div class="_5bY_j"><img class="_2nKI6" src="https://64.media.tumblr.com/tumblr_lwc5kvXz8s1qdlh1io1_r1_400.gif" alt="Tumblr: Image"/></div></div><div class="_2yMCG"></div></div></div></div><div id="glass-container"></div></div>
+
+    <script type="text/javascript" nonce="YmZlNjU2OTRkYzBiMTFiNTEzNzVlMDRiOTk2ZWRiY2Y=">
+      window['___INITIAL_STATE___'] = {"routeSet":"media","routeUsesPalette":false,"routeHidesLowerRightContent":false,"routeName":"image-url-page","viewport-monitor":{"height":800,"width":1280},"chunkNames":["image-url-page"],"ImageUrlPage":{"requestedImage":"https:\u002F\u002F64.media.tumblr.com\u002Ftumblr_lwc5kvXz8s1qdlh1io1_r1_400.gif","photo":{"imageResponse":[{"url":"https:\u002F\u002F64.media.tumblr.com\u002Ftumblr_lwc5kvXz8s1qdlh1io1_r1_540.gifv","type":"image\u002Fwebp","width":540,"height":405,"poster":{"url":"https:\u002F\u002F44.media.tumblr.com\u002Ftumblr_lwc5kvXz8s1qdlh1io1_r1_540.gif","type":"image\u002Fwebp","width":540,"height":405},"hasOriginalDimensions":true},{"url":"https:\u002F\u002F64.media.tumblr.com\u002Ftumblr_lwc5kvXz8s1qdlh1io1_r1_500.gifv","type":"image\u002Fwebp","width":500,"height":375,"poster":{"url":"https:\u002F\u002F44.media.tumblr.com\u002Ftumblr_lwc5kvXz8s1qdlh1io1_r1_500.gif","type":"image\u002Fwebp","width":500,"height":375}},{"url":"https:\u002F\u002F64.media.tumblr.com\u002Ftumblr_lwc5kvXz8s1qdlh1io1_r1_400.gifv","type":"image\u002Fwebp","width":400,"height":300,"poster":{"url":"https:\u002F\u002F44.media.tumblr.com\u002Ftumblr_lwc5kvXz8s1qdlh1io1_r1_400.gif","type":"image\u002Fwebp","width":400,"height":300}},{"url":"https:\u002F\u002F64.media.tumblr.com\u002Ftumblr_lwc5kvXz8s1qdlh1io1_r1_250.gifv","type":"image\u002Fwebp","width":250,"height":188,"poster":{"url":"https:\u002F\u002F44.media.tumblr.com\u002Ftumblr_lwc5kvXz8s1qdlh1io1_r1_250.gif","type":"image\u002Fwebp","width":250,"height":188}},{"url":"https:\u002F\u002F64.media.tumblr.com\u002Ftumblr_lwc5kvXz8s1qdlh1io1_r1_100.gifv","type":"image\u002Fwebp","width":100,"height":75,"poster":{"url":"https:\u002F\u002F44.media.tumblr.com\u002Ftumblr_lwc5kvXz8s1qdlh1io1_r1_100.gif","type":"image\u002Fwebp","width":100,"height":75}},{"url":"https:\u002F\u002F64.media.tumblr.com\u002Ftumblr_lwc5kvXz8s1qdlh1io1_r1_75sq.gifv","type":"image\u002Fwebp","width":75,"height":75,"poster":{"url":"https:\u002F\u002F44.media.tumblr.com\u002Ftumblr_lwc5kvXz8s1qdlh1io1_r1_75sq.gif","type":"image\u002Fwebp","width":75,"height":75},"cropped":true},{"url":"https:\u002F\u002F64.media.tumblr.com\u002Ftumblr_lwc5kvXz8s1qdlh1io1_r1_250sq.gifv","type":"image\u002Fwebp","width":250,"height":250,"poster":{"url":"https:\u002F\u002F44.media.tumblr.com\u002Ftumblr_lwc5kvXz8s1qdlh1io1_r1_250sq.gif","type":"image\u002Fwebp","width":250,"height":250},"cropped":true}]},"imageOnlyResponse":true},"apiUrl":"https:\u002F\u002Fapi.tumblr.com","apiFetchStore":{"API_TOKEN":"aIcXSOoTtqrzR8L8YEIOmBeW94c3FmbSNSWAUbxsny9KKx5VFh"},"languageData":{"code":"en_US","data":{}},"reportingInfo":{"host":"www.tumblr.com","token":"1594784010633|53d2fefb6f3147da875bea51e9006bf7"},"analyticsInfo":{"kraken":{"basePage":"ImageUrlPage","routeSet":"media","krakenHost":"\u002F\u002Fls.srvcs.tumblr.com","sessionId":"b6d23fab-7c90-47ef-a914-be1ee34191de","clientDetails":{"platform":"Redpop","language":"en_US","build_version":"UNKNOWN","form_factor":"Crawler","model":"","connection":"","carrier":""}}},"adPlacementConfiguration":{},"privacy":{},"isLoggedIn":{"isLoggedIn":false},"recaptchaV3PublicKey":{"value":"6Ld2ca0UAAAAAKzttOGcjomH-5rBIJesbQrCZtfB"},"obfuscatedFeatures":"e30=","supportedBrowserRegexp":/((CPU[ +]OS|iPhone[ +]OS|CPU[ +]iPhone|CPU IPhone OS)[ +]+(10|(1[1-9]|[2-9]\d|\d{3,})|11|(1[2-9]|[2-9]\d|\d{3,})|12|(1[3-9]|[2-9]\d|\d{3,})|13|(1[4-9]|[2-9]\d|\d{3,}))[_\.]\d+(?:[_\.]\d+)?)|(CFNetwork\/808\.(\d))|(CFNetwork\/8.* Darwin\/16\.5\.\d+)|(CFNetwork\/8.* Darwin\/16\.6\.\d+)|(CFNetwork\/8.* Darwin\/16\.7\.\d+)|(CFNetwork\/8.* Darwin\/16\.\d+)|(CFNetwork\/8.* Darwin\/17\.0\.\d+)|(CFNetwork\/8.* Darwin\/17\.2\.\d+)|(CFNetwork\/8.* Darwin\/17\.3\.\d+)|(CFNetwork\/8.* Darwin\/17\.\d+)|(OperaMini(?:\/att)?\/?(\d+)?(?:\.\d+)?(?:\.\d+)?)|(Opera\/.+Opera Mobi.+Version\/(12|(1[3-9]|[2-9]\d|\d{3,})|46|(4[7-9]|[5-9]\d|\d{3,}))\.\d+)|(Opera\/(12|(1[3-9]|[2-9]\d|\d{3,})|46|(4[7-9]|[5-9]\d|\d{3,}))\.\d+.+Opera Mobi)|(Opera Mobi.+Opera(?:\/|\s+)(12|(1[3-9]|[2-9]\d|\d{3,})|46|(4[7-9]|[5-9]\d|\d{3,}))\.\d+)|(SamsungBrowser\/(10|(1[1-9]|[2-9]\d|\d{3,}))\.\d+)|(Edge\/(79|([8-9]\d|\d{3,}))(?:\.\d+)?)|(HeadlessChrome((?:\/57\.\d+\.\d+)?|(?:\/(5[8-9]|[6-9]\d|\d{3,})\.\d+\.\d+)?))|((Chromium|Chrome)\/(57|(5[8-9]|[6-9]\d|\d{3,}))\.\d+(?:\.\d+)?)|(IEMobile[ \/](10|(1[1-9]|[2-9]\d|\d{3,}))\.\d+)|(PlayBook.+RIM Tablet OS (7|([8-9]|\d{2,})|10|(1[1-9]|[2-9]\d|\d{3,}))\.\d+\.\d+)|((Black[bB]erry|BB10).+Version\/(7|([8-9]|\d{2,})|10|(1[1-9]|[2-9]\d|\d{3,}))\.\d+\.\d+)|((Black[bB]erry)\s?(7|([8-9]|\d{2,})|10|(1[1-9]|[2-9]\d|\d{3,})))|(Version\/(10|(1[1-9]|[2-9]\d|\d{3,})|11|(1[2-9]|[2-9]\d|\d{3,})|12|(1[3-9]|[2-9]\d|\d{3,})|13|(1[4-9]|[2-9]\d|\d{3,}))\.\d+(?:\.\d+)?.*Safari\/)|(Firefox\/(52|(5[3-9]|[6-9]\d|\d{3,}))\.\d+\.\d+)|(Firefox\/(52|(5[3-9]|[6-9]\d|\d{3,}))\.\d+(pre|[ab]\d+[a-z]*)?)/,"cssMapUrl":"https:\u002F\u002Fassets.tumblr.com\u002Fpop\u002Fcssmap-c0ce35af.json"};
+    </script>
+
+    <script type="text/javascript" crossorigin="anonymous" defer src="https://assets.tumblr.com/pop/js/runtime-8c2219c6.js"></script>
+<script type="text/javascript" crossorigin="anonymous" defer src="https://assets.tumblr.com/pop/js/vendor-32ec4287.js"></script>
+<script type="text/javascript" crossorigin="anonymous" defer src="https://assets.tumblr.com/pop/js/main-bac4ef1f.js"></script>
+  </body>
+</html>
+
+
+WARC/1.0
+WARC-Type: request
+WARC-Target-URI: https://66.media.tumblr.com/tumblr_lwc5kvXz8s1qdlh1io1_r1_400.gif
+WARC-Date: 2020-07-15T03:33:29Z
+WARC-Concurrent-To: <urn:uuid:2a722836-fd11-4e88-b03f-9c1354d1fd57>
+WARC-Record-ID: <urn:uuid:fa4de280-7858-42b4-897e-ca1a645d173e>
+Content-Type: application/http; msgtype=request
+Content-Length: 280
+
+GET /tumblr_lwc5kvXz8s1qdlh1io1_r1_400.gif HTTP/1.0
+Connection: Close
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Host: 66.media.tumblr.com
+User-Agent: Mozilla/5.0 (compatible; heritrix/3.4.0-SNAPSHOT-2019-08-28T19:43:22Z + http://dia.govt.nz/)
+
+
+
+WARC/1.0
+WARC-Type: metadata
+WARC-Target-URI: https://66.media.tumblr.com/tumblr_lwc5kvXz8s1qdlh1io1_r1_400.gif
+WARC-Date: 2020-07-15T03:33:29Z
+WARC-Concurrent-To: <urn:uuid:2a722836-fd11-4e88-b03f-9c1354d1fd57>
+WARC-Record-ID: <urn:uuid:89287ca9-fe27-4da5-a659-14e10a401c9f>
+Content-Type: application/warc-fields
+Content-Length: 127
+
+seed:
+fetchTimeMs: 776
+charsetForLinkExtraction: UTF-8
+outlink: https://66.media.tumblr.com/favicon.ico I =INFERRED_MISC
+
+
+
+WARC/1.0
+WARC-Type: response
+WARC-Target-URI: https://66.media.tumblr.com/favicon.ico
+WARC-Date: 2020-07-15T03:33:34Z
+WARC-IP-Address: 152.199.38.136
+WARC-Payload-Digest: sha1:HO2DOJO3CWVRJOQ7VU5HRFU3AFWBPG3K
+WARC-Record-ID: <urn:uuid:069c738b-28d8-4215-95f1-433a33d1d068>
+Content-Type: application/http; msgtype=response
+Content-Length: 3181
+
+HTTP/1.0 200 OK
+Accept-Ranges: bytes
+Access-Control-Allow-Methods: GET
+Access-Control-Allow-Origin: *
+Access-Control-Max-Age: 600
+Cache-Control: max-age=31536000
+Content-Type: image/x-icon
+Date: Wed, 15 Jul 2020 03:33:35 GMT
+Etag: "f9b03df5b8e19a9a821ec1997d011c19"
+Last-Modified: Tue, 22 Mar 2016 13:06:15 GMT
+Server: openresty
+Strict-Transport-Security: max-age=31536000; preload
+Timing-Allow-Origin: *
+Content-Length: 2720
+Connection: close
+
+âPNG
+
+   IHDR           szzÙ   tEXtSoftware Adobe ImageReadyq…e<  xiTXtXML:com.adobe.xmp     <?xpacket begin="Ôªø" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c014 79.156797, 2014/08/20-09:53:02        "> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmpMM:OriginalDocumentID="xmp.did:09f7816f-acc3-4f8d-96e1-b04776b7bb08" xmpMM:DocumentID="xmp.did:F79D484D073A11E59CB7D42B682D9C86" xmpMM:InstanceID="xmp.iid:F79D484C073A11E59CB7D42B682D9C86" xmp:CreatorTool="Adobe Photoshop CC 2014 (Macintosh)"> <xmpMM:DerivedFrom stRef:instanceID="xmp.iid:09f7816f-acc3-4f8d-96e1-b04776b7bb08" stRef:documentID="xmp.did:09f7816f-acc3-4f8d-96e1-b04776b7bb08"/> </rdf:Description> </rdf:RDF> </x:xmpmeta> <?xpacket end="r"?>)©Ÿ  æIDATx⁄ºWklõW~Œwµ?_‚ƒvú6Õ≠Ì“t…ö∂…:6R∫ã6≠¿¶µhEåä¥!õÑê ÒcãH¿¥â?H0Ñ¶˝B¿§2≠,Bi*í≠[∂4i‚ÆY„fq‚∆qﬂæ€·˝æ¨K‹6©”Jº“±?˚|Á=œyoœ{Á◊§ßßX+í¨∆ö˜˙ó†j†wYlX]AíP»eF'áO›É≤ôrikk√ËË(AX’è$“∞˚æ“{»öüÈ8ÒãÇ€?~ÈWX¨€µ·.¿2IÉcjUâ1ˆÏâ◊∏®®8ı˚_bf‚CT"P˝A®ÅÍΩÚB˛´$3X.î†¥‹9÷N ò¢¿\LANyÌÌ›á {ΩËˇÀ´®T6†Áó1{Ò¸c,ä≥¡#»	2™É5∞ı‚äµMÊZÜÈ˘6qÊm…´Ò¶⁄õØ‹1Ä‚rÓ!=ùÈj€}∏ÃqaÒ"ù~òÍ7K´/2ÊƒÖOÃ¶ïLü7Q©Ñı&DIÜZ_nèlGc†gßﬂ«å]ÑF``õÂ/s%48∑Û∑Ä€∂˚≠x|Õ€⁄ÔˇGG„ûéÉıùËø<å˛ÈsﬂwB0Læ∑ î∏†µÖB9¶ø§®1 †(Õ
+ª@ıÓ
+’Ì|fKÀ›?êTO4™prºìÖÅ≤£ìLØìŒÎN!0d≥9¸≥oê¶L”|¶µ˚Ò#∂m,∆ﬂ{ß€‘K©ä l€uÔØ˝_î5‹∞0îá‘“éÍéØAEW6øN∏i@™ﬂ	ÌqÚ!£Z!Kä¬”I%7¯¶¥)@ß4ﬁ[Ö™P:7è¬∞Å¿O:FæÈÊÆ8‡ıCÚU}^Éò®¿¢gr©iYñ^1 ™äúyDà!ÖîäÙáÓûê"k}ÃäªÏOõ÷)äÍÔ}Ó˚'5Ø«àOåΩ˚…‰ÿè*NC'∞úÊlÓpNd≠˚2[cigßﬂL≈ñù≠˜á™Ç»Âs“‘ƒ˘ç-¿&º+UÑΩl∫5ﬂÃ§\ ézÊ:w£	®(YÖ‹öñi˝¢Ün––aFÒ÷1 3£8ú≤”cY"#•∑˛‰∏\R‡{¸€îÜ5eñ`≤=˛ägOB XußÖxÇ±MT¬ƒÖ°g/èzZlhˇ˘·Ê7æ£N#n®¯]°|û≥âöÇû∫V„Ç>÷Sâ+∏Î•õC)P g?—Y˜ŸcîÊ˝¢çÌû
+éãî	Îú∆I?âN
+◊ÏÔF'(~çüÌ[XH¥õ$Ö8¬ùWiÌ–∆¶t‹‰TCä|º74¯zﬂ€'Vı2ÚπÂh$º	2‚+¡/{9DïWLØéŸ≥KôŸôƒÂëÎÁj£ë …hÂT+ïÔÑt«l¯ˇí∞5Ó∏E∏~¶∫âeëqÁ H!ø	_'V$•íé+≥Ûò˛4âºŒ[¸’±á%≈S{€u<W3:5ú6É&ŸêπAY¬\LEIÆk¬2©ÍÎp…èË˘ËŒΩùKLº23yÓ≈€`Ê”Ô~º¥©Çåòf""Âê\òßf¥°¨#rö!PÌ°c0&ﬂwYS¨éÅ≤È'Q¸âmYÖMª†∏4wzj¡HùNÜÄéΩë<ró&ú÷ÁÜ@q∫c)÷Ô¡ß»”t=π≠ûÍ⁄Fè:p[1`zzÈ”¯Àé◊#±¨‚È÷‰‰$ÙDúÍøZüÅpNÔ–∑] qUÅEÍ±£≠Û•„ﬂ}·çˆ=˚øU*7óôôÒ_üüN˛t∏ı>«[g±tÊ-ÿÈ9∫xnåáµò®4ãçª·´é=≤ª≥˚Îù]z≈õÙp|7a‡Ëø'ÚgûhGÿ«PcŒ#{Íuó>ZÈÑ…åòíQ&∏√˘M√ \E)1âía ≥∏à¶ñ=—ÿñFÀ4+ø8bî
+≥≥£}è.µˇl|~«˜ö',íâãßˇ
+#Z°Æå:e«"M[Àòs”‡…)ƒ|2ˆ}È |≤O[˚=OP√˙™L˘π•nu9-kTÔ÷@xÎó˝°Ë√ä◊ﬂF&ç¯4≠^QΩ5‘å
+–<
+¬’Al›Záh§∆µí3ÁtIö*˝ÁÖÁz*k Hõ)õdçôÖôãpÜÎ?QÚm©o‹ˇ’#«~ª≠©yø”GPá˛Ÿ=ÅÿësóaUU∆ïƒÙT‚“Öﬂº¯|oy¨l∆Î^bU’ªÔﬁ/|≥£≥ÎXm›ñNèW”…ä˙Lj.y~Ï£ëøˆø´ç$„Òãe◊Ûˇ	0 Ä´»aÿ*    IENDÆB`Ç
+
+WARC/1.0
+WARC-Type: request
+WARC-Target-URI: https://66.media.tumblr.com/favicon.ico
+WARC-Date: 2020-07-15T03:33:34Z
+WARC-Concurrent-To: <urn:uuid:069c738b-28d8-4215-95f1-433a33d1d068>
+WARC-Record-ID: <urn:uuid:58052463-fa94-49a6-bf0a-6e62567512ef>
+Content-Type: application/http; msgtype=request
+Content-Length: 330
+
+GET /favicon.ico HTTP/1.0
+Connection: Close
+Referer: https://66.media.tumblr.com/tumblr_lwc5kvXz8s1qdlh1io1_r1_400.gif
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Host: 66.media.tumblr.com
+User-Agent: Mozilla/5.0 (compatible; heritrix/3.4.0-SNAPSHOT-2019-08-28T19:43:22Z + http://dia.govt.nz/)
+
+
+
+WARC/1.0
+WARC-Type: metadata
+WARC-Target-URI: https://66.media.tumblr.com/favicon.ico
+WARC-Date: 2020-07-15T03:33:34Z
+WARC-Concurrent-To: <urn:uuid:069c738b-28d8-4215-95f1-433a33d1d068>
+WARC-Record-ID: <urn:uuid:4b597c0d-d7b8-40b0-9958-dfadcde96bcb>
+Content-Type: application/warc-fields
+Content-Length: 209
+
+via: https://66.media.tumblr.com/tumblr_lwc5kvXz8s1qdlh1io1_r1_400.gif
+hopsFromSeed: I
+fetchTimeMs: 403
+charsetForLinkExtraction: UTF-8
+outlink: https://66.media.tumblr.com/favicon.ico I =INFERRED_MISC
+
+
+

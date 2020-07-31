@@ -9,11 +9,11 @@ import org.archive.io.warc.WARCRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.webcurator.core.coordinator.MockWctCoordinatorClient;
 import org.webcurator.core.coordinator.WctCoordinatorClient;
 import org.webcurator.core.exceptions.DigitalAssetStoreException;
 import org.webcurator.core.visualization.modification.metadata.ModifyApplyCommand;
 import org.webcurator.core.visualization.networkmap.bdb.BDBNetworkMapPool;
-import org.webcurator.domain.model.core.SeedHistoryDTO;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,23 +24,27 @@ public class BaseVisualizationTest {
     protected String baseDir = "/usr/local/wct/store";
     protected String baseLogDir = "logs";
     protected String baseReportDir = "reports";
-    protected VisualizationDirectoryManager directoryManager = new VisualizationDirectoryManager(baseDir, baseLogDir, baseReportDir);
+    protected String testResourceDir = "";
 
-    protected BDBNetworkMapPool pool = new BDBNetworkMapPool(baseDir);
+    protected VisualizationDirectoryManager directoryManager;
+    protected BDBNetworkMapPool pool;
 
     protected long targetInstanceId = 5010;
     protected int harvestResultNumber = 1;
     protected int newHarvestResultNumber = 2;
-    protected Set<SeedHistoryDTO> seeds = new HashSet<>();
     protected VisualizationProcessorManager processorManager;
     protected WctCoordinatorClient wctClient;
 
     public void initTest() throws IOException, DigitalAssetStoreException {
-        SeedHistoryDTO seedHistoryPrimary = new SeedHistoryDTO(1, "http://www.google.com/", targetInstanceId, true);
-        SeedHistoryDTO seedHistorySecondary = new SeedHistoryDTO(2, "http://www.baidu.com/", targetInstanceId, false);
-        seeds.add(seedHistoryPrimary);
-        seeds.add(seedHistorySecondary);
-        wctClient = new WctCoordinatorClient("http", "localhost", 8080, new RestTemplateBuilder());
+        String rootDir = System.getProperty("user.dir");
+        File fileBaseDir = new File(rootDir, "/src/test/resources/org/webcurator/core/visualization/");
+        assert fileBaseDir.exists();
+        baseDir= fileBaseDir.getAbsolutePath();
+
+        directoryManager = new VisualizationDirectoryManager(baseDir, baseLogDir, baseReportDir);
+        pool = new BDBNetworkMapPool(baseDir);
+
+        wctClient = new MockWctCoordinatorClient("http", "localhost", 8080, new RestTemplateBuilder());
         processorManager = new VisualizationProcessorManager(directoryManager, wctClient, 3);
     }
 

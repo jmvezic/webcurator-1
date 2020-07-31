@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.webcurator.core.visualization.networkmap.metadata.NetworkMapNodeDTO;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +25,7 @@ public interface VisualizationServiceInterface {
     }
 
 
-    default public List<Long> getArrayList(String json) {
+    default public List<Long> getListOfLong(String json) {
         if (json == null) {
             return null;
         }
@@ -44,14 +43,14 @@ public interface VisualizationServiceInterface {
         return null;
     }
 
-    default public List<NetworkMapNodeDTO> getArrayListOfNetworkMapNode(String json) {
+    default public List<String> getListOfString(String json) {
         if (json == null) {
             return null;
         }
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(json, new TypeReference<List<NetworkMapNodeDTO>>() {
+            return objectMapper.readValue(json, new TypeReference<List<String>>() {
             });
         } catch (IOException e) {
             e.printStackTrace();

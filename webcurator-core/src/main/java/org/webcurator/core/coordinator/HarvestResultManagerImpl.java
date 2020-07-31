@@ -21,16 +21,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component("harvestResultManager")
-@Scope(BeanDefinition.SCOPE_SINGLETON)
+
 public class HarvestResultManagerImpl implements HarvestResultManager {
     private static final Logger log = LoggerFactory.getLogger(HarvestResultManagerImpl.class);
     private final Map<String, HarvestResultDTO> harvestResults = Collections.synchronizedMap(new HashMap<>());
-
-    @Autowired
     private TargetInstanceManager targetInstanceManager;
-
-    @Autowired
     private NetworkMapClient networkMapClient;
 
     @Override
@@ -131,5 +126,13 @@ public class HarvestResultManagerImpl implements HarvestResultManager {
 
         harvestResults.put(hrDTO.getKey(), hrDTO);
         return hrDTO;
+    }
+
+    public void setTargetInstanceManager(TargetInstanceManager targetInstanceManager) {
+        this.targetInstanceManager = targetInstanceManager;
+    }
+
+    public void setNetworkMapClient(NetworkMapClient networkMapClient) {
+        this.networkMapClient = networkMapClient;
     }
 }

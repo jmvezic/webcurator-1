@@ -24,6 +24,7 @@ import org.webcurator.core.archive.dps.DPSArchive;
 import org.webcurator.core.archive.file.FileArchive;
 import org.webcurator.core.archive.oms.OMSArchive;
 import org.webcurator.core.coordinator.WctCoordinatorClient;
+import org.webcurator.core.coordinator.WctCoordinatorClientImpl;
 import org.webcurator.core.visualization.VisualizationDirectoryManager;
 import org.webcurator.core.visualization.VisualizationProcessorManager;
 import org.webcurator.core.visualization.networkmap.NetworkMapDomainSuffix;
@@ -326,7 +327,7 @@ public class DasConfig {
     @Bean
     @Scope(BeanDefinition.SCOPE_SINGLETON)
     public WctCoordinatorClient wctCoordinatorClient() {
-        WctCoordinatorClient bean = new WctCoordinatorClient(wctCoreWsEndpointScheme, wctCoreWsEndpointHost, wctCoreWsEndpointPort, restTemplateBuilder);
+        WctCoordinatorClient bean = new WctCoordinatorClientImpl(wctCoreWsEndpointScheme, wctCoreWsEndpointHost, wctCoreWsEndpointPort, restTemplateBuilder);
         return bean;
     }
 

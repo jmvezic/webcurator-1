@@ -158,7 +158,7 @@ public class NetworkMapClientRemote extends AbstractRestClient implements Networ
         RestTemplate restTemplate = restTemplateBuilder.build();
 
 //        ResponseEntity<String> json = restTemplate.postForEntity(uri, null, String.class);
-//        return getArrayListOfNetworkMapNode(json.getBody());
+//        return getListOfNetworkMapNode(json.getBody());
 
         NetworkMapResult result;
         result = restTemplate.postForObject(uri, null, NetworkMapResult.class);

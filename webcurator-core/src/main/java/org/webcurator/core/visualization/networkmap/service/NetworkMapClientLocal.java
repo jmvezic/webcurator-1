@@ -111,7 +111,7 @@ public class NetworkMapClientLocal implements NetworkMapClient {
             return NetworkMapResult.getDBMissingErrorResult();
         }
 
-        List<Long> ids = this.getArrayList(db.get(BDBNetworkMap.PATH_ROOT_URLS));
+        List<Long> ids = this.getListOfLong(db.get(BDBNetworkMap.PATH_ROOT_URLS));
         if (ids == null) {
             return NetworkMapResult.getDataNotExistResult("Could not find seed urls");
         }
@@ -130,7 +130,7 @@ public class NetworkMapClientLocal implements NetworkMapClient {
             return NetworkMapResult.getDBMissingErrorResult();
         }
 
-        List<Long> ids = this.getArrayList(db.get(BDBNetworkMap.PATH_MALFORMED_URLS));
+        List<Long> ids = this.getListOfLong(db.get(BDBNetworkMap.PATH_MALFORMED_URLS));
         if (ids == null) {
             return NetworkMapResult.getDataNotExistResult("Could not find malformed urls");
         }

@@ -14,38 +14,36 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.config.TestBaseConfig;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.webcurator.app.TestConfigBasic;
 import org.webcurator.core.common.Environment;
 import org.webcurator.core.harvester.agent.HarvestAgent;
 import org.webcurator.core.harvester.agent.HarvestAgentFactory;
 import org.webcurator.core.scheduler.TargetInstanceManager;
 import org.webcurator.core.util.ApplicationContextFactory;
 import org.webcurator.domain.TargetInstanceDAO;
-import org.webcurator.domain.model.core.HarvestResult;
 import org.webcurator.domain.model.core.TargetInstance;
 import org.webcurator.domain.model.core.harvester.agent.HarvestAgentStatusDTO;
 import org.webcurator.domain.model.core.harvester.agent.HarvesterStatusDTO;
 
 import com.google.common.collect.Maps;
 
-@Import(TestBaseConfig.class)
+@Import(TestConfigBasic.class)
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 public class HarvestAgentManagerImplTest {
-
 	private HarvestAgentManagerImpl underTest;
 
 	@Mock
 	private HarvestAgentFactory mockHarvestAgentFactory;
 	@Mock
 	private TargetInstanceDAO mockTargetInstanceDAO;
-	@Mock
+	@Autowired
 	private TargetInstanceManager mockTargetInstanceManager;
 	@Mock
 	private Environment mockEnvironment;

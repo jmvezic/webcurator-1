@@ -1,0 +1,91 @@
+Frontier report - 202007150333
+ Job being crawled: basic
+
+ -----===== STATS =====-----
+ Discovered:    4
+ Queued:        0
+ Finished:      4
+  Successfully: 4
+  Failed:       0
+  Disregarded:  0
+
+ -----===== QUEUES =====-----
+ Already included size:     4
+               pending:     0
+
+ All class queues map size: 1
+             Active queues: 1
+                    In-process: 0
+                         Ready: 0
+                       Snoozed: 1
+           Inactive queues: 0 (p3: 0)
+            Retired queues: 0
+          Exhausted queues: 0
+
+             Last state: EMPTY
+ -----===== MANAGER THREAD =====-----
+Java Thread State: RUNNABLE
+Blocked/Waiting On: NONE
+    java.lang.Thread.getStackTrace(Thread.java:1559)
+    org.archive.crawler.framework.ToeThread.reportThread(ToeThread.java:484)
+    org.archive.crawler.frontier.WorkQueueFrontier.reportTo(WorkQueueFrontier.java:1338)
+    org.archive.crawler.reporting.FrontierSummaryReport.write(FrontierSummaryReport.java:39)
+    org.archive.crawler.reporting.StatisticsTracker.writeReportFile(StatisticsTracker.java:896)
+    org.archive.crawler.reporting.StatisticsTracker.dumpReports(StatisticsTracker.java:924)
+    org.archive.crawler.reporting.StatisticsTracker.stop(StatisticsTracker.java:342)
+    org.springframework.context.support.DefaultLifecycleProcessor.doStop(DefaultLifecycleProcessor.java:236)
+    org.springframework.context.support.DefaultLifecycleProcessor.doStop(DefaultLifecycleProcessor.java:213)
+    org.springframework.context.support.DefaultLifecycleProcessor.doStop(DefaultLifecycleProcessor.java:213)
+    org.springframework.context.support.DefaultLifecycleProcessor.doStop(DefaultLifecycleProcessor.java:213)
+    org.springframework.context.support.DefaultLifecycleProcessor.doStop(DefaultLifecycleProcessor.java:213)
+    org.springframework.context.support.DefaultLifecycleProcessor.doStop(DefaultLifecycleProcessor.java:213)
+    org.springframework.context.support.DefaultLifecycleProcessor.access$2(DefaultLifecycleProcessor.java:206)
+    org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.stop(DefaultLifecycleProcessor.java:352)
+    org.springframework.context.support.DefaultLifecycleProcessor.stopBeans(DefaultLifecycleProcessor.java:195)
+    org.springframework.context.support.DefaultLifecycleProcessor.stop(DefaultLifecycleProcessor.java:103)
+    org.springframework.context.support.AbstractApplicationContext.stop(AbstractApplicationContext.java:1241)
+    org.archive.crawler.framework.CrawlController.completeStop(CrawlController.java:392)
+    org.archive.crawler.framework.CrawlController.noteFrontierState(CrawlController.java:662)
+    org.archive.crawler.frontier.AbstractFrontier.reachedState(AbstractFrontier.java:444)
+    org.archive.crawler.frontier.AbstractFrontier.managementTasks(AbstractFrontier.java:401)
+    org.archive.crawler.frontier.AbstractFrontier$1.run(AbstractFrontier.java:318)
+
+ -----===== 1 LONGEST QUEUES =====-----
+LONGEST#0:
+Queue com,tumblr,media,66, (p3)
+  0 items
+   wakes in: 956ms
+    last enqueued: https://66.media.tumblr.com/favicon.ico
+      last peeked: https://66.media.tumblr.com/favicon.ico
+   total expended: 4 (total budget: -1)
+   active balance: 2996
+   last(avg) cost: 1(1)
+   totalScheduled fetchSuccesses fetchFailures fetchDisregards fetchResponses robotsDenials successBytes totalBytes fetchNonResponses lastSuccessTime
+   4 4 0 0 4 0 19703 19703 2 2020-07-15T03:33:35.117Z
+   SimplePrecedenceProvider
+   3
+
+
+ -----===== IN-PROCESS QUEUES =====-----
+
+ -----===== READY QUEUES =====-----
+
+ -----===== SNOOZED QUEUES =====-----
+SNOOZED#0:
+Queue com,tumblr,media,66, (p3)
+  0 items
+   wakes in: 954ms
+    last enqueued: https://66.media.tumblr.com/favicon.ico
+      last peeked: https://66.media.tumblr.com/favicon.ico
+   total expended: 4 (total budget: -1)
+   active balance: 2996
+   last(avg) cost: 1(1)
+   totalScheduled fetchSuccesses fetchFailures fetchDisregards fetchResponses robotsDenials successBytes totalBytes fetchNonResponses lastSuccessTime
+   4 4 0 0 4 0 19703 19703 2 2020-07-15T03:33:35.117Z
+   SimplePrecedenceProvider
+   3
+
+
+ -----===== INACTIVE QUEUES =====-----
+
+ -----===== RETIRED QUEUES =====-----

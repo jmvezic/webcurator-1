@@ -1,7 +1,6 @@
 package org.webcurator.core.visualization.modification.processor;
 
 import org.apache.commons.io.FileUtils;
-import org.webcurator.core.exceptions.DigitalAssetStoreException;
 import org.webcurator.core.util.PatchUtil;
 import org.webcurator.core.visualization.VisualizationAbstractProcessor;
 import org.webcurator.core.visualization.VisualizationProgressBar;
@@ -12,8 +11,6 @@ import org.webcurator.domain.model.core.HarvestResult;
 
 import java.io.*;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -139,6 +136,8 @@ public abstract class ModifyProcessor extends VisualizationAbstractProcessor {
             progressItemFileImported.setCurLength(progressItemFileImported.getMaxLength());
         }
         writeReport();
+
+        this.status = HarvestResult.STATUS_FINISHED;
     }
 
     @Override
@@ -157,37 +156,6 @@ public abstract class ModifyProcessor extends VisualizationAbstractProcessor {
 
     public String getArchiveType() {
         return archiveType();
-    }
-
-    public File downloadFile(long job, int harvestResultNumber, ModifyRowMetadata metadata) throws IOException, DigitalAssetStoreException {
-        String tempFileName = UUID.randomUUID().toString();
-        File dirFile = new File(fileDir);
-        if (!dirFile.exists() && !dirFile.mkdir()) {
-            String err = String.format("Make dir failed: %s", fileDir);
-            log.error(err);
-            throw new DigitalAssetStoreException(err);
-        }
-        File downloadedFile = new File(fileDir, tempFileName);
-
-        URL url = wctClient.getDownloadFileURL(job, harvestResultNumber, metadata.getName());
-        URLConnection conn = url.openConnection();
-
-//        File downloadedFile = File.createTempFile(metadata.getName(), ".open");
-//        IOUtils.copy(conn.getInputStream(), Files.newOutputStream(downloadedFile.toPath()));
-
-        OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadedFile));
-        InputStream inputStream = conn.getInputStream();
-        while (true) {
-            byte[] buf = new byte[1024 * 32];
-            int len = inputStream.read(buf);
-            if (len < 0) {
-                break;
-            }
-            outputStream.write(buf, 0, len);
-        }
-        outputStream.close();
-
-        return downloadedFile;
     }
 
     protected abstract String archiveType();
