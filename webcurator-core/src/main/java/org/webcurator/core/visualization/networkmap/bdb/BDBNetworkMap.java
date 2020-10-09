@@ -26,7 +26,7 @@ public class BDBNetworkMap {
     public final static String PATH_MALFORMED_URLS = "malformedUrls";
     public final static String PATH_COUNT_DOMAIN = "countDomain";
     public final static String PATH_COUNT_URL = "countUrl";
-
+    public final static String PATH_INDIVIDUAL_DOMAIN = "domain_";
     public final static String PATH_GROUP_BY_DOMAIN = "keyGroupByDomain";
     public final static String PATH_GROUP_BY_CONTENT_TYPE = "keyGroupByContentType";
     public final static String PATH_GROUP_BY_STATUS_CODE = "keyGroupByStatusCode";
@@ -238,8 +238,8 @@ public class BDBNetworkMap {
         return result;
     }
 
-    public Cursor openCursor(){
-       return db.openCursor(null, null);
+    public Cursor openCursor() {
+        return db.openCursor(null, null);
     }
 
     /**
@@ -269,42 +269,4 @@ public class BDBNetworkMap {
     public void setDbName(String dbName) {
         this.dbName = dbName;
     }
-
-
-//    public static void main(String[] args) throws IOException {
-//        BDBNetworkMap db = new BDBNetworkMap();
-//        db.initializeDB("/usr/local/wct/store/_db_temp", "resource.db");
-//
-//        long MAX_TRY = 1000000;
-//
-//        long startTime = System.currentTimeMillis();
-//        for (long id = 1; id <= MAX_TRY; id++) {
-//            db.put(id, "Content:" + id);
-//            if (id % 1000 == 0) {
-//                long endTime = System.currentTimeMillis();
-//                System.out.println("Running write:" + id + ", time used:" + (endTime - startTime));
-//                startTime = endTime;
-//            }
-//        }
-//
-//        db.shutdownDB();
-//
-//        db.initializeDB("/usr/local/wct/store/_db_temp", "resource.db");
-//
-//        startTime = System.currentTimeMillis();
-//        for (long id = 1; id <= MAX_TRY; id++) {
-//            String str = db.get(id);
-//            if (str == null) {
-//                System.out.println("Error:" + id);
-//            }
-//
-//            if (id % 1000 == 0) {
-//                long endTime = System.currentTimeMillis();
-//                System.out.println("Running read:" + id + ", time used:" + (endTime - startTime));
-//                startTime = endTime;
-//            }
-//        }
-//
-//        db.shutdownDB();
-//    }
 }

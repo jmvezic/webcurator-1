@@ -17,6 +17,7 @@ class NetworkMap{
     		console.log(response.rspCode + ': ' + response.rspMsg);
     		if (response.rspCode === 0 && response.payload !== null) {
     			var data=JSON.parse(response.payload);
+    			that.data=data;
     			that.formatData(data);
     			that.initDraw(data);
     			return true;
@@ -61,21 +62,21 @@ class NetworkMap{
 	  }).then((response) => {
     	console.log(response.rspCode + ': ' + response.rspMsg);
 
-			var progressPercentage=0;
-			if(response.rspCode===0){
-				var responseProgressBar=JSON.parse(response.payload);
-				progressPercentage=responseProgressBar.progressPercentage;
+		var progressPercentage=0;
+		if(response.rspCode===0){
+			var responseProgressBar=JSON.parse(response.payload);
+			progressPercentage=responseProgressBar.progressPercentage;
 
-				$('#progressIndexerValue').html(progressPercentage);
-				$('#progressIndexer').val(progressPercentage);
-				$('#progressIndexer').attr('data-label', progressPercentage + '% Complete');
-			}
-			
-			if((response.rspCode===0 && progressPercentage >= 100) || response.rspCode!=0){
-				clearInterval(that.timerProgress);
-				$('#popup-window-progress').hide();
-				that.init(that.jobId, that.harvestResultNumber);
-			}
+			$('#progressIndexerValue').html(progressPercentage);
+			$('#progressIndexer').val(progressPercentage);
+			$('#progressIndexer').attr('data-label', progressPercentage + '% Complete');
+		}
+		
+		if((response.rspCode===0 && progressPercentage >= 100) || response.rspCode!=0){
+			clearInterval(that.timerProgress);
+			$('#popup-window-progress').hide();
+			that.init(that.jobId, that.harvestResultNumber);
+		}
 	  });
 	}
 
@@ -119,7 +120,7 @@ class NetworkMap{
 			title=title.substr(0, 60) + '...';
 		}
 
-		$('#networkmap-side-title').text('Domain: ' + title);
+		$('#networkmap-side-title').text(title);
 	}
 
 	contextMenuCallback(key, condition, source){

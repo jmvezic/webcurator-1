@@ -5,6 +5,7 @@ import org.webcurator.core.util.URLResolverFunc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NetworkMapNodeDTO {
     public static final int SEED_TYPE_PRIMARY = 0;
@@ -13,8 +14,7 @@ public class NetworkMapNodeDTO {
     
     protected long id;
     protected String url;
-    protected String domain;
-    protected String topDomain;
+
     protected boolean isSeed = false; //true: if url equals seed or domain contains seed url.
     protected int seedType = -1;
 
@@ -55,22 +55,6 @@ public class NetworkMapNodeDTO {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getDomain() {
-        return domain;
-    }
-
-    public void setDomain(String domain) {
-        this.domain = domain;
-    }
-
-    public String getTopDomain() {
-        return topDomain;
-    }
-
-    public void setTopDomain(String topDomain) {
-        this.topDomain = topDomain;
     }
 
     public boolean isSeed() {
@@ -223,5 +207,14 @@ public class NetworkMapNodeDTO {
     @JsonIgnore
     public void putChild(NetworkMapNodeDTO e) {
         this.children.add(e);
+    }
+
+    @JsonIgnore
+    public String getUnlString() {
+        String strOutlinks = outlinks.stream().map(outlink -> Long.toString(outlink)).collect(Collectors.joining(","));
+        return String.format("%d %s %d %d %d %d %d %d %d %s %s %d %d %d %s %b [%s]",
+                id, url, seedType, totUrls, totSuccess, totFailed, totSize,
+                domainId, contentLength, contentType, statusCode, parentId, offset, fetchTimeMs,
+                fileName, isSeed, strOutlinks);
     }
 }

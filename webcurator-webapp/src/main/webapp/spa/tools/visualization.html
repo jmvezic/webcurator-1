@@ -32,25 +32,65 @@ to get the desired effect
 -->
 <body unselectable="on" class="layout-navbar-fixed sidebar-collapse">
 <div class="wrapper">
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="padding: 0;">
+  <nav class="main-header navbar navbar-expand navbar-white" style="padding: 0;">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
-      <li class="nav-item"><a onclick="$('#networkmap-side-container').toggle();" role="button"  class="nav-link"><i class="fas fa-bars"></i></a></li>
-      <li class="nav-item d-none d-sm-inline-block"><a class="nav-link btn-side-group-type" name="statuscode">Status Code</a></li>
-      <li class="nav-item d-none d-sm-inline-block"><a class="nav-link btn-side-group-type" name="contenttype">Content Type</a></li>
-      
-      <li class="nav-item"><a class="nav-link"><span id="networkmap-side-title" style="margin-left: 200px;">Domain: root</span></a></li>
+      <!-- View -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="fas fa-eye"> Inspect</i>
+          <!-- <span class="badge badge-warning navbar-badge hidden" id="derived-hr-badge">0</span> -->
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-item dropdown-header">Inspect Views</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-vector-square"></i> 
+            <span class="float-right text-muted text-sm">Network Map</span>
+          </a>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-bezier-curve"></i>
+            <span class="float-right text-muted text-sm">Harvest Struct</span>
+          </a>
+          <a href="#" class="dropdown-item">
+            <i class="fab fa-fedora"></i>
+            <span class="float-right text-muted text-sm">URL Names</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-search"></i>
+            <span class="float-right text-muted text-sm">Query</span>
+          </a>
+        </div>
+      </li>
+
+      <!-- Prune and Import -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="fab fa-buffer"> Operation</i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-item dropdown-header">Operation</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-times-circle"></i> 
+            <span class="float-right text-muted text-sm">Bulk Prune</span>
+          </a>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <span class="float-right text-muted text-sm">Bulk Import</span>
+          </a>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-file-upload"></i>
+            <span class="float-right text-muted text-sm">Single Import</span>
+          </a>
+        </div>
+      </li>
     </ul>
 
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item d-none d-sm-inline-block">
-        <a onclick="networkmap.graph.reload();" class="nav-link">Reload</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a onclick="networkmap.graph.collapseAll();" class="nav-link">Collapse</a>
-      </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a onclick="$('#popup-window-modify-harvest').show();" class="nav-link">Modify</a>
       </li>
@@ -80,20 +120,117 @@ to get the desired effect
         <a onclick="gParentHarvestResultViewTab.closeContentWindow();" role="button" class="nav-link"><i class="fas fa-times"></i></a>
       </li>
     </ul>
-  </nav>
-
-  <div style="height: 100vh; width: 100vw;">
-    <!-- Networmap Canvas -->
-    <div id="network-map-canvas" style="height: 100%; width: 100%;"></div>
-    <!-- Side Card -->
-    <div class="bg-default" style="position: absolute; left: 0; bottom: 3px; width: 380px; height: calc(100% - 50px); display: none;" id="networkmap-side-container">
-      <div class="networkmap-insight ag-theme-balham" id="networkmap-side-table-group-by-status-code"> </div>
-      <div class="networkmap-insight ag-theme-balham hidden" id="networkmap-side-table-group-by-content-type"> </div>
-    </div> <!-- end of card -->
-  </div>
-
+  </nav> <!-- End of Header -->
 </div>
 
+
+<!-- Network Map -->
+<div class="main-tab hidden" name="networkmap">
+    <!-- Networmap Canvas -->
+    <div id="network-map-canvas" style="height: 100%; width: calc(100% - 395px); margin-left: 395px;"></div>
+
+    <div class="card" style="position: absolute; left: 1px; bottom: 0px; width: 400px; height: calc(100% - 40px); margin: 0; padding: 0;">
+      <div class="card-header">
+        <h3 class="card-title">Catagory</h3>
+        <div class="card-tools">
+          <button type="button" class="btn btn-tool btn-side-group-type text-primary" name="statuscode">Status</button>
+          <button type="button" class="btn btn-tool btn-side-group-type" name="contenttype">Type</button>
+        </div>
+      </div>
+      <div class="card-body" style="margin: 0; padding: 0;">
+         <!-- Side Card -->
+        <div id="networkmap-side-container" style="height: 100%; width: 100%;">
+          <div class="networkmap-insight ag-theme-balham" id="networkmap-side-table-group-by-status-code"> </div>
+          <div class="networkmap-insight ag-theme-balham hidden" id="networkmap-side-table-group-by-content-type"> </div>
+        </div> <!-- end of side card -->
+      </div> <!-- end of card body -->
+    </div> <!-- end of card -->
+
+    <div style="position: absolute; left: 450px; top: 55px; margin: 0; padding: 0;">
+      <h3 class="text-info">Current Domain: <span class="text-success" id="networkmap-side-title">Root</span></h3>
+    </div>
+
+    <div style="position: absolute; right: 5px; top: 55px; margin: 0; padding: 0;">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default" onclick="networkmap.graph.reload();">Reload</button>
+        <button type="button" class="btn btn-default" onclick="networkmap.graph.collapseAll();">Collapse</button>
+      </div>
+    </div>
+</div>
+
+
+<!-- TreeView: Harvest Struct -->
+<div class="main-tab hidden" name="tree-harvest-struct">
+  <div>&nbsp;</div><div>&nbsp;</div>
+  <div style="width: 100vw; height: calc(100vh - 50px); overflow-x: hidden; overflow-y: scroll;">
+      <table id="hierachy-tree-harvest-struct" style="width: 100%; outline: none;">
+        <colgroup>
+            <col width="50px">
+            <col width="*">
+            <col width="80px">
+            <col width="80px">
+            <col width="80px">
+            <col width="80px">
+            <col width="80px">
+            <col width="80px">
+            <col width="80px">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>Action</th>
+            <th>URL</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Size</th>
+            <th>URLs</th>
+            <th>Success</th>
+            <th>Failed</th>
+            <th>TotSize</th>
+        </tr>
+        </thead>
+    </table>
+  </div>
+</div>
+
+
+<!-- TreeView: URL Names -->
+<div class="main-tab" name="tree-url-names">
+  <div>&nbsp;</div><div>&nbsp;</div>
+  <div style="width: 100vw; height: calc(100vh - 50px); overflow-x: hidden; overflow-y: scroll;">
+      <table id="hierachy-tree-url-names" style="width: 100%; outline: none;">
+        <colgroup>
+            <col width="50px">
+            <col width="*">
+            <col width="80px">
+            <col width="80px">
+            <col width="80px">
+            <col width="80px">
+            <col width="80px">
+            <col width="80px">
+            <col width="80px">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>Action</th>
+            <th>URL</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Size</th>
+            <th>URLs</th>
+            <th>Success</th>
+            <th>Failed</th>
+            <th>TotSize</th>
+        </tr>
+        </thead>
+    </table>
+  </div>
+</div>
+
+<!-- Query Grid -->
+<div class="main-tab" name="tree-url-names">
+  <div>&nbsp;</div><div>&nbsp;</div>
+
+</div>
 
 <!-- Popup window for inspection and modification -->
 <div class="card none-margin-padding bg-light"  id="popup-window-modify-harvest">
@@ -581,7 +718,7 @@ to get the desired effect
     var visHopPath=new HopPath('hoppath-canvas', jobId, harvestResultNumber);
     var networkmap=new NetworkMap();
     var gPopupModifyHarvest=new PopupModifyHarvest(jobId, harvestResultId, harvestResultNumber);
-    // var hierarchyTree=new HierarchyTree("#hierachy-tree", jobId, harvestResultNumber);
+    // var hierarchyTree=new HierarchyTree("#hierachy-tree-harvest-struct", jobId, harvestResultNumber);
     
     console.log(parent);
     var gParentHarvestResultViewTab=parent;
@@ -616,7 +753,9 @@ to get the desired effect
         sp("networkmap");
         
         networkmap.init(jobId, harvestResultNumber);
-        // hierarchyTree.draw();
+      
+        gPopupModifyHarvest.initTreeWithSeedUrls();
+        gPopupModifyHarvest.initTreeWithDomains();
 
         $("input[name=search]").on("change search", function(e){
           var n,

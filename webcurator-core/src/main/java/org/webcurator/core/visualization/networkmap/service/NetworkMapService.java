@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public interface NetworkMapService extends VisualizationServiceInterface {
-    int MAX_URL_UNL_FIELDS_COUNT = 19;
+    int MAX_URL_UNL_FIELDS_COUNT = 17;
 
     NetworkMapResult initialIndex(long job, int harvestResultNumber);
 
@@ -23,6 +23,8 @@ public interface NetworkMapService extends VisualizationServiceInterface {
     NetworkMapResult getOutlinks(long job, int harvestResultNumber, long id);
 
     NetworkMapResult getChildren(long job, int harvestResultNumber, long id);
+
+    NetworkMapResult getUrlsByDomain(long job, int harvestResultNumber, long domainId);
 
     NetworkMapResult getAllDomains(long job, int harvestResultNumber);
 
@@ -75,24 +77,22 @@ public interface NetworkMapService extends VisualizationServiceInterface {
         NetworkMapNodeDTO n = new NetworkMapNodeDTO();
         n.setId(Long.parseLong(items[0]));
         n.setUrl(items[1]);
-        n.setDomain(items[2]);
-        n.setTopDomain(items[3]);
-        n.setSeedType(Integer.parseInt(items[4]));
-        n.setTotUrls(Integer.parseInt(items[5]));
-        n.setTotSuccess(Integer.parseInt(items[6]));
-        n.setTotFailed(Integer.parseInt(items[7]));
-        n.setTotSize(Integer.parseInt(items[8]));
-        n.setDomainId(Integer.parseInt(items[9]));
-        n.setContentLength(Long.parseLong(items[10]));
-        n.setContentType(items[11]);
-        n.setStatusCode(Integer.parseInt(items[12]));
-        n.setParentId(Long.parseLong(items[13]));
-        n.setOffset(Long.parseLong(items[14]));
-        n.setFetchTimeMs(Long.parseLong(items[15]));
-        n.setFileName(items[16]);
-        n.setSeed(Boolean.parseBoolean(items[17]));
+        n.setSeedType(Integer.parseInt(items[2]));
+        n.setTotUrls(Integer.parseInt(items[3]));
+        n.setTotSuccess(Integer.parseInt(items[4]));
+        n.setTotFailed(Integer.parseInt(items[5]));
+        n.setTotSize(Integer.parseInt(items[6]));
+        n.setDomainId(Integer.parseInt(items[7]));
+        n.setContentLength(Long.parseLong(items[8]));
+        n.setContentType(items[9]);
+        n.setStatusCode(Integer.parseInt(items[10]));
+        n.setParentId(Long.parseLong(items[11]));
+        n.setOffset(Long.parseLong(items[12]));
+        n.setFetchTimeMs(Long.parseLong(items[13]));
+        n.setFileName(items[14]);
+        n.setSeed(Boolean.parseBoolean(items[15]));
 
-        String strOutlinks = items[18];
+        String strOutlinks = items[16];
         List<Long> outlinks = new ArrayList<>();
         if (strOutlinks.length() > 2) {
             strOutlinks = strOutlinks.substring(1, strOutlinks.length() - 1);

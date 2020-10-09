@@ -287,6 +287,10 @@ progress::-moz-progress-bar {
     height: 100%;
 }
 
+.main-tab{
+	width: 100vw;
+	height: 100vh
+}
 
 #domain-tree{
 	width: 100%;

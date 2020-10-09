@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("all")
 public abstract class IndexProcessor extends VisualizationAbstractProcessor {
@@ -59,7 +60,6 @@ public abstract class IndexProcessor extends VisualizationAbstractProcessor {
     }
 
     public void indexFile(ArchiveReader reader, String fileName) throws IOException {
-//        String fileName = reader.getStrippedFileName();
         log.info("Start to index file: {}", fileName);
         this.writeLog("Start indexing from: " + fileName);
 
@@ -115,6 +115,7 @@ public abstract class IndexProcessor extends VisualizationAbstractProcessor {
             // if url u-->v then domain du->dv, DU->DV, du->DV, DU->dv
             NetworkMapDomain domainNodeHigh = domainManager.getHighDomain(node);
             NetworkMapDomain domainNodeLower = domainManager.getLowerDomain(node);
+            node.setDomainId(domainNodeLower.getId());
             if (node.isSeed() && (node.getSeedType() == NetworkMapNode.SEED_TYPE_PRIMARY || node.getSeedType() == NetworkMapNode.SEED_TYPE_SECONDARY)) {
                 domainNodeHigh.setSeed(true);
                 domainNodeLower.setSeed(true);
@@ -141,14 +142,24 @@ public abstract class IndexProcessor extends VisualizationAbstractProcessor {
         db.put(BDBNetworkMap.PATH_GROUP_BY_DOMAIN, rootDomainNode);
         this.writeLog("Finished storing domain nodes");
 
+        //Saving the links of each domain
+        Map<Long, List<NetworkMapNode>> groupedByDomain = this.urls.values().stream().collect(Collectors.groupingBy(NetworkMapNode::getDomainId));
+        groupedByDomain.forEach((k, v) -> {
+            this.tryBlock();
+
+            String key = BDBNetworkMap.PATH_INDIVIDUAL_DOMAIN + k;
+            List<Long> listUrlIDs = v.stream().map(NetworkMapNode::getId).collect(Collectors.toList());
+            db.put(key, listUrlIDs);
+        });
+
         //Process and save url
         List<Long> rootUrls = new ArrayList<>();
         List<Long> malformedUrls = new ArrayList<>();
         this.urls.values().forEach(e -> {
             this.tryBlock();
 
-            db.put(e.getId(), e.getUnlString());             //Indexed by ID, ID->NODE
-            db.put(e.getUrl(), e.getId()); //Indexed by URL, URL->ID->NODE
+            db.put(e.getId(), e.getUnlString());   //Indexed by ID, ID->NODE
+            db.put(e.getUrl(), e.getId());          //Indexed by URL, URL->ID->NODE
 
             if (e.isSeed() || e.getParentId() <= 0) {
                 rootUrls.add(e.getId());

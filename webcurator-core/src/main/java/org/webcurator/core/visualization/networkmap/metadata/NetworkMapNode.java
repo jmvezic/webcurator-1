@@ -3,9 +3,7 @@ package org.webcurator.core.visualization.networkmap.metadata;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.context.ApplicationContext;
 import org.webcurator.core.visualization.networkmap.NetworkMapDomainSuffix;
-import org.webcurator.core.util.ApplicationContextFactory;
 import org.webcurator.core.util.URLResolverFunc;
 
 import java.io.IOException;
@@ -15,8 +13,9 @@ import java.util.stream.Collectors;
 @SuppressWarnings("all")
 public class NetworkMapNode extends NetworkMapNodeDTO {
     private static NetworkMapDomainSuffix topDomainParser = null;
-    public static void setTomDomainParse(NetworkMapDomainSuffix aTopDomainParser){
-        topDomainParser=aTopDomainParser;
+
+    public static void setTomDomainParse(NetworkMapDomainSuffix aTopDomainParser) {
+        topDomainParser = aTopDomainParser;
     }
 
     @JsonIgnore
@@ -29,6 +28,10 @@ public class NetworkMapNode extends NetworkMapNodeDTO {
     protected boolean responseParseFlag = false;
     @JsonIgnore
     protected boolean metadataParseFlag = false;
+    @JsonIgnore
+    protected String domain;
+    @JsonIgnore
+    protected String topDomain;
 
     public NetworkMapNode() {
     }
@@ -176,6 +179,26 @@ public class NetworkMapNode extends NetworkMapNodeDTO {
         this.metadataParseFlag = metadataParseFlag;
     }
 
+    @JsonIgnore
+    public String getDomain() {
+        return domain;
+    }
+
+    @JsonIgnore
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    @JsonIgnore
+    public String getTopDomain() {
+        return topDomain;
+    }
+
+    @JsonIgnore
+    public void setTopDomain(String topDomain) {
+        this.topDomain = topDomain;
+    }
+
     public static NetworkMapNode getNodeEntity(String json) {
         if (json == null) {
             return null;
@@ -202,16 +225,5 @@ public class NetworkMapNode extends NetworkMapNodeDTO {
         }
 
         return json;
-    }
-
-    @JsonIgnore
-    public String getUnlString() {
-        String strOutlinks = outlinks.stream().map(outlink -> {
-            return Long.toString(outlink);
-        }).collect(Collectors.joining(","));
-        return String.format("%d %s %s %s %d %d %d %d %d %d %d %s %s %d %d %d %s %b [%s]",
-                id, url, domain, topDomain, seedType, totUrls, totSuccess, totFailed, totSize,
-                domainId, contentLength, contentType, statusCode, parentId, offset, fetchTimeMs,
-                fileName, isSeed, strOutlinks);
     }
 }

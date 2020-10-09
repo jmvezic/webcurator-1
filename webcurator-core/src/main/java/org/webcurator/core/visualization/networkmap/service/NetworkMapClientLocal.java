@@ -93,6 +93,26 @@ public class NetworkMapClientLocal implements NetworkMapClient {
     }
 
     @Override
+    public NetworkMapResult getUrlsByDomain(long job, int harvestResultNumber, long domainId) {
+        BDBNetworkMap db = pool.getInstance(job, harvestResultNumber);
+        if (db == null) {
+            return NetworkMapResult.getDBMissingErrorResult();
+        }
+
+        String key = BDBNetworkMap.PATH_INDIVIDUAL_DOMAIN + domainId;
+        List<Long> listUrlIDs = this.getArrayList(db.get(key));
+        if (listUrlIDs == null) {
+            return NetworkMapResult.getDataNotExistResult("Could not find domain node, id: " + domainId);
+        }
+
+        NetworkMapResult result = new NetworkMapResult();
+        String urls = combineUrlResultFromArrayIDs(job, harvestResultNumber, listUrlIDs);
+        listUrlIDs.clear();
+        result.setPayload(urls);
+        return result;
+    }
+
+    @Override
     public NetworkMapResult getAllDomains(long job, int harvestResultNumber) {
         BDBNetworkMap db = pool.getInstance(job, harvestResultNumber);
         if (db == null) {
