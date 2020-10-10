@@ -262,6 +262,14 @@ class PopupModifyHarvest{
 		this.uriInvalidUrl="/networkmap/get/malformed/urls?job=" + this.jobId + "&harvestResultNumber=" + this.harvestResultNumber;
 	}
 
+	filter(val){
+		this.gridPrune.filter(val);
+		this.gridImport.filter(val);
+		this.gridCandidate.filter(val);
+		this.hierarchyTreeUrlNames.filter(val);
+		this.hierarchyTreeHarvestStruct.filter(val);
+	}
+
 	setRowStyle(){
 		prunedDataMap={};
 		this.gridPrune.gridOptions.api.forEachNode(function(node, index){
@@ -466,8 +474,8 @@ class PopupModifyHarvest{
 
 	inspectHarvest(data){
 		$('#popup-window-hierarchy').hide();
-		$('#grid-modify-candidate').show();
-		
+		// $('#grid-modify-candidate').show();
+		$('#btn-group-main-tabs label[name="candidate-query"]').trigger('click');
 		if(!data){
 			return;
 		}
@@ -509,13 +517,12 @@ class PopupModifyHarvest{
 		    "contentTypes": [],
 		    "statusCodes": [],
 		    "urlNames": []
-		 }
+		}
 
 		var domainNames=$("#queryDomainName").val().trim();
 		if(domainNames.length > 0){
 			searchCondition.domainNames=domainNames.split();
 		}
-
 
 		var contentTypes=$("#queryContentType").val().trim();
 		if(contentTypes.length > 0){
@@ -556,9 +563,9 @@ class PopupModifyHarvest{
 				that.inspectHarvest(data);
 			}else if(flag==='import-prune'){
 				that.pruneHarvest(data);
-				$('#tab-btn-import').trigger('click');
+				// $('#tab-btn-import').trigger('click');
 			}
-			$('#popup-window-modify-harvest').show();
+			// $('#popup-window-modify-harvest').show();
 		});
 	}
 
@@ -719,6 +726,7 @@ class PopupModifyHarvest{
 		var that=this;
 		var url="/modification/apply";
 		fetchHttp(url, applyCommand, function(response){
+			$('#popup-window-loading').hide();
 			if(response.respCode !== 0){
 				alert(response.respMsg);
 			}else{

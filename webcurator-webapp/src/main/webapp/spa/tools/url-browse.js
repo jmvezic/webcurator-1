@@ -1,5 +1,5 @@
 function browseUrl(data){
-	if (data.contentType==='text/html') {
+	if (data.statusCode!==200 || data.contentType==='text/html') {
 		var url='/curator/tools/browse/'+harvestResultId+'/?url='+data.url;
 		window.open(url);
 	}else if(data.contentType.startsWith('image/')
@@ -17,7 +17,7 @@ function browseUrl(data){
 	    a.href = url;
 	    a.download = data.url;
 	    a.click();
-	    // window.URL.revokeObjectURL(url);
+	    // window.open(url);
 	}
 	
 }

@@ -29,6 +29,10 @@ class NetworkMap{
     	});
 	}
 
+	reload(){
+		this.init(this.jobId, this.harvestResultNumber);
+	}
+
 	reindex(){
 		var reqUrl="/visualization/index/initial?job=" + this.jobId + "&harvestResultNumber=" + this.harvestResultNumber;
 		var that=this;

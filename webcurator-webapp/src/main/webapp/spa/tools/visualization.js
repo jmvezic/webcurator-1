@@ -217,35 +217,26 @@ var itemsUndo={
 
 var contextMenuItemsUrlBasic={
                   "hoppath-current": {name: "HopPath Current", icon: "fas fa-link"},
-                  "import-current": {name: "Import Current", icon: "fas fa-file-import"},
                   "sep1": "---------",
-                  "pruneHarvest": {name: "Prune", icon: "far fa-times-circle", items: itemsPruneHarvest},
+                  "import-current": {name: "Import Current", icon: "fas fa-file-import"},
                   "sep2": "---------",
-                  // "clearHarvest": {name: "Clear", icon: "delete", items: itemsClearHarvest},
-                  // "hierarchyOutlinks": {name: "Inspect Outlinks", icon: "fab fa-think-peaks", items: itemsHierarchyOutlink},
-                  "hierarchyOutlinks": {name: "Inspect Outlinks", icon: "far fa-eye", items: itemsHierarchyOutlink},
+                  "pruneHarvest": {name: "Prune", icon: "far fa-times-circle", items: itemsPruneHarvest},
                   "sep3": "---------",
-                  // "browseUrl": {name: "Browse Current", icon: "fab fa-chrome", items: itemsBrowse},
-                  "browse": {name: "Browse URL", icon: "fab fa-chrome"},
+                  "browse": {name: "Browse or Download", icon: "fab fa-chrome"},
                   "sep4": "---------",
                   "exportLinks": {name: "Export Data", icon: "fas fa-file-export", items: {
                       "exportInspect-selected": {"name": "Selected"},
                       "exportInspect-all": {"name": "All"}
                   }},
-                  // "sep5": "---------",
-                  // "copy": {name: "Copy Value", icon: "far fa-copy"},
-
                 };
 var contextMenuItemsUrlTree={
                   "hoppath-current": {name: "HopPath", icon: "fas fa-link"},
-                  "import-current": {name: "Import", icon: "fas fa-file-import"},
                   "sep1": "---------",
-                  "pruneHarvest": {name: "Prune", icon: "far fa-times-circle", items: itemsPruneHarvest},
+                  "import-current": {name: "Import", icon: "fas fa-file-import"},
                   "sep2": "---------",
-                  "hierarchyOutlinks": {name: "Inspect Outlinks", icon: "far fa-eye", items: itemsHierarchyOutlink},
+                  "pruneHarvest": {name: "Prune", icon: "far fa-times-circle", items: itemsPruneHarvest},
                   "sep3": "---------",
-                  // "browseUrl": {name: "Browse", icon: "fab fa-chrome", items: itemsBrowse},
-                  "browse": {name: "Browse URL", icon: "fab fa-chrome"},
+                  "browse": {name: "Browse or Download", icon: "fab fa-chrome"},
                   "sep4": "---------",
                   "exportLinks": {name: "Export Data", icon: "fas fa-file-export", items: {
                       "exportInspect-selected": {"name": "Selected"},
@@ -257,7 +248,7 @@ var contextMenuItemsPrune={
     "sep1": "---------",
     "undo": {name: "Undo", icon: "fas fa-undo", items: itemsUndo},
     // "sep2": "---------",
-    // "browseUrl": {name: "Browse", icon: "fab fa-chrome", items: itemsBrowse},
+    // "browse": {name: "Browse or Download", icon: "fab fa-chrome"},
     "sep3": "---------",
     "exportLinks": {name: "Export Data", icon: "fas fa-file-export", items: {
         "exportPrune-selected": {"name": "Selected"},
@@ -310,7 +301,7 @@ var gridOptionsCandidate={
   columnDefs: [
     {headerName: "", width:45, pinned: "left", headerCheckboxSelection: true, headerCheckboxSelectionFilteredOnly: true, checkboxSelection: true},
     {headerName: "Normal", children:[
-      {headerName: "URL", field: "url", width: 400, filter: true, cellRenderer:  (row) => {
+      {headerName: "URL", field: "url", width: 1000, filter: true, cellRenderer:  (row) => {
           if(row.data.seedType===-1 || row.data.seedType===2){
             return row.data.url;
           }
@@ -321,7 +312,7 @@ var gridOptionsCandidate={
             return '<span class="right badge badge-warning">S</span>&nbsp;' + row.data.url;
           }
       }},
-      {headerName: "Type", field: "contentType", width: 120, filter: true},
+      {headerName: "Type", field: "contentType", width: 200, filter: true},
       {headerName: "Status", field: "statusCode", width: 100, filter: 'agNumberColumnFilter'},
       {headerName: "Size", field: "contentLength", width: 100, filter: 'agNumberColumnFilter', valueFormatter: formatContentLengthAg},
     ]},

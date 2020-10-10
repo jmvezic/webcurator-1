@@ -371,7 +371,7 @@ class NetworkMapGraph{
     }
   }
 
-  reload(){
+  redraw(){
     // this.viewOptions.scale=this.network.getScale();
     this.stabilized=false;
     this.options.physics.stabilization.iterations=300;

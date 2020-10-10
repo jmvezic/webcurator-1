@@ -301,7 +301,7 @@ public class DasConfig {
         arcDigitalAssetStoreService.setAqaReportPrefix(arcDigitalAssetStoreServiceAqaReportPrefix);
         arcDigitalAssetStoreService.setFileArchive(createFileArchive());
 
-        NetworkMapNode.setTomDomainParse(networkMapDomainSuffix());
+        NetworkMapNode.setTopDomainParse(networkMapDomainSuffix());
     }
 
     private NetworkMapDomainSuffix networkMapDomainSuffix() {

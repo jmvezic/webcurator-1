@@ -40,7 +40,7 @@ public class IndexProcessorTest extends BaseVisualizationTest {
         } catch (Exception e) {
             log.error("Load domain suffix file failed.", e);
         }
-        NetworkMapNode.setTomDomainParse(suffixParser);
+        NetworkMapNode.setTopDomainParse(suffixParser);
 
         String dbPath = pool.getDbPath(targetInstanceId, harvestResultNumber);
         File f = new File(dbPath);

@@ -5,12 +5,14 @@ import com.sleepycat.je.DatabaseEntry;
 import com.sleepycat.je.LockMode;
 import com.sleepycat.je.OperationStatus;
 import org.webcurator.core.exceptions.DigitalAssetStoreException;
+import org.webcurator.core.util.URLResolverFunc;
 import org.webcurator.core.visualization.VisualizationAbstractProcessor;
 import org.webcurator.core.visualization.VisualizationProcessorManager;
 import org.webcurator.core.visualization.VisualizationProgressBar;
 import org.webcurator.core.visualization.VisualizationProgressView;
 import org.webcurator.core.visualization.networkmap.bdb.BDBNetworkMap;
 import org.webcurator.core.visualization.networkmap.bdb.BDBNetworkMapPool;
+import org.webcurator.core.visualization.networkmap.metadata.NetworkMapNode;
 import org.webcurator.core.visualization.networkmap.metadata.NetworkMapNodeDTO;
 import org.webcurator.core.visualization.networkmap.metadata.NetworkMapResult;
 import org.webcurator.core.visualization.networkmap.processor.IndexProcessorWarc;
@@ -421,11 +423,16 @@ class CompiledSearchCommand {
             return false;
         }
 
-        String domainName = domainLevel != null && domainLevel.equals("high") ? items[3] : items[2];
-        return isIncludedByDomainName(domainName) &&
-                isIncludedByUrlName(items[1]) &&
-                isIncludedByContentType(items[11]) &&
-                isIncludedByStatusCode(Integer.parseInt(items[12]));
+        boolean isInclude = isIncludedByUrlName(items[1]) &&
+                isIncludedByContentType(items[9]) &&
+                isIncludedByStatusCode(Integer.parseInt(items[10]));
+
+        if (!isInclude) {
+            return false;
+        }
+
+        String domainName = domainLevel != null && domainLevel.equals("high") ? NetworkMapNode.getTopDomainName(items[1]) : URLResolverFunc.url2domain(items[1]);
+        return isIncludedByDomainName(domainName);
     }
 
     private boolean isIncludedByDomainName(String domainName) {

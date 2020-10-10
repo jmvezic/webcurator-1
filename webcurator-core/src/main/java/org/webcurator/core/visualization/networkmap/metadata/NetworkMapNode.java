@@ -8,13 +8,12 @@ import org.webcurator.core.util.URLResolverFunc;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("all")
 public class NetworkMapNode extends NetworkMapNodeDTO {
     private static NetworkMapDomainSuffix topDomainParser = null;
 
-    public static void setTomDomainParse(NetworkMapDomainSuffix aTopDomainParser) {
+    public static void setTopDomainParse(NetworkMapDomainSuffix aTopDomainParser) {
         topDomainParser = aTopDomainParser;
     }
 
@@ -127,6 +126,17 @@ public class NetworkMapNode extends NetworkMapNodeDTO {
             this.domain = host;
             this.topDomain = topDomainParser.getTopDomainName(host);
         }
+    }
+
+    @JsonIgnore
+    public static String getTopDomainName(String url) {
+        String topDomainName = "Unknown";
+
+        String lowerDomainName=URLResolverFunc.url2domain(url);
+        if (lowerDomainName != null) {
+            topDomainName = topDomainParser.getTopDomainName(lowerDomainName);
+        }
+        return topDomainName;
     }
 
     @JsonIgnore
