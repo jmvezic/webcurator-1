@@ -30,7 +30,10 @@ class NetworkMap{
 	}
 
 	reload(){
+		this.graph=new NetworkMapGraph('network-map-canvas');
+		// this.graph.network.destroy();
 		this.init(this.jobId, this.harvestResultNumber);
+		$('#networkmap-side-title').html('Root');
 	}
 
 	reindex(){
