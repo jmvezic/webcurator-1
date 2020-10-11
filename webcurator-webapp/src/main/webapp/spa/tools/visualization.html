@@ -172,7 +172,7 @@ to get the desired effect
 <div class="popup-window" id="popup-window-modify-harvest">
 <div class="card none-margin-padding" style="width: 60%; margin: 5% 20% 5% 20%; border: solid; border-width: 5px; border-color: #28a745;">
   <div class="card-header bg-success" style="border-radius: 0px;">
-    <h3 class="card-title">To be modified</h3>
+    <h3 class="card-title">To Be Pruned and Imported:</h3>
 
     <div class="card-tools">
       <button type="button" class="btn btn-tool" onclick="$('#popup-window-modify-harvest').hide();"><i class="fas fa-times"></i></button>
@@ -183,10 +183,10 @@ to get the desired effect
   <div class="card-body none-margin-padding">
       <div class="row">
         <div class="col-5">
-          To be pruned:
+          <h5>To Be Pruned:</h5>
         </div>
         <div class="col-7">
-          To be imported:
+          <h5>To Be Imported</h5>
         </div>
       </div>
       <div class="row" style="height: 40vh;">
@@ -208,7 +208,7 @@ to get the desired effect
     <div class="row">
       <div class="col-8"></div>
       <div class="col-2">
-          <button type="button" class="btn btn-block btn-primary" onclick="gPopupModifyHarvest.apply();">Apply</button>
+          <button type="button" class="btn btn-block btn-success" onclick="gPopupModifyHarvest.apply();">Apply</button>
       </div>
       <div class="col-2">
           <button type="button" class="btn btn-block btn-secondary" onclick="$('#popup-window-modify-harvest').hide();">Close</button>
@@ -605,22 +605,22 @@ to get the desired effect
         bsCustomFileInput.init();
 
         // document.addEventListener('contextmenu', event => event.preventDefault());
-        sp("networkmap");
+        // sp("networkmap");
         
         networkmap.init(jobId, harvestResultNumber);
       
         gPopupModifyHarvest.initTreeWithSeedUrls();
         gPopupModifyHarvest.initTreeWithDomains();
 
-        $("input[name=search]").on("change search", function(e){
-          var n,
-            tree = $.ui.fancytree.getTree(),
-            match = $.trim($(this).val());
+        // $("input[name=search]").on("change search", function(e){
+        //   var n,
+        //     tree = $.ui.fancytree.getTree(),
+        //     match = $.trim($(this).val());
 
-          // Pass a string to perform case insensitive matching
-          n = tree.filterNodes(match, { mode: "hide" });
-          $("span.matches").text(n ? "(" + n + " matches)" : "");
-        });
+        //   // Pass a string to perform case insensitive matching
+        //   n = tree.filterNodes(match, { mode: "hide" });
+        //   $("span.matches").text(n ? "(" + n + " matches)" : "");
+        // });
 
 
         $('#btn-group-main-tabs label').on('click', function(e){
@@ -649,7 +649,7 @@ to get the desired effect
 
 
         // Search input filter
-        $("#popup-window-modify-harvest input[type='search']").on('input', function(e){
+        $(".main-header input[type='search']").on('input', function(e){
           var val=$(this).val();
           gPopupModifyHarvest.filter(val);
         });

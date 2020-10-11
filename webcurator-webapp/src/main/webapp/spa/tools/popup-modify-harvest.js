@@ -263,11 +263,11 @@ class PopupModifyHarvest{
 	}
 
 	filter(val){
-		this.gridPrune.filter(val);
-		this.gridImport.filter(val);
+		// this.gridPrune.filter(val);
+		// this.gridImport.filter(val);
 		this.gridCandidate.filter(val);
-		this.hierarchyTreeUrlNames.filter(val);
-		this.hierarchyTreeHarvestStruct.filter(val);
+		// this.hierarchyTreeUrlNames.filter(val);
+		// this.hierarchyTreeHarvestStruct.filter(val);
 	}
 
 	setRowStyle(){
