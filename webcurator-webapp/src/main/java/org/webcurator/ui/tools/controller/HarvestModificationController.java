@@ -1,6 +1,7 @@
 package org.webcurator.ui.tools.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.webcurator.core.coordinator.WctCoordinator;
 import org.webcurator.core.exceptions.DigitalAssetStoreException;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +30,11 @@ public class HarvestModificationController implements ModifyService {
 
     @Autowired
     private HarvestModificationHandler harvestModificationHandler;
+
+    @Value("${visualization.browseType}")
+    private String visualizationBrowseType;
+    @Value("${visualization.browseBaseUrl}")
+    private String visualizationBrowseBaseUrl;
 
     @Override
     @RequestMapping(path = VisualizationConstants.PATH_UPLOAD_FILE, method = RequestMethod.POST, produces = "application/json")
@@ -90,5 +97,18 @@ public class HarvestModificationController implements ModifyService {
     @RequestMapping(path = "/curator/tools/download/{hrOid}/**", method = {RequestMethod.POST, RequestMethod.GET})
     protected void handleDownload(@PathVariable("hrOid") Long hrOid, @RequestParam("url") String url, HttpServletRequest req, HttpServletResponse res) throws Exception {
         harvestModificationHandler.handleDownload(hrOid, url, req, res);
+    }
+
+    @RequestMapping(path = "/curator/tools/browse/{hrOid}/**", method = {RequestMethod.POST, RequestMethod.GET})
+    protected void handleBrowse(@PathVariable("hrOid") Long hrOid, @RequestParam("url") String url, HttpServletRequest req, HttpServletResponse res) throws Exception {
+        harvestModificationHandler.handleBrowse(hrOid, url, req, res);
+    }
+
+    @RequestMapping(path = "/curator/get/global-settings", method = {RequestMethod.POST, RequestMethod.GET})
+    protected Map<String, String> getGlobalSettings() {
+        Map<String, String> map = new HashMap<>();
+        map.put("browseType", visualizationBrowseType);
+        map.put("browseBaseUrl", visualizationBrowseBaseUrl);
+        return map;
     }
 }

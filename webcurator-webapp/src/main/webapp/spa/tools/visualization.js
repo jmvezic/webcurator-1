@@ -164,6 +164,8 @@ function contextMenuCallback(key, data, source, target){
     target.pruneHarvest(dataset);
   }else if(action==='browse'){
     browseUrl(data);
+  }else if(action==='download'){
+    downloadUrl(data);
   }else if(action==='undo'){
     target.undo(dataset, source);
   }else if(action==='clear'){
@@ -205,6 +207,7 @@ var itemsBrowse={ "browse-Download": {name: "Download", icon: "fas fa-download"}
                   "browse-WebArchive": {name: "Web Archive", icon: "fas fa-dice-six"
                    }
                 };
+
 var itemsExportLinks={
                   "export-selected": {"name": "Selected"},
                   "export-all": {"name": "All"}
@@ -222,7 +225,8 @@ var contextMenuItemsUrlBasic={
                   "sep2": "---------",
                   "pruneHarvest": {name: "Prune", icon: "far fa-times-circle", items: itemsPruneHarvest},
                   "sep3": "---------",
-                  "browse": {name: "Browse or Download", icon: "fab fa-chrome"},
+                  "browse": {name: "Browse", icon: "fab fa-chrome"},
+                  "download": {name: "Download", icon: "fas fa-download"},
                   "sep4": "---------",
                   "exportLinks": {name: "Export Data", icon: "fas fa-file-export", items: {
                       "exportInspect-selected": {"name": "Selected"},
@@ -236,7 +240,8 @@ var contextMenuItemsUrlTree={
                   "sep2": "---------",
                   "pruneHarvest": {name: "Prune", icon: "far fa-times-circle", items: itemsPruneHarvest},
                   "sep3": "---------",
-                  "browse": {name: "Browse or Download", icon: "fab fa-chrome"},
+                  "browse": {name: "Browse", icon: "fab fa-chrome"},
+                  "download": {name: "Download", icon: "fas fa-download"},
                   "sep4": "---------",
                   "exportLinks": {name: "Export Data", icon: "fas fa-file-export", items: {
                       "exportInspect-selected": {"name": "Selected"},

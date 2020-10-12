@@ -49,8 +49,8 @@ to get the desired effect
             Action
             <span class="sr-only">Toggle Dropdown</span>
             <div class="dropdown-menu" role="menu">
-              <a class="dropdown-item" href="#" onclick="$('#popup-window-query-input').show();"><i class="fas fa-search"></i> &nbsp; Inspect By Query</a>
-              <div class="dropdown-divider"></div>
+              <a class="dropdown-item inspect-only-menu-item hidden" href="#" onclick="$('#popup-window-query-input').show();"><i class="fas fa-search"></i> &nbsp; Inspect By Query</a>
+              <div class="dropdown-divider inspect-only-menu-item hidden"></div>
               <!--<a class="dropdown-item" href="#" onclick="gPopupModifyHarvest.loadSeedUrls();"><i class="fas fa-link text-primary"></i> &nbsp;Inspect Starting URLs</a>
               <a class="dropdown-item" href="#" onclick="gPopupModifyHarvest.loadInvalidUrls();"><i class="fas fa-link text-warning"></i> &nbsp;Inspect Invalid URLs</a>
               <div class="dropdown-divider"></div> -->
@@ -60,13 +60,13 @@ to get the desired effect
               <a class="dropdown-item" href="#" onclick="gPopupModifyHarvest.showBulkImport();"><i class="fas fa-file-import text-warning"></i> &nbsp; Bulk Import</a>
               <!-- <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#" onclick="gPopupModifyHarvest.loadSeedUrls();"><i class="fas fa-file-upload text-success"></i> &nbsp;Upload File</a> -->
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#" onclick="gPopupModifyHarvest.gridCandidate.clearAll();"><i class="far fa-trash-alt"></i> &nbsp; Clear</a>
+              <div class="dropdown-divider inspect-only-menu-item hidden"></div>
+              <a class="dropdown-item inspect-only-menu-item hidden" href="#" onclick="gPopupModifyHarvest.gridCandidate.clearAll();"><i class="far fa-trash-alt"></i> &nbsp; Clear</a>
             </div>
           </button>
       </div>
 
-       <input class="form-control" type="search" placeholder="Filter" aria-label="Search" for="candidateGrid" style="height: 35px; margin: 5px;">
+       <input class="form-control inspect-only-search-item" type="search" placeholder="Filter" aria-label="Search" for="candidateGrid" disabled="disabled" style="height: 35px; margin: 5px;">
     </ul>
 
 
@@ -108,17 +108,18 @@ to get the desired effect
   <!-- Network Map -->
   <div class="main-tab" name="networkmap">
       <!-- Networmap Canvas -->
-      <div id="network-map-canvas" style="height: 100%; width: calc(100% - 395px); margin-left: 395px;"></div>
+      <div id="network-map-canvas" style="height: calc(100% + 2px); width: calc(100% + 2px); margin-left: -1px; margin-top: -1px;"></div>
 
-      <div class="card" style="position: absolute; left: 1px; bottom: 0px; width: 400px; height: calc(100% - 40px); margin: 0; padding: 0;">
+      <div class="card" style="position: absolute; left: 1px; top: 55px; width: 400px; margin: 0; padding: 0;">
         <div class="card-header">
           <h3 class="card-title">Catagory</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool btn-side-group-type text-primary" name="statuscode">Status</button>
             <button type="button" class="btn btn-tool btn-side-group-type" name="contenttype">Type</button>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
           </div>
         </div>
-        <div class="card-body" style="margin: 0; padding: 0;">
+        <div class="card-body" style="margin: 0; padding: 0; height: calc(100vh - 100px);">
            <!-- Side Card -->
           <div id="networkmap-side-container" style="height: 100%; width: 100%;">
             <div class="networkmap-insight ag-theme-balham" id="networkmap-side-table-group-by-status-code"> </div>
@@ -127,10 +128,12 @@ to get the desired effect
         </div> <!-- end of card body -->
       </div> <!-- end of card -->
 
+      <!-- Domain Name -->
       <div style="position: absolute; left: 450px; top: 55px; margin: 0; padding: 0;">
         <h3 class="text-info">Current Domain: <span class="text-success" id="networkmap-side-title">Root</span></h3>
       </div>
 
+      <!-- Redraw and Collapse -->
       <div style="position: absolute; right: 5px; top: 55px; margin: 0; padding: 0;">
         <div class="btn-group">
           <!-- <button type="button" class="btn btn-default" onclick="networkmap.reload();">Reload</button> -->
@@ -441,7 +444,6 @@ to get the desired effect
 </div>
 
 
-
 <!-- Popup Query Input-->
 <div class="popup-window" id="popup-window-query-input">
 <div class="card card-primary popup-content">
@@ -531,7 +533,6 @@ to get the desired effect
 
 
 <script src="../dist/jquery/jquery-3.4.1.min.js"></script>
-<!-- <script src="../dist/jquery/require.js"></script> -->
 <script src="../dist/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="../dist/plugins/bs-custom-file-input.min.js"></script>
 <script src="../dist/adminlte/js/adminlte.js"></script>
@@ -539,24 +540,16 @@ to get the desired effect
 <script src="../dist/fancytree/jquery.fancytree-all-deps.min.js"></script>
 <script src="../dist/fancytree/modules/jquery.fancytree.table.js"></script>
 <script src="../dist/fancytree/modules/jquery.fancytree.wide.js"></script>
-<!-- <script src="../dist/fancytree/modules/jquery.fancytree.filter.js"></script> -->
-<!-- <script src="../dist/fancytree/modules/plain-scrollbar.js"></script> -->
 <script src="../dist/fancytree/modules/jquery.fancytree.logger.js"></script>
-<!-- <script src="../dist/chartjs/Chart.js"></script> -->
 <script src="../dist/jquery/menu/jquery.contextMenu.js"></script>
 <script src="../dist/jquery/menu/jquery.ui.position.js"></script>
 <script src="../dist/ag-grid/ag-grid-community.js"></script>
-<!-- <script src="../dist/google/loader.js"></script> -->
-<!-- <script src="../dist/d3/d3.js"></script> -->
 <script src="../dist/plugins/moment-with-locales.min.js"></script>
 <script src="../dist/plugins/moment-timezone-with-data-2012-2022.min.js"></script>
-<!-- <script src="../dist/plugins/datetimepicker-bootstrap-4.min.js"></script> -->
-<!-- <script src="../dist/plugins/tempusdominus-bootstrap-4.min.js"></script> -->
 <script src="visualization.js"></script>
 <script src="networkmap-graph.js"></script>
 <script src="networkmap-grid.js"></script>
 <script src="networkmap-menumap.js"></script>
-<!-- <script src="networkmap-sunburst.js"></script> -->
 <script src="networkmap.js"></script>
 <script src="popup-modify-harvest-processor.js"></script>
 <script src="popup-modify-harvest.js"></script>
@@ -578,6 +571,7 @@ to get the desired effect
     console.log(parent);
     var gParentHarvestResultViewTab=parent;
     var isToFullScreen=false;
+
     function toggleScreenSize(){
       console.log(isToFullScreen);
       if(!gParentHarvestResultViewTab || !gParentHarvestResultViewTab.toggleContentWindowSize){
@@ -595,40 +589,32 @@ to get the desired effect
       isToFullScreen=!isToFullScreen;
     }
 
-    $(function(){
-        console.log(parent);
-        
-        toggleScreenSize();
+    function useTargetURL(){
+      var url=$("#specifyTargetUrlInput").val();
+      $('#importFromUrlInput').val(url);
+    }
 
-        updateDerivedHarvestResults();
+    function openBulkImportSchemaFile(){
+      // $("#label-bulk-import-file").trigger('click');
+      $("#bulkImportMetadataFile").trigger('click');
+    }
 
-        bsCustomFileInput.init();
-
-        // document.addEventListener('contextmenu', event => event.preventDefault());
-        // sp("networkmap");
-        
-        networkmap.init(jobId, harvestResultNumber);
-      
-        gPopupModifyHarvest.initTreeWithSeedUrls();
-        gPopupModifyHarvest.initTreeWithDomains();
-
-        // $("input[name=search]").on("change search", function(e){
-        //   var n,
-        //     tree = $.ui.fancytree.getTree(),
-        //     match = $.trim($(this).val());
-
-        //   // Pass a string to perform case insensitive matching
-        //   n = tree.filterNodes(match, { mode: "hide" });
-        //   $("span.matches").text(n ? "(" + n + " matches)" : "");
-        // });
-
-
+    // Initial UI
+    function initUI(){
         $('#btn-group-main-tabs label').on('click', function(e){
           var name=$(this).attr('name');
           $('.main-tab').hide();
 
           var currentMainTab='#main-tab-group div[name="'+name+'"]';
           $(currentMainTab).show();
+
+          if(name === 'candidate-query'){
+            $('.inspect-only-search-item').removeAttr('disabled');
+            $('.inspect-only-menu-item').show();
+          }else{
+            $('.inspect-only-search-item').attr('disabled', 'disabled');
+            $('.inspect-only-menu-item').hide();
+          }
         });
 
 
@@ -654,7 +640,6 @@ to get the desired effect
           gPopupModifyHarvest.filter(val);
         });
 
-        // $("#datetime-local-customizard").datetimepicker();
 
         $('#btn-bulk-import-submit').on('click', function(e){
           var step=$(this).attr('step');
@@ -664,19 +649,40 @@ to get the desired effect
             gPopupModifyHarvest.processorModify.bulkImportStep1();
           }
         });
+    }
 
-        $("#a-link-summary").trigger('click');
-    });
+    // Initial Data
+    function initData(){
+      updateDerivedHarvestResults();
 
+
+      networkmap.init(jobId, harvestResultNumber);
     
-    function useTargetURL(){
-      var url=$("#specifyTargetUrlInput").val();
-      $('#importFromUrlInput').val(url);
+      gPopupModifyHarvest.initTreeWithSeedUrls();
+      gPopupModifyHarvest.initTreeWithDomains();
     }
 
-    function openBulkImportSchemaFile(){
-      // $("#label-bulk-import-file").trigger('click');
-      $("#bulkImportMetadataFile").trigger('click');
-    }
+    $(function(){
+        console.log(parent);
+        
+        toggleScreenSize();
+
+        initUI();
+
+        // bsCustomFileInput.init();
+        fetchHttp('/get/global-settings',{}, function(rsp){
+          if (!rsp) {
+            alert('Failed to get global settings from server.');
+            return;
+          }
+
+          _browse_type=rsp.browseType;
+          _browse_base_url=rsp.browseBaseUrl;
+
+          initData();
+        });
+
+        // $("#a-link-summary").trigger('click');
+    });
 </script>
 </body>

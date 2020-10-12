@@ -13,9 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import org.webcurator.core.coordinator.HarvestResultManager;
 import org.webcurator.core.coordinator.WctCoordinator;
 import org.webcurator.core.exceptions.DigitalAssetStoreException;
@@ -96,6 +93,12 @@ public class HarvestModificationHandler {
 
     @Value("${core.base.dir}")
     private String baseDir;
+
+    @Value("${visualization.browseBaseUrl}")
+    private String visualizationBrowseBaseUrl;
+
+    @Autowired
+    private BrowseHelper browseHelper;
 
     public void clickStart(long targetInstanceId, int harvestResultNumber) throws WCTRuntimeException, DigitalAssetStoreException {
         HarvestResultDTO hr = harvestResultManager.getHarvestResultDTO(targetInstanceId, harvestResultNumber);
@@ -409,17 +412,107 @@ public class HarvestModificationHandler {
         int statusCode = Integer.parseInt(getHeaderValue(headers, "HTTP-RESPONSE-STATUS-CODE"));
 
         // Send the headers for a redirect.
-        if (statusCode == HttpServletResponse.SC_MOVED_TEMPORARILY || statusCode == HttpServletResponse.SC_MOVED_PERMANENTLY) {
-            res.setStatus(statusCode);
-            String location = getHeaderValue(headers, "Location");
-            res.setHeader("Location", location);
-        }
+        //        if (statusCode == HttpServletResponse.SC_MOVED_TEMPORARILY || statusCode == HttpServletResponse.SC_MOVED_PERMANENTLY) {
+        //            res.setStatus(statusCode);
+        //            String location = getHeaderValue(headers, "Location");
+        //            res.setHeader("Location", location);
+        //        }
 
         // Get the content type.
         res.setHeader("Content-Type", getHeaderValue(headers, "Content-Type"));
 
         Path path = digitalAssetStore.getResource(ti.getOid(), hr.getHarvestNumber(), url);
         IOUtils.copy(Files.newInputStream(path), res.getOutputStream());
+    }
+
+
+    public void handleBrowse(Long hrOid, String url, HttpServletRequest req, HttpServletResponse res) throws IOException, DigitalAssetStoreException {
+        url = new String(Base64.getDecoder().decode(url));
+
+        // Build a command with the items from the URL.
+        // Load the HarvestResourceDTO from the quality review facade.
+        HarvestResult hr = targetInstanceDAO.getHarvestResult(hrOid);
+        if (hr == null) {        // If the resource is not found, go to an error page.
+            log.error("Resource not found: {}", url);
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+
+        TargetInstance ti = hr.getTargetInstance();
+        if (ti == null) {        // If the resource is not found, go to an error page.
+            log.error("Resource not found: {}", url);
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+
+        List<Header> headers = new ArrayList<>();
+        try {        // catch any DigitalAssetStoreException and log assumptions
+            headers = digitalAssetStore.getHeaders(ti.getOid(), hr.getHarvestNumber(), url);
+        } catch (Exception e) {
+            log.error("Unexpected exception encountered when retrieving WARC headers for ti " + ti.getOid());
+            res.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
+
+        // Get the content type.
+        String realContentType = getHeaderValue(headers, "Content-Type");
+        String simpleContentType = this.getSimpleContentType(realContentType);
+
+        String charset = null;
+        if (realContentType != null) {
+            Matcher charsetMatcher = CHARSET_PATTERN.matcher(realContentType);
+            if (charsetMatcher.find()) {
+                charset = charsetMatcher.group(1);
+                log.debug("Desired charset: " + charset + " for " + url);
+            } else {
+                log.debug("No charset for: " + url);
+                charset = CHARSET_LATIN_1.name();
+                realContentType += ";charset=" + charset;
+            }
+        }
+
+        String baseUrl = visualizationBrowseBaseUrl;
+
+        int statusCode = Integer.parseInt(getHeaderValue(headers, "HTTP-RESPONSE-STATUS-CODE"));
+        // Send the headers for a redirect.
+        if (statusCode == HttpServletResponse.SC_MOVED_TEMPORARILY || statusCode == HttpServletResponse.SC_MOVED_PERMANENTLY) {
+            res.setStatus(statusCode);
+            String location = getHeaderValue(headers, "Location");
+            String encodedLocation = Base64.getEncoder().encodeToString(location.getBytes());
+            res.setHeader("Location", String.format("%s/browse/%d/?url=%s", baseUrl, hrOid, encodedLocation));
+        }
+
+        // Get the content type.
+        res.setHeader("Content-Type", getHeaderValue(headers, "Content-Type"));
+
+        Path path = digitalAssetStore.getResource(ti.getOid(), hr.getHarvestNumber(), url);
+        if (!browseHelper.isReplaceable(simpleContentType)) {
+            IOUtils.copy(Files.newInputStream(path), res.getOutputStream());
+            path.toFile().delete();
+            return;
+        }
+
+        int fileLength = (int) path.toFile().length();
+        byte[] buf = new byte[fileLength];
+        IOUtils.read(Files.newInputStream(path), buf);
+        path.toFile().delete();
+
+        StringBuilder content = new StringBuilder(new String(buf));
+
+        Pattern baseUrlGetter = BrowseHelper.getTagMagixPattern("BASE", "HREF");
+        Matcher m = baseUrlGetter.matcher(content);
+        if (m.find()) {
+            String u = m.group(1);
+            if (u.startsWith("\"") && u.endsWith("\"") || u.startsWith("'") && u.endsWith("'")) {
+                // Ensure the detected Base HREF is not commented
+                // out (unusual case, but we have seen it).
+                int lastEndComment = content.lastIndexOf("-->", m.start());
+                int lastStartComment = content.lastIndexOf("<!--", m.start());
+                if (lastStartComment < 0 || lastEndComment > lastStartComment) {
+                    baseUrl = u.substring(1, u.length() - 1);
+                }
+            }
+        }
+        browseHelper.fix(content, simpleContentType, hrOid, baseUrl);
+
+        res.getOutputStream().write(content.toString().getBytes());
     }
 
     private String getHeaderValue(List<Header> headers, String key) {
