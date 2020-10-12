@@ -31,10 +31,6 @@ public class HarvestModificationController implements ModifyService {
     @Autowired
     private HarvestModificationHandler harvestModificationHandler;
 
-    @Value("${visualization.browseType}")
-    private String visualizationBrowseType;
-    @Value("${visualization.browseBaseUrl}")
-    private String visualizationBrowseBaseUrl;
 
     @Override
     @RequestMapping(path = VisualizationConstants.PATH_UPLOAD_FILE, method = RequestMethod.POST, produces = "application/json")
@@ -105,10 +101,9 @@ public class HarvestModificationController implements ModifyService {
     }
 
     @RequestMapping(path = "/curator/get/global-settings", method = {RequestMethod.POST, RequestMethod.GET})
-    protected Map<String, String> getGlobalSettings() {
-        Map<String, String> map = new HashMap<>();
-        map.put("browseType", visualizationBrowseType);
-        map.put("browseBaseUrl", visualizationBrowseBaseUrl);
-        return map;
+    protected Map<String, String> getGlobalSettings(@RequestParam("targetInstanceOid") long targetInstanceId,
+                                                    @RequestParam("harvestResultId") long harvestResultId,
+                                                    @RequestParam("harvestNumber") int harvestResultNumber) {
+        return harvestModificationHandler.getGlobalSettings(targetInstanceId, harvestResultId, harvestResultNumber);
     }
 }

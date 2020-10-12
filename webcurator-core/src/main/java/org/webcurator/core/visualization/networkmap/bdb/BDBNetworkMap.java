@@ -22,6 +22,7 @@ import java.util.List;
 @SuppressWarnings("all")
 public class BDBNetworkMap {
     private static final Logger log = LoggerFactory.getLogger(BDBNetworkMap.class);
+    public final static String PATH_DB_VERSION = "Version";
     public final static String PATH_ROOT_URLS = "rootUrls";
     public final static String PATH_MALFORMED_URLS = "malformedUrls";
     public final static String PATH_COUNT_DOMAIN = "countDomain";
@@ -65,7 +66,7 @@ public class BDBNetworkMap {
      * @param theDbName Name of files in thePath
      * @throws IOException for usual reasons, plus as database exceptions
      */
-    public void initializeDB(final String thePath, final String theDbName)
+    public void initializeDB(final String thePath, final String theDbName, final String dbVersion)
             throws IOException {
         path = thePath;
         dbName = theDbName;
@@ -88,6 +89,7 @@ public class BDBNetworkMap {
         // perform other database configurations
 
         db = env.openDatabase(null, dbName, databaseConfig);
+        this.put(PATH_DB_VERSION, dbVersion);
     }
 
     /**

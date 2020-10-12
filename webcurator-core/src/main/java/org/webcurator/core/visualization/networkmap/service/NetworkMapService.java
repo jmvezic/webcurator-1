@@ -16,6 +16,8 @@ public interface NetworkMapService extends VisualizationServiceInterface {
 
     NetworkMapResult initialIndex(long job, int harvestResultNumber);
 
+    NetworkMapResult getDbVersion(long job, int harvestResultNumber);
+
     NetworkMapResult get(long job, int harvestResultNumber, String key);
 
     NetworkMapResult getNode(long job, int harvestResultNumber, long id);

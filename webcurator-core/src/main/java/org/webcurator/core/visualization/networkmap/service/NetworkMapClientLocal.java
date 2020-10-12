@@ -20,7 +20,9 @@ import org.webcurator.domain.model.core.HarvestResultDTO;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class NetworkMapClientLocal implements NetworkMapClient {
@@ -43,6 +45,34 @@ public class NetworkMapClientLocal implements NetworkMapClient {
             return NetworkMapResult.getInitialExtractorFailedResult();
         }
         return NetworkMapResult.getSuccessResult();
+    }
+
+    @Override
+    public NetworkMapResult getDbVersion(long job, int harvestResultNumber) {
+        Map<String, String> mapVersion = new HashMap<>();
+        mapVersion.put("versionGlobal", pool.getDbVersion());
+
+        BDBNetworkMap db = pool.getInstance(job, harvestResultNumber);
+        if (db == null) {
+            mapVersion.put("versionResult", "1");
+            mapVersion.put("versionDb", "0.0.0");
+        } else {
+            String version = db.get(BDBNetworkMap.PATH_DB_VERSION);
+            if (version == null) {
+                mapVersion.put("versionResult", "2");
+                mapVersion.put("versionDb", "0.0.0");
+            } else {
+                mapVersion.put("versionResult", "0");
+                mapVersion.put("versionDb", version);
+            }
+        }
+
+        String payload = this.obj2Json(mapVersion);
+
+        NetworkMapResult result = new NetworkMapResult();
+        result.setPayload(payload);
+
+        return result;
     }
 
     @Override

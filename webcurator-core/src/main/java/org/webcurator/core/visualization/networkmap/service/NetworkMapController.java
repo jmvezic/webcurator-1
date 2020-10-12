@@ -25,6 +25,18 @@ public class NetworkMapController implements NetworkMapService {
     }
 
     @Override
+    @RequestMapping(path = VisualizationConstants.PATH_GET_DB_VERSION, method = {RequestMethod.POST}, produces = "application/json")
+    public NetworkMapResult getDbVersion(@RequestParam("job") long job, @RequestParam("harvestResultNumber") int harvestResultNumber) {
+        NetworkMapResult result = null;
+        try {
+            result = client.initialIndex(job, harvestResultNumber);
+        } catch (Throwable e) {
+            result = NetworkMapResult.getSystemError();
+        }
+        return result;
+    }
+
+    @Override
     @RequestMapping(path = VisualizationConstants.PATH_GET_COMMON, method = {RequestMethod.POST}, produces = "application/json")
     public NetworkMapResult get(@RequestParam("job") long job, @RequestParam("harvestResultNumber") int harvestResultNumber, @RequestParam("key") String key) {
         return client.get(job, harvestResultNumber, key);

@@ -94,6 +94,8 @@ public class HarvestModificationHandler {
     @Value("${core.base.dir}")
     private String baseDir;
 
+    @Value("${visualization.browseType}")
+    private String visualizationBrowseType;
     @Value("${visualization.browseBaseUrl}")
     private String visualizationBrowseBaseUrl;
 
@@ -536,5 +538,13 @@ public class HarvestModificationHandler {
         return (realContentType == null || realContentType.indexOf(';') < 0) ? realContentType
                 : realContentType.substring(0, realContentType.indexOf(';'));
 
+    }
+
+    public Map<String, String> getGlobalSettings(long targetInstanceId, long harvestResultId, int harvestResultNumber) {
+        NetworkMapResult resultDbVersion = networkMapClient.getDbVersion(targetInstanceId, harvestResultNumber);
+        Map<String, String> map = networkMapClient.getMapFromJson(resultDbVersion.getPayload());
+        map.put("browseType", visualizationBrowseType);
+        map.put("browseBaseUrl", visualizationBrowseBaseUrl);
+        return map;
     }
 }

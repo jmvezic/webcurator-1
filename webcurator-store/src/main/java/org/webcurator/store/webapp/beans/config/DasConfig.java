@@ -289,6 +289,9 @@ public class DasConfig {
     @Value("${qualify.jobscan.interval}")
     private long jobScanInterval;
 
+    @Value(("${visualization.dbVersion}"))
+    private String visualizationDbVersion;
+
     @Autowired
     private ArcDigitalAssetStoreService arcDigitalAssetStoreService;
 
@@ -632,7 +635,7 @@ public class DasConfig {
     @Bean
     @Scope(BeanDefinition.SCOPE_SINGLETON)
     public BDBNetworkMapPool bdbDatabasePool() {
-        BDBNetworkMapPool pool = new BDBNetworkMapPool(arcDigitalAssetStoreServiceBaseDir);
+        BDBNetworkMapPool pool = new BDBNetworkMapPool(arcDigitalAssetStoreServiceBaseDir, visualizationDbVersion);
         return pool;
     }
 
