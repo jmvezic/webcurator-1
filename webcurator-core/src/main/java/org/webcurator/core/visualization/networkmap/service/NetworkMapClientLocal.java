@@ -21,6 +21,7 @@ import org.webcurator.domain.model.core.HarvestResultDTO;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -382,6 +383,8 @@ public class NetworkMapClientLocal implements NetworkMapClient {
                 result.add(networkMapNode);
             }
         });
+
+        result.sort(Comparator.comparing(NetworkMapNodeDTO::getUrl));
 
         String json = this.obj2Json(result);
         result.clear();

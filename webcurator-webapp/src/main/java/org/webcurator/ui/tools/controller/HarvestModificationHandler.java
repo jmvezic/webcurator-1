@@ -538,7 +538,6 @@ public class HarvestModificationHandler {
     private String getSimpleContentType(String realContentType) {
         return (realContentType == null || realContentType.indexOf(';') < 0) ? realContentType
                 : realContentType.substring(0, realContentType.indexOf(';'));
-
     }
 
     public Map<String, String> getGlobalSettings(long targetInstanceId, long harvestResultId, int harvestResultNumber) {

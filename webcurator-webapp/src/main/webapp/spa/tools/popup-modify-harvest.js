@@ -81,16 +81,17 @@ function formatLazyloadData(dataset, isDomain){
 	for(var i=0;i<dataset.length;i++){
 		var e=dataset[i];
 		var urlLength=e.url.length;
-		if (urlLength > 120) {
-			e.title=e.url.substring(0,120)+'...';
+		if (urlLength > 150) {
+			e.title=e.url.substring(0,150)+'...';
 		}else{
 			e.title=e.url;
 		}
 	    
 	    if (!isDomain && e.outlinks && e.outlinks.length > 0) {
 	    	e.lazy = true;
-	    	e.folder = true;
+	    	e.isFolder = true;
 	    }
+
 	    delete e['children'];
 	}
 
@@ -112,7 +113,16 @@ class HierarchyTree{
 			table: {checkboxColumnIdx: 0, nodeColumnIdx: 1},
 			// viewport: {enabled: true, count: 3200},
 			source: [],
-
+			icon: function(event, data){
+				var nodeData=data.node.data;
+				if(nodeData.isDomain){
+					return "fab fa-fedora text-primary";
+				}else if(nodeData.isFolder){
+					return "fas fa-share-alt text-primary";
+				}else{
+			    	return "fas fa-link text-link";
+			    }
+			},
 			lazyLoad: function(event, data) {
 		        var deferredResult = jQuery.Deferred();
 		        var result = [];
@@ -140,18 +150,18 @@ class HierarchyTree{
 		    },
 
 			renderColumns: function(event, data) {
-				var node = data.node;
-				var $tdList = $(node.tr).find(">td");
-				$tdList.eq(2).text(node.data.contentType);
-				$tdList.eq(3).text(node.data.statusCode);
-				$tdList.eq(4).text(formatContentLength(node.data.contentLength));
-				$tdList.eq(5).text(node.data.totUrls);
-				$tdList.eq(6).text(node.data.totSuccess);
-				$tdList.eq(7).text(node.data.totFailed);
-				$tdList.eq(8).text(formatContentLength(node.data.totSize));
+				var nodeData = data.node.data;
+				var $tdList = $(data.node.tr).find(">td");
+				$tdList.eq(2).text(nodeData.contentType);
+				$tdList.eq(3).text(nodeData.statusCode);
+				$tdList.eq(4).text(formatContentLength(nodeData.contentLength));
+				$tdList.eq(5).text(nodeData.totUrls);
+				$tdList.eq(6).text(nodeData.totSuccess);
+				$tdList.eq(7).text(nodeData.totFailed);
+				$tdList.eq(8).text(formatContentLength(nodeData.totSize));
 
-				$(node.tr).attr("data", JSON.stringify(node.data));
-				$(node.tr).attr("id", "tree-row-"+node.data.id);
+				$(data.node.tr).attr("data", JSON.stringify(nodeData));
+				$(data.node.tr).attr("id", "tree-row-"+nodeData.id);
 			},
 			
 	    };
@@ -179,8 +189,8 @@ class HierarchyTree{
 		$(this.container).fancytree(this.options);
 	}
 
-	drawWithDomain(dataset){
-		dataset=dataset.children;
+	drawWithDomain(datasetRoot){
+		var dataset=datasetRoot.children;
 		for(var i=0; i<dataset.length; i++){
 			var domainNodeHigh=dataset[i];
 			domainNodeHigh.folder=true;
@@ -193,7 +203,14 @@ class HierarchyTree{
 				domainNodeLower.isDomain = true;
 				delete domainNodeLower['children'];
 			}
+			this.sortDomainByNames(domainNodeHigh.children);
+
+			//Uplift the single child to top
+			if (domainNodeHigh.children.length===1) {
+				dataset[i]=domainNodeHigh.children[0];
+			}
 		}
+		this.sortDomainByNames(dataset);
 
 		if($.ui.fancytree.getTree(this.container)){
 			$.ui.fancytree.getTree(this.container).destroy();
@@ -201,6 +218,19 @@ class HierarchyTree{
 
 		this.options.source=dataset;
 		$(this.container).fancytree(this.options);
+	}
+
+	//Sort the domain names
+	sortDomainByNames(dataset){
+		for(var i=0; i<dataset.length; i++){
+			for(var j=i+1; j<dataset.length; j++){
+				if(dataset[i].title.localeCompare(dataset[j].title) > 0){
+					var c=dataset[i];
+					dataset[i]=dataset[j];
+					dataset[j]=c;
+				}
+			}
+		}
 	}
 
 	setRowData(dataset){

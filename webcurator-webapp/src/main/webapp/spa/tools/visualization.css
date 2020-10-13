@@ -26,6 +26,10 @@ html,body,canvas{
 	display: none;
 }
 
+.text-link{
+	color: #ABB2B9;
+}
+
 .bg-black{
 	background: black;
 }
