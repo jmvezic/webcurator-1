@@ -26,6 +26,7 @@ import org.webcurator.core.visualization.VisualizationConstants;
 import org.webcurator.core.visualization.VisualizationDirectoryManager;
 import org.webcurator.core.visualization.modification.metadata.ModifyApplyCommand;
 import org.webcurator.core.visualization.modification.metadata.ModifyRowMetadata;
+import org.webcurator.core.visualization.networkmap.metadata.NetworkDbVersionDTO;
 import org.webcurator.core.visualization.networkmap.metadata.NetworkMapNodeDTO;
 import org.webcurator.core.visualization.networkmap.metadata.NetworkMapResult;
 import org.webcurator.core.visualization.networkmap.service.NetworkMapClient;
@@ -542,7 +543,11 @@ public class HarvestModificationHandler {
 
     public Map<String, String> getGlobalSettings(long targetInstanceId, long harvestResultId, int harvestResultNumber) {
         NetworkMapResult resultDbVersion = networkMapClient.getDbVersion(targetInstanceId, harvestResultNumber);
-        Map<String, String> map = networkMapClient.getMapFromJson(resultDbVersion.getPayload());
+        NetworkDbVersionDTO versionDTO = networkMapClient.getDbVersionDTO(resultDbVersion.getPayload());
+        Map<String, String> map = new HashMap<>();
+        map.put("retrieveResult", Integer.toString(versionDTO.getRetrieveResult()));
+        map.put("globalVersion", versionDTO.getGlobalVersion());
+        map.put("currentVersion", versionDTO.getCurrentVersion());
         map.put("browseType", visualizationBrowseType);
         map.put("browseBaseUrl", visualizationBrowseBaseUrl);
         return map;

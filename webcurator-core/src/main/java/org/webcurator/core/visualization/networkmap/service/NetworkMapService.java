@@ -2,6 +2,7 @@ package org.webcurator.core.visualization.networkmap.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.webcurator.core.visualization.VisualizationServiceInterface;
+import org.webcurator.core.visualization.networkmap.metadata.NetworkDbVersionDTO;
 import org.webcurator.core.visualization.networkmap.metadata.NetworkMapNodeDTO;
 import org.webcurator.core.visualization.networkmap.metadata.NetworkMapResult;
 
@@ -60,6 +61,22 @@ public interface NetworkMapService extends VisualizationServiceInterface {
 
         try {
             return objectMapper.readValue(json, NetworkMapNodeDTO.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    default NetworkDbVersionDTO getDbVersionDTO(String json) {
+        if (json == null) {
+            return null;
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            return objectMapper.readValue(json, NetworkDbVersionDTO.class);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -29,7 +29,7 @@ public class NetworkMapController implements NetworkMapService {
     public NetworkMapResult getDbVersion(@RequestParam("job") long job, @RequestParam("harvestResultNumber") int harvestResultNumber) {
         NetworkMapResult result = null;
         try {
-            result = client.initialIndex(job, harvestResultNumber);
+            result = client.getDbVersion(job, harvestResultNumber);
         } catch (Throwable e) {
             result = NetworkMapResult.getSystemError();
         }

@@ -550,8 +550,10 @@ class PopupModifyHarvest{
 
 		var that=this;
 		var url="/networkmap/search/urls?job=" + this.jobId + "&harvestResultNumber=" + this.harvestResultNumber;
+		g_TurnOnOverlayLoading();
 		fetchHttp(url, searchCondition, function(response){
 			if (response.rspCode != 0) {
+				g_TurnOffOverlayLoading();
 				alert(response.rspMsg);
 				return;	 
 	        }
@@ -565,14 +567,17 @@ class PopupModifyHarvest{
 				that.pruneHarvest(data);
 				// $('#tab-btn-import').trigger('click');
 			}
+			g_TurnOffOverlayLoading();
 			// $('#popup-window-modify-harvest').show();
 		});
 	}
 
 	loadUrls(url){
 		var that=this;
+		g_TurnOnOverlayLoading();
 		fetchHttp(url, null, function(response){
 			if (response.rspCode != 0) {
+				g_TurnOffOverlayLoading();
 				alert(response.rspMsg);
 				return;	 
 	        }
@@ -584,13 +589,16 @@ class PopupModifyHarvest{
 			}else{
 				that.gridCandidate.setRowData(data);
 			}
+			g_TurnOffOverlayLoading();
 		});
 	}
 
 	initTreeWithSeedUrls(){
 		var that=this;
+		g_TurnOnOverlayLoading();
 		fetchHttp(this.uriSeedUrl, null, function(response){
 			if (response.rspCode != 0) {
+				g_TurnOffOverlayLoading();
 				alert(response.rspMsg);
 				return;	 
 	        }
@@ -598,14 +606,17 @@ class PopupModifyHarvest{
 			var data=JSON.parse(response.payload);
 			that.hierarchyTreeHarvestStruct.draw(data);
 			that.setRowStyle();
+			g_TurnOffOverlayLoading();
 		});
 	}
 
 	initTreeWithDomains(){
 		var reqUrl="/networkmap/get/common?job=" + this.jobId + "&harvestResultNumber=" + this.harvestResultNumber + "&key=keyGroupByDomain";
 		var that=this;
+		g_TurnOnOverlayLoading();
 		fetchHttp(reqUrl, null, function(response){
 			if (response.rspCode != 0) {
+				g_TurnOffOverlayLoading();
 				alert(response.rspMsg);
 				return;	 
 	        }
@@ -613,8 +624,8 @@ class PopupModifyHarvest{
 			var data=JSON.parse(response.payload);
 			that.hierarchyTreeUrlNames.drawWithDomain(data);
 			that.setRowStyle();
+			g_TurnOffOverlayLoading();
 		});
-		
 	}
 
 	loadInvalidUrls(){

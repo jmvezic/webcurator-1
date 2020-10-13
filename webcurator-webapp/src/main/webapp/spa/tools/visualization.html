@@ -106,15 +106,15 @@ to get the desired effect
       <div id="network-map-canvas" style="height: calc(100% + 2px); width: calc(100% + 2px); margin-left: -1px; margin-top: -1px;"></div>
 
       <div class="card" style="position: absolute; left: 1px; top: 55px; width: 400px; margin: 0; padding: 0;">
-        <div class="card-header">
+        <div class="card-header" style="height: 35px; padding-top: 3px;">
           <h3 class="card-title">Catagory</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool btn-side-group-type text-primary" name="statuscode">Status</button>
             <button type="button" class="btn btn-tool btn-side-group-type" name="contenttype">Type</button>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
           </div>
         </div>
-        <div class="card-body" style="margin: 0; padding: 0; height: calc(100vh - 100px);">
+        <div class="card-body" style="margin: 0; padding: 0; height: calc(100vh - 90px);">
            <!-- Side Card -->
           <div id="networkmap-side-container" style="height: 100%; width: 100%;">
             <div class="networkmap-insight ag-theme-balham" id="networkmap-side-table-group-by-status-code"> </div>
@@ -512,18 +512,9 @@ to get the desired effect
 </div> <!-- /.card -->
 </div>
 
-
 <div id="popup-window-loading">
   <div class="spin-overlay text-secondary"><i class="fas fa-circle-notch text-default"></i></div>
   <div id="progressIndexer" class="text-secondary" style="width: 100%; text-align: center; font-size: 1.5em;">Indexing: <span class="text-dark" id="progressIndexerValue">0</span>%</div>
-</div>
-
-<!-- Progress bar of indexing -->
-<div id="popup-window-progress">
-  <div style="margin-top: 45vh;">
-    <div style="width: 100%; text-align: center;">Indexing: <span id="progressIndexerValue">0</span>&nbsp;&nbsp;&nbsp;%</div>
-    <progress value="0" max="100" data-label="0% Complete" id="progressIndexer"></progress>
-  </div>
 </div>
 
 <script src="../dist/jquery/jquery-3.4.1.min.js"></script>
@@ -651,10 +642,7 @@ to get the desired effect
     // Initial Data
     function initData(){
       updateDerivedHarvestResults();
-
-
       networkmap.init(jobId, harvestResultNumber);
-    
       gPopupModifyHarvest.initTreeWithSeedUrls();
       gPopupModifyHarvest.initTreeWithDomains();
     }
@@ -670,7 +658,8 @@ to get the desired effect
         }
 
         //show progress bar
-        $('#popup-window-progress').show();
+        g_TurnOnOverlayLoading();
+        $('#progressIndexer').show();
 
         //refresh progress
         timerProgress=setInterval(function(){
@@ -698,13 +687,12 @@ to get the desired effect
           progressPercentage=responseProgressBar.progressPercentage;
 
           $('#progressIndexerValue').html(progressPercentage);
-          $('#progressIndexer').val(progressPercentage);
-          $('#progressIndexer').attr('data-label', progressPercentage + '% Complete');
         }
         
         if((response.rspCode===0 && progressPercentage >= 100) || response.rspCode!=0){
           clearInterval(timerProgress);
-          $('#popup-window-progress').hide();
+          $('#progressIndexer').hide();
+          g_TurnOffOverlayLoading();
           initGlobalSettings();
         }
       });
@@ -718,19 +706,13 @@ to get the desired effect
           return;
         }
 
-        var resultVersion=rsp.versionResult;
-        var dbVersion=rsp.versionDb;
-        var globalVersion=rsp.versionGlobal;
-        if (resultVersion === 0) {
+        var currentVersion=rsp.currentVersion;
+        var globalVersion=rsp.globalVersion;
+        if (rsp.retrieveResult === "0") {
           _browse_type=rsp.browseType;
           _browse_base_url=rsp.browseBaseUrl;
-
           initData();
-          return;
-        }
-
-        //If could not get the BDB version or the BDB does not exit, then prompt with users to confim redex.
-        if (confirm("Index file is missing or need to be updated. Would you reindex the harvest result?")) {
+        }else if(rsp.retrieveResult === "9" && confirm("Index file is missing or need to be updated. Would you reindex the harvest result?")) {        //If could not get the BDB version or the BDB does not exit, then prompt with users to confim redex.
           reindex();
         }
       });

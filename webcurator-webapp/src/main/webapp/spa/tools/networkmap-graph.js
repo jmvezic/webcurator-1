@@ -127,14 +127,12 @@ class NetworkMapGraph{
         that.stabilized=true;
       }else{
         console.log("stabilized");
-        // $('#popup-window-loading').hide();
-        setTimeout(function () {$('#popup-window-loading').hide();}, 300);
+        setTimeout(function () {g_TurnOffOverlayLoading();}, 300);
       }
     });
 
     this.network.once("stabilizationIterationsDone", function() {
         console.log("stabilizationIterationsDone");
-        //setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
     });
 
     //========Recover the scale and position after pyhsics simulation========

@@ -12,6 +12,7 @@ import org.webcurator.core.visualization.VisualizationProgressBar;
 import org.webcurator.core.visualization.VisualizationProgressView;
 import org.webcurator.core.visualization.networkmap.bdb.BDBNetworkMap;
 import org.webcurator.core.visualization.networkmap.bdb.BDBNetworkMapPool;
+import org.webcurator.core.visualization.networkmap.metadata.NetworkDbVersionDTO;
 import org.webcurator.core.visualization.networkmap.metadata.NetworkMapNode;
 import org.webcurator.core.visualization.networkmap.metadata.NetworkMapNodeDTO;
 import org.webcurator.core.visualization.networkmap.metadata.NetworkMapResult;
@@ -20,9 +21,7 @@ import org.webcurator.domain.model.core.HarvestResultDTO;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class NetworkMapClientLocal implements NetworkMapClient {
@@ -49,25 +48,25 @@ public class NetworkMapClientLocal implements NetworkMapClient {
 
     @Override
     public NetworkMapResult getDbVersion(long job, int harvestResultNumber) {
-        Map<String, String> mapVersion = new HashMap<>();
-        mapVersion.put("versionGlobal", pool.getDbVersion());
+        NetworkDbVersionDTO versionDTO = new NetworkDbVersionDTO();
+        versionDTO.setRetrieveResult(NetworkDbVersionDTO.RESULT_SUCCESS);
+        versionDTO.setGlobalVersion(pool.getDbVersion());
 
         BDBNetworkMap db = pool.getInstance(job, harvestResultNumber);
+        String currentVersion = "0.0.0";
         if (db == null) {
-            mapVersion.put("versionResult", "1");
-            mapVersion.put("versionDb", "0.0.0");
+            versionDTO.setRetrieveResult(NetworkDbVersionDTO.RESULT_DB_NOT_EXIT);
         } else {
             String version = db.get(BDBNetworkMap.PATH_DB_VERSION);
-            if (version == null) {
-                mapVersion.put("versionResult", "2");
-                mapVersion.put("versionDb", "0.0.0");
-            } else {
-                mapVersion.put("versionResult", "0");
-                mapVersion.put("versionDb", version);
-            }
+            currentVersion = version == null ? "0.0.0" : version;
         }
 
-        String payload = this.obj2Json(mapVersion);
+        if (!currentVersion.equalsIgnoreCase(pool.getDbVersion())) {
+            versionDTO.setRetrieveResult(NetworkDbVersionDTO.RESULT_NEED_REINDEX);
+        }
+        versionDTO.setCurrentVersion(currentVersion);
+
+        String payload = this.obj2Json(versionDTO);
 
         NetworkMapResult result = new NetworkMapResult();
         result.setPayload(payload);

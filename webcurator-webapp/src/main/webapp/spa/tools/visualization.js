@@ -8,7 +8,6 @@ function getUrlVars() {
 
 var gUrl=null, gReq=null, gCallback=null;
 function fetchHttp(url, req, callback){
-  $('#popup-window-loading').show();
   var ROOT_URL='/curator';
   var reqUrl=ROOT_URL + url;
   var reqBodyPayload="{}";
@@ -35,21 +34,9 @@ function fetchHttp(url, req, callback){
     if(response.headers && response.headers.get('Content-Type') && response.headers.get('Content-Type').startsWith('application/json')){
       console.log('Fetch success and callback');
       return response.json();
-    }else{
-      $('#popup-window-loading').hide();
-      console.log('Fetch invalid content: ' + response.headers.get('Content-Type'));
-      // fetchHttp(url, req, callback);
-      return null;
     }
   }).then((response) => {
-    if(response){
-      var keep=callback(response);
-      if(!keep){
-        $('#popup-window-loading').hide();
-      }
-    }else{
-      $('#popup-window-loading').hide();
-    }
+    callback(response);
   });
 }
 
@@ -491,4 +478,20 @@ function popupDerivedSummaryWindow(derivedHarvestId, derivedHarvestNumber){
   var reqUrl='/spa/tools/patching-view-hr.html?targetInstanceOid='+jobId+'&harvestResultId='+harvestResultId+'&harvestNumber='+derivedHarvestNumber;
   $('#body-derived-summary').html('<iframe src="'+reqUrl+'" style="width: 100vw; height: 1000px;"></iframe>');
   $('#popup-window-derived-summary').show();
+}
+
+
+var overlayLoadingReferedNumber=0;
+function g_TurnOnOverlayLoading(){
+  if (overlayLoadingReferedNumber===0) {
+      $('#popup-window-loading').show();
+  }
+  overlayLoadingReferedNumber++;
+}
+
+function g_TurnOffOverlayLoading(){
+  overlayLoadingReferedNumber--;
+  if (overlayLoadingReferedNumber === 0) {
+    $('#popup-window-loading').hide();
+  }
 }
