@@ -12,17 +12,12 @@ import org.webcurator.core.visualization.VisualizationProgressBar;
 import org.webcurator.core.visualization.VisualizationProgressView;
 import org.webcurator.core.visualization.networkmap.bdb.BDBNetworkMap;
 import org.webcurator.core.visualization.networkmap.bdb.BDBNetworkMapPool;
-import org.webcurator.core.visualization.networkmap.metadata.NetworkDbVersionDTO;
-import org.webcurator.core.visualization.networkmap.metadata.NetworkMapNode;
-import org.webcurator.core.visualization.networkmap.metadata.NetworkMapNodeDTO;
-import org.webcurator.core.visualization.networkmap.metadata.NetworkMapResult;
+import org.webcurator.core.visualization.networkmap.metadata.*;
 import org.webcurator.core.visualization.networkmap.processor.IndexProcessorWarc;
 import org.webcurator.domain.model.core.HarvestResultDTO;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class NetworkMapClientLocal implements NetworkMapClient {
@@ -125,7 +120,7 @@ public class NetworkMapClientLocal implements NetworkMapClient {
     }
 
     @Override
-    public NetworkMapResult getUrlsByDomain(long job, int harvestResultNumber, long domainId) {
+    public NetworkMapResult getUrlsByDomain(long job, int harvestResultNumber, long domainId, String base64EncodedParentTitle) {
         BDBNetworkMap db = pool.getInstance(job, harvestResultNumber);
         if (db == null) {
             return NetworkMapResult.getDBMissingErrorResult();
@@ -137,10 +132,93 @@ public class NetworkMapClientLocal implements NetworkMapClient {
             return NetworkMapResult.getDataNotExistResult("Could not find domain node, id: " + domainId);
         }
 
-        NetworkMapResult result = new NetworkMapResult();
-        String urls = combineUrlResultFromArrayIDs(job, harvestResultNumber, listUrlIDs);
+        final String parentTitle = (base64EncodedParentTitle == null || base64EncodedParentTitle.trim().length() == 0) ? "" : new String(Base64.getDecoder().decode(base64EncodedParentTitle));
+        final int lenParentTitle = parentTitle.length() == 0 ? 8 : parentTitle.length();
+
+        List<NetworkMapTreeNodeDTO> allTreeNodes = new ArrayList<>();
+        listUrlIDs.forEach(childId -> {
+            String childStr = db.get(childId);
+            NetworkMapNodeDTO networkMapNode = this.unlString2NetworkMapNode(childStr);
+            if (networkMapNode != null && networkMapNode.getUrl().startsWith(parentTitle)) {
+                NetworkMapTreeNodeDTO treeNodeDTO = new NetworkMapTreeNodeDTO();
+                treeNodeDTO.setViewType(NetworkMapTreeNodeDTO.VIEW_TYPE_DOMAIN);
+
+                String title = networkMapNode.getUrl();
+
+                int nextSlashPosition = title.indexOf('/', lenParentTitle + 1);
+                if (nextSlashPosition > 0) {
+                    title = title.substring(0, nextSlashPosition + 1);
+                }
+                treeNodeDTO.setTitle(title);
+                treeNodeDTO.setUrl(networkMapNode.getUrl());
+                treeNodeDTO.setContentType(networkMapNode.getContentType());
+                treeNodeDTO.setStatusCode(networkMapNode.getStatusCode());
+                treeNodeDTO.setContentLength(networkMapNode.getContentLength());
+
+                allTreeNodes.add(treeNodeDTO);
+            }
+        });
         listUrlIDs.clear();
-        result.setPayload(urls);
+
+        Map<String, List<NetworkMapTreeNodeDTO>> classifiedByTitle = allTreeNodes.stream().collect(Collectors.groupingBy(NetworkMapTreeNodeDTO::getTitle));
+        final List<NetworkMapTreeNodeDTO> returnedTreeNodes = new ArrayList<>();
+        classifiedByTitle.forEach((title, list) -> {
+            NetworkMapTreeNodeDTO treeNodeDTO = statisticTreeNodes(list);
+            treeNodeDTO.setDomainId(domainId);
+            if (list.size() == 1) {
+                NetworkMapTreeNodeDTO child = list.get(0);
+                treeNodeDTO.setTitle(child.getUrl());
+                //                treeNodeDTO.setContentLength(child.getContentLength());
+                //                treeNodeDTO.setContentType(child.getContentType());
+                //                treeNodeDTO.setStatusCode(child.getStatusCode());
+                treeNodeDTO.setFolder(false);
+                treeNodeDTO.setLazy(false);
+            } else {
+                treeNodeDTO.setTitle(title);
+                treeNodeDTO.setFolder(true);
+                treeNodeDTO.setLazy(true);
+            }
+
+            //Check is the title an existing URL
+            String urlId = db.get(treeNodeDTO.getTitle());
+            if (urlId != null) {
+                String urlUnl = db.get(urlId);
+                NetworkMapNodeDTO networkMapNodeDTO = this.unlString2NetworkMapNode(urlUnl);
+                treeNodeDTO.setContentType(networkMapNodeDTO.getContentType());
+                treeNodeDTO.setContentLength(networkMapNodeDTO.getContentLength());
+                treeNodeDTO.setStatusCode(networkMapNodeDTO.getStatusCode());
+                treeNodeDTO.setSeed(networkMapNodeDTO.isSeed());
+                treeNodeDTO.setSeedType(networkMapNodeDTO.getSeedType());
+                treeNodeDTO.setVirtual(false);
+            } else {
+                treeNodeDTO.setVirtual(true);
+            }
+
+            returnedTreeNodes.add(treeNodeDTO);
+        });
+        classifiedByTitle.values().forEach(List::clear);
+        classifiedByTitle.clear();
+        allTreeNodes.clear();
+
+        //Filter the node that equals to the parent node
+        returnedTreeNodes.removeIf(node -> parentTitle.equals(node.getTitle()));
+
+        //Sort the return result
+        returnedTreeNodes.sort(Comparator.comparing(NetworkMapTreeNodeDTO::getTitle));
+
+        NetworkMapResult result = new NetworkMapResult();
+        result.setPayload(this.obj2Json(returnedTreeNodes));
+        returnedTreeNodes.clear();
+        return result;
+    }
+
+
+    private NetworkMapTreeNodeDTO statisticTreeNodes(List<NetworkMapTreeNodeDTO> treeNodeDTOS) {
+        final NetworkMapTreeNodeDTO result = new NetworkMapTreeNodeDTO();
+        treeNodeDTOS.forEach(node -> {
+            result.accumulate(node.getStatusCode(), node.getContentLength(), node.getContentType());
+        });
+
         return result;
     }
 
@@ -205,6 +283,17 @@ public class NetworkMapClientLocal implements NetworkMapClient {
             return NetworkMapResult.getDBMissingErrorResult();
         }
 
+        List<NetworkMapNodeDTO> urls = searchUrlDTOs(db, job, harvestResultNumber, searchCommand);
+
+        String json = this.obj2Json(urls);
+        urls.clear();
+
+        NetworkMapResult result = new NetworkMapResult();
+        result.setPayload(json);
+        return result;
+    }
+
+    public List<NetworkMapNodeDTO> searchUrlDTOs(BDBNetworkMap db, long job, int harvestResultNumber, NetworkMapServiceSearchCommand searchCommand) {
         CompiledSearchCommand compiledSearchCommand = CompiledSearchCommand.getInstance(searchCommand);
 
         long startTime = System.currentTimeMillis();
@@ -234,13 +323,7 @@ public class NetworkMapClientLocal implements NetworkMapClient {
 
         long endTime = System.currentTimeMillis();
         log.debug("Search URLs time used: " + (endTime - startTime));
-
-        String json = this.obj2Json(urls);
-        urls.clear();
-
-        NetworkMapResult result = new NetworkMapResult();
-        result.setPayload(json);
-        return result;
+        return urls;
     }
 
     @Override

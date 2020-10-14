@@ -36,9 +36,10 @@ public abstract class IndexProcessor extends VisualizationAbstractProcessor {
     protected AtomicLong atomicIdGeneratorDomain = new AtomicLong();
     protected AtomicLong atomicIdGeneratorUrl = new AtomicLong();
     protected Map<String, Boolean> seeds = new HashMap<>();
-
+    protected BDBNetworkMapPool pool;
     public IndexProcessor(BDBNetworkMapPool pool, long targetInstanceId, int harvestResultNumber) throws DigitalAssetStoreException {
         super(targetInstanceId, harvestResultNumber);
+        this.pool=pool;
         this.flag = "IDX";
         this.reportTitle = StatisticItem.getPrintTitle();
         this.state = HarvestResult.STATE_INDEXING;
@@ -97,6 +98,8 @@ public abstract class IndexProcessor extends VisualizationAbstractProcessor {
 
     private void statAndSave() {
         this.tryBlock();
+
+        db.put(BDBNetworkMap.PATH_DB_VERSION, pool.getDbVersion());
 
         AtomicLong domainIdGenerator = new AtomicLong();
         NetworkMapDomainManager domainManager = new NetworkMapDomainManager();

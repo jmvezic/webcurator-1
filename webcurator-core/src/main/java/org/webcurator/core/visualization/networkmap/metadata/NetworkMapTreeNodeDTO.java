@@ -1,32 +1,33 @@
 package org.webcurator.core.visualization.networkmap.metadata;
 
-public class NetworkMapTreeNodeDTO {
-    private boolean categorizedByDomain =true;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class NetworkMapTreeNodeDTO  extends NetworkMapCommonNode{
+    public static final int VIEW_TYPE_STRUCT = 1;
+    public static final int VIEW_TYPE_DOMAIN = 2;
+
+    private int viewType = VIEW_TYPE_DOMAIN;
+
+    private boolean lazy = true;
+    private boolean folder = true;
+    private boolean virtual = true;
+
     private String title;
 
-    private boolean isSeed = false; //true: if url equals seed or domain contains seed url.
-    private int seedType = -1;
+    @JsonIgnore
+    private String url;
 
-    /////////////////////////////////////////////////////////////////////////////////////////
-    // 1. Domain: the total items of all urls contained in this domain.
-    // 2. URL: the total items of all urls directly link to this url and the url itself
-    private int totUrls = 0;
-    private int totSuccess = 0;
-    private int totFailed = 0;
-    private long totSize = 0;
-    ///////////////////////////////////////////////////////////////////////////////////////////
+    private List<NetworkMapTreeNodeDTO> children = new ArrayList<>();
 
-    private long domainId = -1; //default: no domain
-    private long contentLength;
-    private String contentType;
-    private int statusCode;
-
-    public boolean isCategorizedByDomain() {
-        return categorizedByDomain;
+    public int getViewType() {
+        return viewType;
     }
 
-    public void setCategorizedByDomain(boolean categorizedByDomain) {
-        this.categorizedByDomain = categorizedByDomain;
+    public void setViewType(int viewType) {
+        this.viewType = viewType;
     }
 
     public String getTitle() {
@@ -37,83 +38,53 @@ public class NetworkMapTreeNodeDTO {
         this.title = title;
     }
 
-    public boolean isSeed() {
-        return isSeed;
+    public boolean isLazy() {
+        return lazy;
     }
 
-    public void setSeed(boolean seed) {
-        isSeed = seed;
+    public void setLazy(boolean lazy) {
+        this.lazy = lazy;
     }
 
-    public int getSeedType() {
-        return seedType;
+    public boolean isFolder() {
+        return folder;
     }
 
-    public void setSeedType(int seedType) {
-        this.seedType = seedType;
+    public void setFolder(boolean folder) {
+        this.folder = folder;
     }
 
-    public int getTotUrls() {
-        return totUrls;
+    public boolean isVirtual() {
+        return virtual;
     }
 
-    public void setTotUrls(int totUrls) {
-        this.totUrls = totUrls;
+    public void setVirtual(boolean virtual) {
+        this.virtual = virtual;
     }
 
-    public int getTotSuccess() {
-        return totSuccess;
+    public static int getViewTypeStruct() {
+        return VIEW_TYPE_STRUCT;
     }
 
-    public void setTotSuccess(int totSuccess) {
-        this.totSuccess = totSuccess;
+    public static int getViewTypeDomain() {
+        return VIEW_TYPE_DOMAIN;
     }
 
-    public int getTotFailed() {
-        return totFailed;
+    public List<NetworkMapTreeNodeDTO> getChildren() {
+        return children;
     }
 
-    public void setTotFailed(int totFailed) {
-        this.totFailed = totFailed;
+    public void setChildren(List<NetworkMapTreeNodeDTO> children) {
+        this.children = children;
     }
 
-    public long getTotSize() {
-        return totSize;
+    @JsonIgnore
+    public String getUrl() {
+        return url;
     }
 
-    public void setTotSize(long totSize) {
-        this.totSize = totSize;
-    }
-
-    public long getDomainId() {
-        return domainId;
-    }
-
-    public void setDomainId(long domainId) {
-        this.domainId = domainId;
-    }
-
-    public long getContentLength() {
-        return contentLength;
-    }
-
-    public void setContentLength(long contentLength) {
-        this.contentLength = contentLength;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    @JsonIgnore
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

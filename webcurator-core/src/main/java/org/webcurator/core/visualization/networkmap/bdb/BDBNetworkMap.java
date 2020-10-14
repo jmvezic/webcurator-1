@@ -50,7 +50,7 @@ public class BDBNetworkMap {
      * name of BDBJE db within the path directory
      */
     private String dbName;
-
+    private String dbVersion;
     /**
      * BDBJE Environment
      */
@@ -68,8 +68,9 @@ public class BDBNetworkMap {
      */
     public void initializeDB(final String thePath, final String theDbName, final String dbVersion)
             throws IOException {
-        path = thePath;
-        dbName = theDbName;
+        this.path = thePath;
+        this.dbName = theDbName;
+        this.dbVersion = dbVersion;
 
         EnvironmentConfig environmentConfig = new EnvironmentConfig();
         environmentConfig.setCacheSize(1024 * 1024);
@@ -89,7 +90,6 @@ public class BDBNetworkMap {
         // perform other database configurations
 
         db = env.openDatabase(null, dbName, databaseConfig);
-        this.put(PATH_DB_VERSION, dbVersion);
     }
 
     /**

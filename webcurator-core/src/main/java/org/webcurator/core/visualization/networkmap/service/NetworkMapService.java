@@ -27,7 +27,7 @@ public interface NetworkMapService extends VisualizationServiceInterface {
 
     NetworkMapResult getChildren(long job, int harvestResultNumber, long id);
 
-    NetworkMapResult getUrlsByDomain(long job, int harvestResultNumber, long domainId);
+    NetworkMapResult getUrlsByDomain(long job, int harvestResultNumber, long domainId, String parentTitle);
 
     NetworkMapResult getAllDomains(long job, int harvestResultNumber);
 

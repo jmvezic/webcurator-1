@@ -56,8 +56,8 @@ public class NetworkMapController implements NetworkMapService {
 
     @Override
     @RequestMapping(path = VisualizationConstants.PATH_GET_URLS_BY_DOMAIN, method = {RequestMethod.POST}, produces = "application/json")
-    public NetworkMapResult getUrlsByDomain(@RequestParam("job") long job, @RequestParam("harvestResultNumber") int harvestResultNumber, @RequestParam("domainId") long domainId) {
-        return client.getUrlsByDomain(job, harvestResultNumber, domainId);
+    public NetworkMapResult getUrlsByDomain(@RequestParam("job") long job, @RequestParam("harvestResultNumber") int harvestResultNumber, @RequestParam("domainId") long domainId, @RequestParam("parentTitle") String parentTitle) {
+        return client.getUrlsByDomain(job, harvestResultNumber, domainId, parentTitle);
     }
 
     @Override

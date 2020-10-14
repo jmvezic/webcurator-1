@@ -89,7 +89,7 @@ function formatLazyloadData(dataset, isDomain){
 	    
 	    if (!isDomain && e.outlinks && e.outlinks.length > 0) {
 	    	e.lazy = true;
-	    	e.isFolder = true;
+	    	e.folder = true;
 	    }
 
 	    delete e['children'];
@@ -115,23 +115,38 @@ class HierarchyTree{
 			source: [],
 			icon: function(event, data){
 				var nodeData=data.node.data;
-				if(nodeData.isDomain){
-					return "fab fa-fedora text-primary";
-				}else if(nodeData.isFolder){
-					return "fas fa-share-alt text-primary";
+				if (nodeData.viewType && nodeData.viewType===2) {
+					if (!data.node.folder) {
+						return "fas fa-link text-link";
+					}
+					if (!nodeData.virtual){
+						return "fas fa-share-alt text-dark";
+					}else{
+						return "fas fa-share-alt text-secondary";
+					}
 				}else{
-			    	return "fas fa-link text-link";
-			    }
+					if(nodeData.isDomain){
+						return "fab fa-fedora text-primary";
+					}else if(data.node.folder){
+						return "fas fa-code-branch text-primary";
+					}else{
+				    	return "fas fa-link text-link";
+				    }
+				}
 			},
 			lazyLoad: function(event, data) {
+				var nodeData=data.node.data;
 		        var deferredResult = jQuery.Deferred();
 		        var result = [];
-		        var isDomain=data.node.data.isDomain;
+		        var isDomain=nodeData.isDomain;
+		        var viewType=nodeData.viewType;
 		        var urlOutlinks='';
-		        if (isDomain) {
-		        	urlOutlinks = "/networkmap/get/urls/by-domain?job=" + jobId + "&harvestResultNumber=" + harvestResultNumber + "&domainId=" + data.node.data.id;
+		        if (isDomain){
+		        	urlOutlinks = "/networkmap/get/urls/by-domain?job=" + jobId + "&harvestResultNumber=" + harvestResultNumber + "&domainId=" + nodeData.id + "&parentTitle=";
+		        }else if(viewType && viewType===2){
+		        	urlOutlinks = "/networkmap/get/urls/by-domain?job=" + jobId + "&harvestResultNumber=" + harvestResultNumber + "&domainId=" + nodeData.domainId + "&parentTitle=" + btoa(data.node.title);
 		        }else{
-		        	urlOutlinks = "/networkmap/get/outlinks?job=" + jobId + "&harvestResultNumber=" + harvestResultNumber + "&id=" + data.node.data.id;
+		        	urlOutlinks = "/networkmap/get/outlinks?job=" + jobId + "&harvestResultNumber=" + harvestResultNumber + "&id=" + nodeData.id;
 		        }
 
 		        fetchHttp(urlOutlinks, {}, function(response){
@@ -140,7 +155,10 @@ class HierarchyTree{
 						alert(response.rspMsg);
 			        }else{
 			        	dataset=JSON.parse(response.payload);
-						dataset=formatLazyloadData(dataset, isDomain);
+
+			        	if (!isDomain && (!viewType || viewType!==2)) {
+			        		dataset=formatLazyloadData(dataset, false);
+			        	}
 			        }
 			        
 		  			deferredResult.resolve(dataset);
@@ -153,13 +171,20 @@ class HierarchyTree{
 				var nodeData = data.node.data;
 				var $tdList = $(data.node.tr).find(">td");
 				$tdList.eq(2).text(nodeData.contentType);
-				$tdList.eq(3).text(nodeData.statusCode);
-				$tdList.eq(4).text(formatContentLength(nodeData.contentLength));
+				if (nodeData.statusCode > 0) {
+					$tdList.eq(3).text(nodeData.statusCode);
+				}
+				
+				if (nodeData.contentLength > 0){
+					$tdList.eq(4).text(formatContentLength(nodeData.contentLength));
+				}
+
 				$tdList.eq(5).text(nodeData.totUrls);
 				$tdList.eq(6).text(nodeData.totSuccess);
 				$tdList.eq(7).text(nodeData.totFailed);
 				$tdList.eq(8).text(formatContentLength(nodeData.totSize));
 
+				nodeData.url=data.node.title;
 				$(data.node.tr).attr("data", JSON.stringify(nodeData));
 				$(data.node.tr).attr("id", "tree-row-"+nodeData.id);
 			},

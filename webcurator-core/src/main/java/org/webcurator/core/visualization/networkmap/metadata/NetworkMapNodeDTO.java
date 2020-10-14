@@ -1,36 +1,18 @@
 package org.webcurator.core.visualization.networkmap.metadata;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.webcurator.core.util.URLResolverFunc;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class NetworkMapNodeDTO {
+public class NetworkMapNodeDTO extends NetworkMapCommonNode{
     public static final int SEED_TYPE_PRIMARY = 0;
     public static final int SEED_TYPE_SECONDARY = 1;
     public static final int SEED_TYPE_OTHER = 2;
     
-    protected long id;
     protected String url;
 
-    protected boolean isSeed = false; //true: if url equals seed or domain contains seed url.
-    protected int seedType = -1;
-
-    /////////////////////////////////////////////////////////////////////////////////////////
-    // 1. Domain: the total items of all urls contained in this domain.
-    // 2. URL: the total items of all urls directly link to this url and the url itself
-    protected int totUrls = 0;
-    protected int totSuccess = 0;
-    protected int totFailed = 0;
-    protected long totSize = 0;
-    ///////////////////////////////////////////////////////////////////////////////////////////
-
-    protected long domainId = -1; //default: no domain
-    protected long contentLength;
-    protected String contentType;
-    protected int statusCode;
     protected long parentId = -1;
     protected long offset;
     protected long fetchTimeMs; //ms: time used to download the page
@@ -57,89 +39,6 @@ public class NetworkMapNodeDTO {
         this.url = url;
     }
 
-    public boolean isSeed() {
-        return isSeed;
-    }
-
-    public void setSeed(boolean seed) {
-        isSeed = seed;
-    }
-
-    public int getSeedType() {
-        return seedType;
-    }
-
-    public void setSeedType(int seedType) {
-        this.seedType = seedType;
-    }
-
-    public int getTotUrls() {
-        return totUrls;
-    }
-
-    public void setTotUrls(int totUrls) {
-        this.totUrls = totUrls;
-    }
-
-    public int getTotSuccess() {
-        return totSuccess;
-    }
-
-    public void setTotSuccess(int totSuccess) {
-        this.totSuccess = totSuccess;
-    }
-
-    public int getTotFailed() {
-        return totFailed;
-    }
-
-    public void setTotFailed(int totFailed) {
-        this.totFailed = totFailed;
-    }
-
-    public long getTotSize() {
-        return totSize;
-    }
-
-    public void setTotSize(long totSize) {
-        this.totSize = totSize;
-    }
-
-    public long getDomainId() {
-        return domainId;
-    }
-
-    public void setDomainId(long domainId) {
-        this.domainId = domainId;
-    }
-
-    public long getContentLength() {
-        return contentLength;
-    }
-
-    public void setContentLength(long contentLength) {
-        this.contentLength = contentLength;
-//        this.totSize += contentLength;
-    }
-
-    public String getContentType() {
-        if (contentType == null) {
-            return "Unknown";
-        }
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = URLResolverFunc.trimContentType(contentType);
-    }
-
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
-    }
 
     public long getParentId() {
         return parentId;

@@ -55,37 +55,6 @@ public class NetworkMapNode extends NetworkMapNodeDTO {
     }
 
     @JsonIgnore
-    public void increaseTotUrls(int totUrls) {
-        this.totUrls += totUrls;
-    }
-
-    @JsonIgnore
-    public void increaseTotSuccess(int totSuccess) {
-        this.totSuccess += totSuccess;
-    }
-
-    @JsonIgnore
-    public void increaseTotFailed(int totFailed) {
-        this.totFailed += totFailed;
-    }
-
-    @JsonIgnore
-    public void increaseTotSize(long totSize) {
-        this.totSize += totSize;
-    }
-
-    @JsonIgnore
-    public void accumulate(int statusCode, long contentLength, String contentType) {
-        this.increaseTotSize(contentLength);
-        if (isSuccess(statusCode)) {
-            this.increaseTotSuccess(1);
-        } else {
-            this.increaseTotFailed(1);
-        }
-        this.increaseTotUrls(1);
-    }
-
-    @JsonIgnore
     public void accumulate(List<NetworkMapNode> list) {
         if (list == null) {
             return;
@@ -101,10 +70,6 @@ public class NetworkMapNode extends NetworkMapNodeDTO {
         this.children.clear(); //Not clear the grand children
     }
 
-    @JsonIgnore
-    public boolean isSuccess(int statusCode) {
-        return statusCode >= 200 && statusCode < 400;
-    }
 
     @JsonIgnore
     public boolean isFinished() {
@@ -132,7 +97,7 @@ public class NetworkMapNode extends NetworkMapNodeDTO {
     public static String getTopDomainName(String url) {
         String topDomainName = "Unknown";
 
-        String lowerDomainName=URLResolverFunc.url2domain(url);
+        String lowerDomainName = URLResolverFunc.url2domain(url);
         if (lowerDomainName != null) {
             topDomainName = topDomainParser.getTopDomainName(lowerDomainName);
         }

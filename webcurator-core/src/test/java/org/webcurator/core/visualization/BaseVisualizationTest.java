@@ -39,7 +39,7 @@ public class BaseVisualizationTest {
     protected WctCoordinatorClient wctClient;
     protected String dbVersion = "4.0.0";
 
-    public void initTest() throws IOException, DigitalAssetStoreException {
+    public void initTest() throws Exception {
         File arcDir = new File(System.getProperty("user.dir"), "src/test/resources/org/webcurator/domain/model/core/archiveFiles");
         File destDir = new File(baseDir, String.format("%d%s%d", targetInstanceId, File.separator, harvestResultNumber));
         if (!destDir.exists()) {

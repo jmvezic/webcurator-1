@@ -29,7 +29,7 @@ public class IndexProcessorTest extends BaseVisualizationTest {
     private IndexProcessor indexer;
 
     @Before
-    public void initTest() throws IOException, DigitalAssetStoreException {
+    public void initTest() throws Exception {
         super.initTest();
 
         NetworkMapDomainSuffix suffixParser = new NetworkMapDomainSuffix();

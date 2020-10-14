@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class BDBNetworkMapTest extends BaseVisualizationTest {
     @Before
-    public void initTest() throws IOException, DigitalAssetStoreException {
+    public void initTest() throws Exception {
         super.initTest();
         String dbPath = pool.getDbPath(targetInstanceId, harvestResultNumber);
         File f = new File(dbPath);
