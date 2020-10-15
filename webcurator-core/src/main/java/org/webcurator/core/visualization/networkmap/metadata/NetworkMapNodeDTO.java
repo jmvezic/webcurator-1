@@ -111,7 +111,7 @@ public class NetworkMapNodeDTO extends NetworkMapCommonNode{
     @JsonIgnore
     public String getUnlString() {
         String strOutlinks = outlinks.stream().map(outlink -> Long.toString(outlink)).collect(Collectors.joining(","));
-        return String.format("%d %s %d %d %d %d %d %d %d %s %s %d %d %d %s %b [%s]",
+        return String.format("%d\n%s\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%s\n%s\n%d\n%d\n%d\n%s\n%b\n[%s]",
                 id, url, seedType, totUrls, totSuccess, totFailed, totSize,
                 domainId, contentLength, contentType, statusCode, parentId, offset, fetchTimeMs,
                 fileName, isSeed, strOutlinks);

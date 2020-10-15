@@ -27,8 +27,6 @@ public interface NetworkMapService extends VisualizationServiceInterface {
 
     NetworkMapResult getChildren(long job, int harvestResultNumber, long id);
 
-    NetworkMapResult getUrlsByDomain(long job, int harvestResultNumber, long domainId, String parentTitle);
-
     NetworkMapResult getAllDomains(long job, int harvestResultNumber);
 
     NetworkMapResult getSeedUrls(long job, int harvestResultNumber);
@@ -36,6 +34,8 @@ public interface NetworkMapService extends VisualizationServiceInterface {
     NetworkMapResult getMalformedUrls(long job, int harvestResultNumber);
 
     NetworkMapResult searchUrl(long job, int harvestResultNumber, NetworkMapServiceSearchCommand searchCommand);
+
+    NetworkMapResult searchUrl2CascadePaths(long job, int harvestResultNumber, NetworkMapServiceSearchCommand searchCommand);
 
     //List<String>
     NetworkMapResult searchUrlNames(long job, int harvestResultNumber, String substring);
@@ -88,7 +88,7 @@ public interface NetworkMapService extends VisualizationServiceInterface {
         if (s == null) {
             return null;
         }
-        String[] items = s.split(" ");
+        String[] items = s.split("\n");
         if (items.length != MAX_URL_UNL_FIELDS_COUNT) {
             return null;
         }

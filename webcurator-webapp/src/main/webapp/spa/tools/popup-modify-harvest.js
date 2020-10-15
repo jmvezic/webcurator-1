@@ -116,13 +116,10 @@ class HierarchyTree{
 			icon: function(event, data){
 				var nodeData=data.node.data;
 				if (nodeData.viewType && nodeData.viewType===2) {
-					if (!data.node.folder) {
-						return "fas fa-link text-link";
-					}
-					if (!nodeData.virtual){
-						return "fas fa-share-alt text-dark";
+					if (data.node.folder) {
+						return "fas fa-share-alt text-primary";
 					}else{
-						return "fas fa-share-alt text-secondary";
+						return "fas fa-link text-link";
 					}
 				}else{
 					if(nodeData.isDomain){
@@ -214,29 +211,7 @@ class HierarchyTree{
 		$(this.container).fancytree(this.options);
 	}
 
-	drawWithDomain(datasetRoot){
-		var dataset=datasetRoot.children;
-		for(var i=0; i<dataset.length; i++){
-			var domainNodeHigh=dataset[i];
-			domainNodeHigh.folder=true;
-			domainNodeHigh.isDomain=true;
-
-			for(var j=0; j<domainNodeHigh.children.length; j++){
-				var domainNodeLower=domainNodeHigh.children[j];
-				domainNodeLower.folder = true;
-				domainNodeLower.lazy = true;
-				domainNodeLower.isDomain = true;
-				delete domainNodeLower['children'];
-			}
-			this.sortDomainByNames(domainNodeHigh.children);
-
-			//Uplift the single child to top
-			if (domainNodeHigh.children.length===1) {
-				dataset[i]=domainNodeHigh.children[0];
-			}
-		}
-		this.sortDomainByNames(dataset);
-
+	drawWithDomain(dataset){
 		if($.ui.fancytree.getTree(this.container)){
 			$.ui.fancytree.getTree(this.container).destroy();
 		}
@@ -665,11 +640,11 @@ class PopupModifyHarvest{
 		});
 	}
 
-	initTreeWithDomains(){
-		var reqUrl="/networkmap/get/common?job=" + this.jobId + "&harvestResultNumber=" + this.harvestResultNumber + "&key=keyGroupByDomain";
+	initTreeWithSearchCommand(searchCommand){
+		var reqUrl = "/networkmap/get/urls/by-domain?job=" + jobId + "&harvestResultNumber=" + harvestResultNumber;
 		var that=this;
 		g_TurnOnOverlayLoading();
-		fetchHttp(reqUrl, null, function(response){
+		fetchHttp(reqUrl, searchCommand, function(response){
 			if (response.rspCode != 0) {
 				g_TurnOffOverlayLoading();
 				alert(response.rspMsg);

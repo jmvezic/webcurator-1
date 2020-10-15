@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NetworkMapTreeNodeDTO  extends NetworkMapCommonNode{
+public class NetworkMapTreeNodeDTO extends NetworkMapCommonNode {
     public static final int VIEW_TYPE_STRUCT = 1;
     public static final int VIEW_TYPE_DOMAIN = 2;
 
     private int viewType = VIEW_TYPE_DOMAIN;
 
-    private boolean lazy = true;
-    private boolean folder = true;
+    private boolean lazy = false;
+    private boolean folder = false;
     private boolean virtual = true;
 
     private String title;
@@ -86,5 +86,13 @@ public class NetworkMapTreeNodeDTO  extends NetworkMapCommonNode{
     @JsonIgnore
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @JsonIgnore
+    public void copy(NetworkMapTreeNodeDTO that) {
+        super.copy(that);
+        this.viewType = that.viewType;
+        this.title = that.title;
+        this.url = that.url;
     }
 }

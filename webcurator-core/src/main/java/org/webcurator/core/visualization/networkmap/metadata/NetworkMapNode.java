@@ -70,7 +70,6 @@ public class NetworkMapNode extends NetworkMapNodeDTO {
         this.children.clear(); //Not clear the grand children
     }
 
-
     @JsonIgnore
     public boolean isFinished() {
         if (fileName.indexOf("mod~import~file") > 0) { //For warc files imported from local files, there are only response records

@@ -60,18 +60,17 @@ public class NetworkMapClientRemote extends AbstractRestClient implements Networ
     }
 
     @Override
-    public NetworkMapResult getUrlsByDomain(long job, int harvestResultNumber, long domainId, String parentTitle) {
+    public NetworkMapResult searchUrl2CascadePaths(long job, int harvestResultNumber, NetworkMapServiceSearchCommand searchCommand) {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(getUrl(VisualizationConstants.PATH_GET_URLS_BY_DOMAIN))
                 .queryParam("job", job)
-                .queryParam("harvestResultNumber", harvestResultNumber)
-                .queryParam("domainId", domainId)
-                .queryParam("parentTitle",parentTitle);
+                .queryParam("harvestResultNumber", harvestResultNumber);
         URI uri = uriComponentsBuilder.build().toUri();
 
+        HttpEntity<String> request = createHttpRequestEntity(searchCommand);
         RestTemplate restTemplate = restTemplateBuilder.build();
 
         NetworkMapResult result;
-        result = restTemplate.postForObject(uri, null, NetworkMapResult.class);
+        result = restTemplate.postForObject(uri, request, NetworkMapResult.class);
         return result;
     }
 

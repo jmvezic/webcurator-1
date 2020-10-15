@@ -79,13 +79,23 @@ public class NetworkMapCommonNode {
 
     public String getContentType() {
         if (contentType == null) {
-            return "Unknown";
+            return "";
         }
         return contentType;
     }
 
     public void setContentType(String contentType) {
-        this.contentType = contentType;
+        if (contentType == null) {
+            this.contentType = "";
+            return;
+        }
+
+        int idxSemicolon = contentType.indexOf(';');
+        if (idxSemicolon > 0) {
+            this.contentType = contentType.substring(0, idxSemicolon);
+        } else {
+            this.contentType = contentType;
+        }
     }
 
     public int getStatusCode() {
@@ -146,5 +156,41 @@ public class NetworkMapCommonNode {
             this.increaseTotFailed(1);
         }
         this.increaseTotUrls(1);
+    }
+
+    @JsonIgnore
+    public void accumulate() {
+        this.accumulate(this.statusCode, this.contentLength, this.contentType);
+    }
+
+    @JsonIgnore
+    public void copy(NetworkMapCommonNode that) {
+        this.id = that.id;
+        this.contentLength = that.contentLength;
+        this.contentType = that.contentType;
+        this.statusCode = that.statusCode;
+        this.domainId = that.domainId;
+        this.isSeed = that.isSeed;
+        this.seedType = that.seedType;
+        this.totFailed = that.totFailed;
+        this.totSize = that.totSize;
+        this.totSuccess = that.totSuccess;
+        this.totUrls = that.totUrls;
+    }
+
+    @JsonIgnore
+    public void setZero() {
+        this.totUrls = 0;
+        this.totSuccess = 0;
+        this.totFailed = 0;
+        this.totSize = 0;
+    }
+
+    @JsonIgnore
+    public void accumulate(NetworkMapCommonNode node) {
+        this.increaseTotSize(node.getTotSize());
+        this.increaseTotSuccess(node.getTotSuccess());
+        this.increaseTotFailed(node.getTotFailed());
+        this.increaseTotUrls(node.getTotUrls());
     }
 }

@@ -645,7 +645,7 @@ to get the desired effect
       updateDerivedHarvestResults();
       networkmap.init(jobId, harvestResultNumber);
       gPopupModifyHarvest.initTreeWithSeedUrls();
-      gPopupModifyHarvest.initTreeWithDomains();
+      gPopupModifyHarvest.initTreeWithSearchCommand(null);
     }
 
     var timerProgress;
@@ -665,7 +665,7 @@ to get the desired effect
         //refresh progress
         timerProgress=setInterval(function(){
           refreshprogress();
-        }, 3000);
+        }, 1200);
       });
     }
 
