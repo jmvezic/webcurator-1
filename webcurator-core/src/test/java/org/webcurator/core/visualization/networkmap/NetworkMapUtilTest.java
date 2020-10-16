@@ -21,8 +21,7 @@ import java.util.List;
 public class NetworkMapUtilTest extends BaseVisualizationTest {
     private IndexProcessor indexer;
 
-    @Ignore
-    @Before
+//    @Before
     public void initTest() throws Exception {
         super.initTest();
 
@@ -65,7 +64,7 @@ public class NetworkMapUtilTest extends BaseVisualizationTest {
             rootTreeNodeDTO.getChildren().add(treeNodeDTO);
         });
 
-        NetworkMapUtil.classifyTreeViewByPathNames(rootTreeNodeDTO);
+        NetworkMapUtil.getMapTreeNode(localClient, targetInstanceId, harvestResultNumber, searchCommand, null);
 
         log.debug("Size: {}", rootTreeNodeDTO.getChildren().size());
         assert true;
@@ -74,6 +73,9 @@ public class NetworkMapUtilTest extends BaseVisualizationTest {
 
     @Test
     public void testClassifyTreeViewByPathName2() {
+        NetworkMapUtil.ClassifiedPathTree classifiedPathTree = new NetworkMapUtil.ClassifiedPathTree();
+        int first_level = 0;
+
         NetworkMapTreeNodeDTO rootTreeNodeDTO = new NetworkMapTreeNodeDTO();
         NetworkMapTreeNodeDTO t1 = new NetworkMapTreeNodeDTO();
         t1.setUrl("http://a.b.c/d/e/f?x=1");
@@ -91,7 +93,7 @@ public class NetworkMapUtilTest extends BaseVisualizationTest {
         t2.accumulate(200, 5, "T2");
         rootTreeNodeDTO.getChildren().add(t2);
 
-        NetworkMapUtil.classifyTreeViewByPathNames(rootTreeNodeDTO);
+        NetworkMapUtil.classifyTreeViewByPathNames(rootTreeNodeDTO, classifiedPathTree, first_level);
 
 
         assert rootTreeNodeDTO.getChildren().size() == 2;
@@ -105,8 +107,8 @@ public class NetworkMapUtilTest extends BaseVisualizationTest {
         t3.accumulate(200, 5, "T3");
         rootTreeNodeDTO.getChildren().add(t3);
 
-        NetworkMapUtil.classifyTreeViewByPathNames(rootTreeNodeDTO);
-        assert rootTreeNodeDTO.getChildren().size() == 3;
+        NetworkMapUtil.classifyTreeViewByPathNames(rootTreeNodeDTO, classifiedPathTree, first_level);
+        assert rootTreeNodeDTO.getChildren().size() == 2;
         assert rootTreeNodeDTO.getTotSize() == 13;
 
 
@@ -118,7 +120,8 @@ public class NetworkMapUtilTest extends BaseVisualizationTest {
         t4.accumulate(200, 100, "T4");
         rootTreeNodeDTO.getChildren().add(t4);
         rootTreeNodeDTO.setTitle(null);
-        NetworkMapUtil.classifyTreeViewByPathNames(rootTreeNodeDTO);
+        NetworkMapUtil.classifyTreeViewByPathNames(rootTreeNodeDTO, classifiedPathTree, first_level);
+
         assert rootTreeNodeDTO.getChildren().size() == 2;
         assert rootTreeNodeDTO.getTotSize() == 113;
 

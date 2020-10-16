@@ -95,4 +95,10 @@ public class NetworkMapTreeNodeDTO extends NetworkMapCommonNode {
         this.title = that.title;
         this.url = that.url;
     }
+
+    @JsonIgnore
+    public void destroy() {
+        this.children.forEach(NetworkMapTreeNodeDTO::destroy);
+        this.children.clear();
+    }
 }

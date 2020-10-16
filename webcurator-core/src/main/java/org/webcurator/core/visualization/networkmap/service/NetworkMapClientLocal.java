@@ -121,7 +121,7 @@ public class NetworkMapClientLocal implements NetworkMapClient {
     }
 
     @Override
-    public NetworkMapResult searchUrl2CascadePaths(long job, int harvestResultNumber, NetworkMapServiceSearchCommand searchCommand) {
+    public NetworkMapResult searchUrl2CascadePaths(long job, int harvestResultNumber, String title, NetworkMapServiceSearchCommand searchCommand) {
         BDBNetworkMap db = pool.getInstance(job, harvestResultNumber);
         if (db == null) {
             return NetworkMapResult.getDBMissingErrorResult();
@@ -129,25 +129,11 @@ public class NetworkMapClientLocal implements NetworkMapClient {
         if (searchCommand == null) {
             searchCommand = new NetworkMapServiceSearchCommand();
         }
-        List<NetworkMapNodeDTO> allNetworkMapNodes = this.searchUrlDTOs(db, job, harvestResultNumber, searchCommand);
 
-        List<NetworkMapTreeNodeDTO> allTreeNodes = allNetworkMapNodes.parallelStream().map(networkMapNode -> {
-            NetworkMapTreeNodeDTO treeNodeDTO = new NetworkMapTreeNodeDTO();
-            treeNodeDTO.setViewType(NetworkMapTreeNodeDTO.VIEW_TYPE_DOMAIN);
-            treeNodeDTO.setUrl(networkMapNode.getUrl());
-            treeNodeDTO.setContentType(networkMapNode.getContentType());
-            treeNodeDTO.setStatusCode(networkMapNode.getStatusCode());
-            treeNodeDTO.setContentLength(networkMapNode.getContentLength());
-            treeNodeDTO.setFolder(false);
-            treeNodeDTO.setLazy(false);
-            treeNodeDTO.accumulate();
-            return treeNodeDTO;
-        }).collect(Collectors.toList());
-
-        NetworkMapTreeNodeDTO rootTreeNode = new NetworkMapTreeNodeDTO();
-        rootTreeNode.setChildren(allTreeNodes);
-
-        NetworkMapUtil.classifyTreeViewByPathNames(rootTreeNode);
+        NetworkMapTreeNodeDTO rootTreeNode = NetworkMapUtil.getMapTreeNode(this, job, harvestResultNumber, searchCommand, title);
+        if (rootTreeNode == null) {
+            return NetworkMapResult.getDataNotExistResult();
+        }
 
         List<NetworkMapTreeNodeDTO> returnedTreeNodes = new ArrayList<>();
         if (rootTreeNode.getTitle() == null) {
@@ -241,6 +227,37 @@ public class NetworkMapClientLocal implements NetworkMapClient {
         NetworkMapResult result = new NetworkMapResult();
         result.setPayload(json);
         return result;
+    }
+
+    public NetworkMapTreeNodeDTO searchUrlTreeNodes(long job, int harvestResultNumber, NetworkMapServiceSearchCommand searchCommand) {
+        List<NetworkMapNodeDTO> allNetworkMapNodes = this.searchUrlDTOs(job, harvestResultNumber, searchCommand);
+
+        List<NetworkMapTreeNodeDTO> allTreeNodes = allNetworkMapNodes.parallelStream().map(networkMapNode -> {
+            NetworkMapTreeNodeDTO treeNodeDTO = new NetworkMapTreeNodeDTO();
+            treeNodeDTO.setViewType(NetworkMapTreeNodeDTO.VIEW_TYPE_DOMAIN);
+            treeNodeDTO.setUrl(networkMapNode.getUrl());
+            treeNodeDTO.setContentType(networkMapNode.getContentType());
+            treeNodeDTO.setStatusCode(networkMapNode.getStatusCode());
+            treeNodeDTO.setContentLength(networkMapNode.getContentLength());
+            treeNodeDTO.setFolder(false);
+            treeNodeDTO.setLazy(false);
+            treeNodeDTO.accumulate();
+            return treeNodeDTO;
+        }).collect(Collectors.toList());
+
+        NetworkMapTreeNodeDTO rootTreeNode = new NetworkMapTreeNodeDTO();
+        rootTreeNode.setChildren(allTreeNodes);
+
+        return rootTreeNode;
+    }
+
+    public List<NetworkMapNodeDTO> searchUrlDTOs(long job, int harvestResultNumber, NetworkMapServiceSearchCommand searchCommand) {
+        BDBNetworkMap db = pool.getInstance(job, harvestResultNumber);
+        if (db == null) {
+            return null;
+        }
+
+        return searchUrlDTOs(db, job, harvestResultNumber, searchCommand);
     }
 
     public List<NetworkMapNodeDTO> searchUrlDTOs(BDBNetworkMap db, long job, int harvestResultNumber, NetworkMapServiceSearchCommand searchCommand) {
