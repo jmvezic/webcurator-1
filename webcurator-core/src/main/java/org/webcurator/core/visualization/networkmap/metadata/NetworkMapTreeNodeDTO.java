@@ -22,6 +22,9 @@ public class NetworkMapTreeNodeDTO extends NetworkMapCommonNode {
 
     private List<NetworkMapTreeNodeDTO> children = new ArrayList<>();
 
+    @JsonIgnore
+    private boolean handled = false;
+
     public int getViewType() {
         return viewType;
     }
@@ -68,6 +71,16 @@ public class NetworkMapTreeNodeDTO extends NetworkMapCommonNode {
 
     public static int getViewTypeDomain() {
         return VIEW_TYPE_DOMAIN;
+    }
+
+    @JsonIgnore
+    public boolean isHandled() {
+        return handled;
+    }
+
+    @JsonIgnore
+    public void setHandled(boolean handled) {
+        this.handled = handled;
     }
 
     public List<NetworkMapTreeNodeDTO> getChildren() {

@@ -81,7 +81,7 @@ class NetworkMapGraph{
   }
 
   draw(data){
-    $('#popup-window-loading').show();
+    $('#networkmap .overlay').show();
 
     this.originalData=data;
     this.dataMap=this.initialDataSet(data);
@@ -127,7 +127,7 @@ class NetworkMapGraph{
         that.stabilized=true;
       }else{
         console.log("stabilized");
-        setTimeout(function () {g_TurnOffOverlayLoading();}, 300);
+        setTimeout(function () {$('#networkmap .overlay').hide();}, 300);
       }
     });
 

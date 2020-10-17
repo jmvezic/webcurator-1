@@ -99,8 +99,6 @@ public abstract class IndexProcessor extends VisualizationAbstractProcessor {
     private void statAndSave() {
         this.tryBlock();
 
-        db.put(BDBNetworkMap.PATH_DB_VERSION, pool.getDbVersion());
-
         AtomicLong domainIdGenerator = new AtomicLong();
         NetworkMapDomainManager domainManager = new NetworkMapDomainManager();
 
@@ -176,6 +174,8 @@ public abstract class IndexProcessor extends VisualizationAbstractProcessor {
         rootUrls.clear();
         db.put(BDBNetworkMap.PATH_MALFORMED_URLS, malformedUrls);
         malformedUrls.clear();
+
+        db.put(BDBNetworkMap.PATH_DB_VERSION, pool.getDbVersion());
 
         this.writeLog("Finished storing url nodes");
     }

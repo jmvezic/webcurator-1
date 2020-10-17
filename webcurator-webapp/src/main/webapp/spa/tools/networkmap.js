@@ -12,20 +12,18 @@ class NetworkMap{
 		this.harvestResultNumber=harvestResultNumber;
 		var reqUrl="/networkmap/get/common?job=" + jobId + "&harvestResultNumber=" + harvestResultNumber + "&key=keyGroupByDomain";
 		var that=this;
-		g_TurnOnOverlayLoading();
+		$('#networkmap .overlay').show();
     	fetchHttp(reqUrl, null, function(response){
     		console.log(response.rspCode + ': ' + response.rspMsg);
     		if (response.rspCode !== 0 || response.payload === null){
+    			$('#networkmap .overlay').hide();
     			alert('Failed to load domains from BDB: ' + response.payload);
-    			g_TurnOffOverlayLoading();
     			return;
     		}
-    		
 			var data=JSON.parse(response.payload);
 			that.data=data;
 			that.formatData(data);
 			that.initDraw(data);
-			return true;
     	});
 	}
 

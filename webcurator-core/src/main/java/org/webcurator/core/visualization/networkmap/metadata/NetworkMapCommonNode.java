@@ -1,6 +1,7 @@
 package org.webcurator.core.visualization.networkmap.metadata;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.webcurator.common.util.Utils;
 
 public class NetworkMapCommonNode {
     protected long id;
@@ -78,23 +79,19 @@ public class NetworkMapCommonNode {
     }
 
     public String getContentType() {
-        if (contentType == null) {
-            return "";
-        }
         return contentType;
     }
 
     public void setContentType(String contentType) {
-        if (contentType == null) {
-            this.contentType = "";
-            return;
-        }
-
-        int idxSemicolon = contentType.indexOf(';');
-        if (idxSemicolon > 0) {
-            this.contentType = contentType.substring(0, idxSemicolon);
+        if (Utils.isEmpty(contentType) || contentType.equalsIgnoreCase("null")) {
+            this.contentType = "unknown";
         } else {
-            this.contentType = contentType;
+            int idxSemicolon = contentType.indexOf(';');
+            if (idxSemicolon > 0) {
+                this.contentType = contentType.substring(0, idxSemicolon);
+            } else {
+                this.contentType = contentType;
+            }
         }
     }
 

@@ -117,15 +117,13 @@ class HierarchyTree{
 				var nodeData=data.node.data;
 				if (nodeData.viewType && nodeData.viewType===2) {
 					if (data.node.folder) {
-						return "fas fa-share-alt text-primary";
+						return "fa fa-folder-open text-dark";
 					}else{
 						return "fas fa-link text-link";
 					}
 				}else{
-					if(nodeData.isDomain){
-						return "fab fa-fedora text-primary";
-					}else if(data.node.folder){
-						return "fas fa-code-branch text-primary";
+					if(data.node.folder){
+						return "fas fa-share-alt text-dark";
 					}else{
 				    	return "fas fa-link text-link";
 				    }
@@ -138,10 +136,8 @@ class HierarchyTree{
 		        var isDomain=nodeData.isDomain;
 		        var viewType=nodeData.viewType;
 		        var urlOutlinks='';
-		        if (isDomain){
-		        	urlOutlinks = "/networkmap/get/urls/by-domain?job=" + jobId + "&harvestResultNumber=" + harvestResultNumber + "&domainId=" + nodeData.id + "&parentTitle=";
-		        }else if(viewType && viewType===2){
-		        	urlOutlinks = "/networkmap/get/urls/by-domain?job=" + jobId + "&harvestResultNumber=" + harvestResultNumber + "&domainId=" + nodeData.domainId + "&parentTitle=" + btoa(data.node.title);
+		        if(viewType && viewType===2){
+		        	urlOutlinks = "/networkmap/get/urls/by-domain?job=" + jobId + "&harvestResultNumber=" + harvestResultNumber + "&title=" + btoa(data.node.title);
 		        }else{
 		        	urlOutlinks = "/networkmap/get/outlinks?job=" + jobId + "&harvestResultNumber=" + harvestResultNumber + "&id=" + nodeData.id;
 		        }
@@ -502,14 +498,7 @@ class PopupModifyHarvest{
 		this.setRowStyle();
 	}
 
-	inspectHarvest(data){
-		$('#popup-window-hierarchy').hide();
-		// $('#grid-modify-candidate').show();
-		$('#btn-group-main-tabs label[name="candidate-query"]').trigger('click');
-		if(!data){
-			return;
-		}
-		
+	inspectHarvest(data){		
 		var map={};
 		for(var i=0; i< data.length; i++){
 			var node=data[i];
@@ -569,7 +558,15 @@ class PopupModifyHarvest{
 	    	searchCondition.urlNames=urlNames.split();
 	    }
 
-	    this.checkUrls(searchCondition, 'inspect');
+	    var reqUrl=''
+	    if (currentMainTab === 'candidate-query') {
+	    	this.checkUrls(searchCondition, 'inspect');
+	    }else if (currentMainTab === 'tree-url-names') {
+	    	this.initTreeWithSearchCommand(searchCondition);
+	  	}else{
+	  		alert('Bad request');
+	  		return;
+	  	}
 	}
 
 	checkUrls(searchCondition, flag){
@@ -580,10 +577,18 @@ class PopupModifyHarvest{
 
 		var that=this;
 		var url="/networkmap/search/urls?job=" + this.jobId + "&harvestResultNumber=" + this.harvestResultNumber;
-		g_TurnOnOverlayLoading();
+		if (flag==='inspect') {
+			currentMainTab = 'candidate-query';
+			$('#btn-group-main-tabs label[name="candidate-query"]').trigger('click');
+			$('#candidate-query .overlay').show();
+		}else{
+			g_TurnOnOverlayLoading();
+		}
 		fetchHttp(url, searchCondition, function(response){
 			if (response.rspCode != 0) {
-				g_TurnOffOverlayLoading();
+				if (flag==='inspect') {
+					$('#candidate-query .overlay').hide();
+				}
 				alert(response.rspMsg);
 				return;	 
 	        }
@@ -595,10 +600,13 @@ class PopupModifyHarvest{
 				that.inspectHarvest(data);
 			}else if(flag==='import-prune'){
 				that.pruneHarvest(data);
-				// $('#tab-btn-import').trigger('click');
 			}
-			g_TurnOffOverlayLoading();
-			// $('#popup-window-modify-harvest').show();
+
+			if (flag==='inspect') {
+				$('#candidate-query .overlay').hide();
+			}else{
+				g_TurnOffOverlayLoading();
+			}
 		});
 	}
 
@@ -614,7 +622,7 @@ class PopupModifyHarvest{
 
 			var data=JSON.parse(response.payload);
 			if(data.length===0){
-				$('#popup-window-loading').hide();	
+				g_TurnOffOverlayLoading();	
 				alert('No data found!');
 			}else{
 				that.gridCandidate.setRowData(data);
@@ -625,10 +633,10 @@ class PopupModifyHarvest{
 
 	initTreeWithSeedUrls(){
 		var that=this;
-		g_TurnOnOverlayLoading();
+		$('#tree-harvest-struct .overlay').show();
 		fetchHttp(this.uriSeedUrl, null, function(response){
 			if (response.rspCode != 0) {
-				g_TurnOffOverlayLoading();
+				$('#tree-harvest-struct .overlay').hide();
 				alert(response.rspMsg);
 				return;	 
 	        }
@@ -636,17 +644,17 @@ class PopupModifyHarvest{
 			var data=JSON.parse(response.payload);
 			that.hierarchyTreeHarvestStruct.draw(data);
 			that.setRowStyle();
-			g_TurnOffOverlayLoading();
+			$('#tree-harvest-struct .overlay').hide();
 		});
 	}
 
 	initTreeWithSearchCommand(searchCommand){
-		var reqUrl = "/networkmap/get/urls/by-domain?job=" + jobId + "&harvestResultNumber=" + harvestResultNumber;
+		var reqUrl = "/networkmap/get/urls/by-domain?job=" + jobId + "&harvestResultNumber=" + harvestResultNumber + '&title=';
 		var that=this;
-		g_TurnOnOverlayLoading();
+		$('#tree-url-names .overlay').show();
 		fetchHttp(reqUrl, searchCommand, function(response){
 			if (response.rspCode != 0) {
-				g_TurnOffOverlayLoading();
+				$('#tree-url-names .overlay').hide();
 				alert(response.rspMsg);
 				return;	 
 	        }
@@ -654,7 +662,7 @@ class PopupModifyHarvest{
 			var data=JSON.parse(response.payload);
 			that.hierarchyTreeUrlNames.drawWithDomain(data);
 			that.setRowStyle();
-			g_TurnOffOverlayLoading();
+			$('#tree-url-names .overlay').hide();
 		});
 	}
 
@@ -763,11 +771,11 @@ class PopupModifyHarvest{
 			provenanceNote: $('#provenance-note').val(),
 		};
 
-		$('#popup-window-loading').show();
+		g_TurnOnOverlayLoading();
 		var that=this;
 		var url="/modification/apply";
 		fetchHttp(url, applyCommand, function(response){
-			$('#popup-window-loading').hide();
+			g_TurnOffOverlayLoading();
 			if(response.respCode !== 0){
 				alert(response.respMsg);
 			}else{

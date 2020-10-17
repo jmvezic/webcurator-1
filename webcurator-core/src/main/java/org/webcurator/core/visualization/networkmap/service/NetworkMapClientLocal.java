@@ -4,6 +4,7 @@ import com.sleepycat.je.Cursor;
 import com.sleepycat.je.DatabaseEntry;
 import com.sleepycat.je.LockMode;
 import com.sleepycat.je.OperationStatus;
+import org.webcurator.common.util.Utils;
 import org.webcurator.core.exceptions.DigitalAssetStoreException;
 import org.webcurator.core.util.URLResolverFunc;
 import org.webcurator.core.visualization.VisualizationAbstractProcessor;
@@ -130,21 +131,27 @@ public class NetworkMapClientLocal implements NetworkMapClient {
             searchCommand = new NetworkMapServiceSearchCommand();
         }
 
-        NetworkMapTreeNodeDTO rootTreeNode = NetworkMapUtil.getMapTreeNode(this, job, harvestResultNumber, searchCommand, title);
+        if (!Utils.isEmpty(title)) {
+            title = new String(Base64.getDecoder().decode(title));
+        }
+
+        NetworkMapTreeNodeDTO rootTreeNode = this.searchUrlTreeNodes(job, harvestResultNumber, searchCommand);
         if (rootTreeNode == null) {
             return NetworkMapResult.getDataNotExistResult();
         }
 
+        NetworkMapCascadePath networkMapCascadePathProcessor = new NetworkMapCascadePath();
+        networkMapCascadePathProcessor.classifyTreePaths(rootTreeNode);
+
         List<NetworkMapTreeNodeDTO> returnedTreeNodes = new ArrayList<>();
-        if (rootTreeNode.getTitle() == null) {
-            returnedTreeNodes = rootTreeNode.getChildren();
-        } else {
+        if (Utils.isEmpty(rootTreeNode.getTitle()) && rootTreeNode.getChildren().size() == 0) {
             returnedTreeNodes.add(rootTreeNode);
+        } else {
+            returnedTreeNodes = rootTreeNode.getChildren();
         }
 
         NetworkMapResult result = new NetworkMapResult();
         result.setPayload(this.obj2Json(returnedTreeNodes));
-        returnedTreeNodes.clear();
         return result;
     }
 

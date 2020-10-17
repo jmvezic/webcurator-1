@@ -21,7 +21,7 @@ import java.util.List;
 public class NetworkMapUtilTest extends BaseVisualizationTest {
     private IndexProcessor indexer;
 
-//    @Before
+    //    @Before
     public void initTest() throws Exception {
         super.initTest();
 
@@ -76,56 +76,59 @@ public class NetworkMapUtilTest extends BaseVisualizationTest {
         NetworkMapUtil.ClassifiedPathTree classifiedPathTree = new NetworkMapUtil.ClassifiedPathTree();
         int first_level = 0;
 
-        NetworkMapTreeNodeDTO rootTreeNodeDTO = new NetworkMapTreeNodeDTO();
-        NetworkMapTreeNodeDTO t1 = new NetworkMapTreeNodeDTO();
-        t1.setUrl("http://a.b.c/d/e/f?x=1");
-        t1.setContentType("T1");
-        t1.setStatusCode(200);
-        t1.setContentLength(3);
-        t1.accumulate(200, 3, "T1");
-        rootTreeNodeDTO.getChildren().add(t1);
+        {
+            NetworkMapTreeNodeDTO rootTreeNodeDTO = new NetworkMapTreeNodeDTO();
+            insertNode(rootTreeNodeDTO, "http://a.b.c/d/e/f?x=1", 3);
 
-        NetworkMapTreeNodeDTO t2 = new NetworkMapTreeNodeDTO();
-        t2.setUrl("http://a.b.c/d/u/v?x=1");
-        t2.setContentType("T2");
-        t2.setStatusCode(200);
-        t2.setContentLength(5);
-        t2.accumulate(200, 5, "T2");
-        rootTreeNodeDTO.getChildren().add(t2);
+            NetworkMapUtil.classifyTreeViewByPathNames(rootTreeNodeDTO);
+            assert rootTreeNodeDTO.getChildren().size() == 1;
+            assert rootTreeNodeDTO.getTotSize() == 3;
+        }
 
-        NetworkMapUtil.classifyTreeViewByPathNames(rootTreeNodeDTO, classifiedPathTree, first_level);
+        {
+            NetworkMapTreeNodeDTO rootTreeNodeDTO = new NetworkMapTreeNodeDTO();
+            insertNode(rootTreeNodeDTO, "http://a.b.c/d/e/f?x=1", 3);
+            insertNode(rootTreeNodeDTO, "http://a.b.c/d/u/v?x=1", 5);
 
+            NetworkMapUtil.classifyTreeViewByPathNames(rootTreeNodeDTO);
+            assert rootTreeNodeDTO.getChildren().size() == 2;
+            assert rootTreeNodeDTO.getTotSize() == 8;
+        }
 
-        assert rootTreeNodeDTO.getChildren().size() == 2;
-        assert rootTreeNodeDTO.getTotSize() == 8;
+        {
+            NetworkMapTreeNodeDTO rootTreeNodeDTO = new NetworkMapTreeNodeDTO();
+            insertNode(rootTreeNodeDTO, "http://a.b.c/d/e/f?x=1", 3);
+            insertNode(rootTreeNodeDTO, "http://a.b.c/d/u/v?x=1", 5);
+            insertNode(rootTreeNodeDTO, "http://a.b.c/", 5);
 
-        NetworkMapTreeNodeDTO t3 = new NetworkMapTreeNodeDTO();
-        t3.setUrl("http://a.b.c/");
-        t3.setContentType("T3");
-        t3.setStatusCode(200);
-        t3.setContentLength(5);
-        t3.accumulate(200, 5, "T3");
-        rootTreeNodeDTO.getChildren().add(t3);
+            NetworkMapUtil.classifyTreeViewByPathNames(rootTreeNodeDTO);
+            assert rootTreeNodeDTO.getChildren().size() == 2;
+            assert rootTreeNodeDTO.getTotSize() == 13;
+        }
 
-        NetworkMapUtil.classifyTreeViewByPathNames(rootTreeNodeDTO, classifiedPathTree, first_level);
-        assert rootTreeNodeDTO.getChildren().size() == 2;
-        assert rootTreeNodeDTO.getTotSize() == 13;
+        {
+            NetworkMapTreeNodeDTO rootTreeNodeDTO = new NetworkMapTreeNodeDTO();
+            insertNode(rootTreeNodeDTO, "http://a.b.c/d/e/f?x=1", 3);
+            insertNode(rootTreeNodeDTO, "http://a.b.c/d/u/v?x=1", 5);
+            insertNode(rootTreeNodeDTO, "http://a.b.c/", 5);
+            insertNode(rootTreeNodeDTO, "http://www.b.c/", 100);
+            NetworkMapUtil.classifyTreeViewByPathNames(rootTreeNodeDTO);
+            assert rootTreeNodeDTO.getChildren().size() == 2;
+            assert rootTreeNodeDTO.getTotSize() == 113;
+        }
 
+        log.debug("Finished");
+    }
 
-        NetworkMapTreeNodeDTO t4 = new NetworkMapTreeNodeDTO();
-        t4.setUrl("http://www.b.c/");
-        t4.setContentType("T4");
-        t4.setStatusCode(200);
-        t4.setContentLength(100);
-        t4.accumulate(200, 100, "T4");
-        rootTreeNodeDTO.getChildren().add(t4);
-        rootTreeNodeDTO.setTitle(null);
-        NetworkMapUtil.classifyTreeViewByPathNames(rootTreeNodeDTO, classifiedPathTree, first_level);
+    private void insertNode(NetworkMapTreeNodeDTO rootTreeNodeDTO, String url, long contentLength) {
+        NetworkMapTreeNodeDTO node = new NetworkMapTreeNodeDTO();
+        node.setUrl(url);
+        node.setContentType("N/A");
+        node.setStatusCode(200);
+        node.setContentLength(contentLength);
+        node.accumulate(200, contentLength, "N/A");
 
-        assert rootTreeNodeDTO.getChildren().size() == 2;
-        assert rootTreeNodeDTO.getTotSize() == 113;
-
-        log.debug("Size: {}", rootTreeNodeDTO.getChildren().size());
+        rootTreeNodeDTO.getChildren().add(node);
     }
 
     @Test
@@ -133,9 +136,7 @@ public class NetworkMapUtilTest extends BaseVisualizationTest {
         {
             String url = "http://a.b.c/d/u/v?x=1";
             String parentTitle = null;
-            int lenParentTitle = parentTitle == null ? 8 : parentTitle.length();
-
-            String title = NetworkMapUtil.getNextTitle(lenParentTitle, url);
+            String title = NetworkMapUtil.getNextTitle(parentTitle, url);
 
             assert title.equals("http://a.b.c/");
         }
@@ -143,9 +144,7 @@ public class NetworkMapUtilTest extends BaseVisualizationTest {
         {
             String url = "http://a.b.c/d/u/v?x=1";
             String parentTitle = "http://a.b.c/";
-            int lenParentTitle = parentTitle == null ? 8 : parentTitle.length();
-
-            String title = NetworkMapUtil.getNextTitle(lenParentTitle, url);
+            String title = NetworkMapUtil.getNextTitle(parentTitle, url);
 
             assert title.equals("http://a.b.c/d/");
         }
@@ -153,9 +152,7 @@ public class NetworkMapUtilTest extends BaseVisualizationTest {
         {
             String url = "http://www.b.c/d/u/v?x=1";
             String parentTitle = "http://www.b.c/";
-            int lenParentTitle = parentTitle == null ? 8 : parentTitle.length();
-
-            String title = NetworkMapUtil.getNextTitle(lenParentTitle, url);
+            String title = NetworkMapUtil.getNextTitle(parentTitle, url);
 
             assert title.equals("http://www.b.c/d/");
         }

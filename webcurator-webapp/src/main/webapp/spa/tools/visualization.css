@@ -273,8 +273,17 @@ progress::-moz-progress-bar {
 }
 
 .main-tab{
+	padding: 0;
+	margin: 0;
 	width: 100vw;
 	height: calc(100vh - 50px);
+}
+.main-tab .card-body{
+	padding: 0;
+	margin: 0;
+}
+.main-tab .overlay{
+	display: none;
 }
 
 #domain-tree{
