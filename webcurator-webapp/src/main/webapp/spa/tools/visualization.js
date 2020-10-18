@@ -255,6 +255,9 @@ var contextMenuItemsImport={
   "sep1": "---------",
   "undo": {name: "Undo", icon: "fas fa-undo", items: itemsUndo},
   "sep2": "---------",
+  "browse": {name: "Browse", icon: "fab fa-internet-explorer text-primary", items: itemsBrowse},
+  "download": {name: "Download", icon: "fas fa-download text-warning"},
+  "sep3": "---------",
   "exportLinks": {name: "Export Data", icon: "fas fa-file-export", items: {
       "exportImport-selected": {"name": "Selected"},
       "exportImport-all": {"name": "All"}

@@ -9,7 +9,7 @@ class ModifyHarvestProcessor{
 	}
 
 	uploadFile(cmd, file, callback){
-		$('#popup-window-loading').show();
+		// $('#popup-window-loading').show();
 		this.offset = 0;
 		this.recurseUploadFile(cmd, file, callback);
 	}

@@ -177,36 +177,30 @@ to get the desired effect
 
 <!-- Popup window for inspection and modification -->
 <div class="popup-window" id="popup-window-modify-harvest">
-<div class="card none-margin-padding" style="width: 60%; margin: 5% 20% 5% 20%; border: solid; border-width: 5px; border-color: #28a745;">
+<div class="card none-margin-padding" style="margin: 5% 20% 5% 20%; border: solid; border-width: 5px; border-color: #28a745;">
   <div class="card-header bg-success" style="border-radius: 0px;">
     <h3 class="card-title">To Be Pruned and Imported:</h3>
-
     <div class="card-tools">
+      <div class="btn-group btn-group-toggle" id="btn-group-tobe-modified" data-toggle="buttons" style="margin-top:0; margin-bottom: 0;">
+        <label class="btn btn-info active" name="prune">
+          <input type="radio" name="options" autocomplete="off" checked> To Be Pruned
+        </label>
+        <label class="btn btn-info" name="import">
+          <input type="radio" name="options" autocomplete="off"> To Be Imported
+        </label>
+      </div>
       <button type="button" class="btn btn-tool" onclick="$('#popup-window-modify-harvest').hide();"><i class="fas fa-times"></i></button>
     </div>
     <!-- /.card-tools -->
   </div>
   <!-- /.card-header -->
-  <div class="card-body none-margin-padding">
-      <div class="row">
-        <div class="col-5">
-          <h5>To Be Pruned:</h5>
-        </div>
-        <div class="col-7">
-          <h5>To Be Imported</h5>
-        </div>
-      </div>
-      <div class="row" style="height: 40vh;">
-        <div class="col-5">
-          <div id="grid-modify-prune" class="ag-theme-balham grid-modify-harvest"> </div>
-        </div>
-        <div class="col-7">
-          <div id="grid-modify-import" class="ag-theme-balham grid-modify-harvest"> </div>
-        </div>
+  <div class="card-body none-margin-padding" style="width: 60vw;">
+      <div id="grid-group-tobe-modified" style="width: calc(100% - 15px); height: 50vh;">
+        <div id="grid-modify-prune" class="ag-theme-balham grid-modify-harvest"></div>
+        <div id="grid-modify-import" class="ag-theme-balham grid-modify-harvest hidden"></div>
       </div>
 
-
-      <div class="input-group" style="margin: 5px 2px 0 2px; width: calc(100% - 4px);">
+      <div class="input-group" style="margin: 5px 2px 0 2px; width: calc(100% - 15px);">
         <textarea id="provenance-note" class="form-control" rows="3"  placeholder="Provenance Note ..."></textarea>
       </div>
   </div>  <!-- End of card body -->
@@ -366,7 +360,6 @@ to get the desired effect
         </select>
       </div>
     </div>
-
 
     <div class="tab-bulk-import hidden" id="tab-bulk-import-1">
       <div id="grid-bulk-import-prepare" class="ag-theme-balham grid-modify-harvest" style="width: 100%; height: 30vh;"> </div>
@@ -614,6 +607,13 @@ to get the desired effect
             $('.inspect-only-menu-item').hide();
           }
         });
+
+        $('#btn-group-tobe-modified label').on('click', function(e){
+          var name=$(this).attr('name');
+          $('.grid-modify-harvest').hide();
+          $('#grid-modify-'+name).show();
+        });
+
 
         $('.btn-side-group-type').on('click', function(e){
           var name=$(this).attr('name');
