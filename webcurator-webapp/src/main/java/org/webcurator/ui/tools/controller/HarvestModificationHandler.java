@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.webcurator.common.util.Utils;
 import org.webcurator.core.coordinator.HarvestResultManager;
 import org.webcurator.core.coordinator.WctCoordinator;
 import org.webcurator.core.exceptions.DigitalAssetStoreException;
@@ -412,20 +413,29 @@ public class HarvestModificationHandler {
             res.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
 
-        int statusCode = Integer.parseInt(getHeaderValue(headers, "HTTP-RESPONSE-STATUS-CODE"));
+        String strStatusCode = getHeaderValue(headers, "HTTP-RESPONSE-STATUS-CODE");
+        if (headers.size() == 0 || Utils.isEmpty(strStatusCode)) {
+            res.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        int statusCode = Integer.parseInt(strStatusCode);
 
         // Send the headers for a redirect.
-        //        if (statusCode == HttpServletResponse.SC_MOVED_TEMPORARILY || statusCode == HttpServletResponse.SC_MOVED_PERMANENTLY) {
-        //            res.setStatus(statusCode);
-        //            String location = getHeaderValue(headers, "Location");
-        //            res.setHeader("Location", location);
-        //        }
-
-        // Get the content type.
-        res.setHeader("Content-Type", getHeaderValue(headers, "Content-Type"));
-
-        Path path = digitalAssetStore.getResource(ti.getOid(), hr.getHarvestNumber(), url);
-        IOUtils.copy(Files.newInputStream(path), res.getOutputStream());
+        if (statusCode == HttpServletResponse.SC_MOVED_TEMPORARILY || statusCode == HttpServletResponse.SC_MOVED_PERMANENTLY) {
+            res.setStatus(statusCode);
+            String location = getHeaderValue(headers, "Location");
+            if (!Utils.isEmpty(location) && !location.startsWith("http")) {
+                location = url + location;
+            }
+            String encodedLocation = Base64.getEncoder().encodeToString(location.getBytes());
+            res.setHeader("Location", String.format("/curator/tools/browse/%d/?url=%s", hrOid, encodedLocation));
+        } else {
+            // Get the content type.
+            res.setHeader("Content-Type", getHeaderValue(headers, "Content-Type"));
+            Path path = digitalAssetStore.getResource(ti.getOid(), hr.getHarvestNumber(), url);
+            IOUtils.copy(Files.newInputStream(path), res.getOutputStream());
+        }
     }
 
 
@@ -473,13 +483,23 @@ public class HarvestModificationHandler {
 
         String baseUrl = visualizationBrowseBaseUrl;
 
+        String strStatusCode = getHeaderValue(headers, "HTTP-RESPONSE-STATUS-CODE");
+        if (headers.size() == 0 || Utils.isEmpty(strStatusCode)) {
+            res.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
         int statusCode = Integer.parseInt(getHeaderValue(headers, "HTTP-RESPONSE-STATUS-CODE"));
         // Send the headers for a redirect.
         if (statusCode == HttpServletResponse.SC_MOVED_TEMPORARILY || statusCode == HttpServletResponse.SC_MOVED_PERMANENTLY) {
             res.setStatus(statusCode);
             String location = getHeaderValue(headers, "Location");
+            if (!Utils.isEmpty(location) && !location.startsWith("http")) {
+                location = url + location;
+            }
             String encodedLocation = Base64.getEncoder().encodeToString(location.getBytes());
             res.setHeader("Location", String.format("%s/browse/%d/?url=%s", baseUrl, hrOid, encodedLocation));
+            return;
         }
 
         // Get the content type.

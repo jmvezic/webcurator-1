@@ -241,6 +241,7 @@ public class NetworkMapClientLocal implements NetworkMapClient {
 
         List<NetworkMapTreeNodeDTO> allTreeNodes = allNetworkMapNodes.parallelStream().map(networkMapNode -> {
             NetworkMapTreeNodeDTO treeNodeDTO = new NetworkMapTreeNodeDTO();
+            treeNodeDTO.setId(networkMapNode.getId());
             treeNodeDTO.setViewType(NetworkMapTreeNodeDTO.VIEW_TYPE_DOMAIN);
             treeNodeDTO.setUrl(networkMapNode.getUrl());
             treeNodeDTO.setContentType(networkMapNode.getContentType());

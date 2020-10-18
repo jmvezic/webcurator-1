@@ -150,7 +150,7 @@ function contextMenuCallback(key, data, source, target){
   }else if(action==='prune'){
     target.pruneHarvest(dataset);
   }else if(action==='browse'){
-    browseUrl(data);
+    browseUrl(data, scope);
   }else if(action==='download'){
     downloadUrl(data);
   }else if(action==='undo'){
@@ -184,15 +184,13 @@ var itemsClearHarvest={
                   "clear-selected": {"name": "Selected"},
                   "clear-all": {"name": "All"},
               };
-var itemsBrowse={ "browse-Download": {name: "Download", icon: "fas fa-download"},
-                  "sep1": "---------",
-                  "browse-Local": {name: "Review this URL", icon: "fas fa-dice-one"},
-                  "browse-InAccessTool": {name: "Review in Access Tool", icon: "fas fa-dice-two"},
-                  "browse-LiveSite": {name: "Live Site", icon: "fas fa-dice-three"},
-                  "browse-ArchiveOne": {name: "Archive One", icon: "fas fa-dice-four"},
-                  "browse-ArchiveTwo": {name: "Archive Two", icon: "fas fa-dice-five"},
-                  "browse-WebArchive": {name: "Web Archive", icon: "fas fa-dice-six"
-                   }
+var itemsBrowse={ "browse-local": {name: "WCT Browse", icon: "far fa-dot-circle"},
+                  "browse-livesite": {name: "Live Site Browse", icon: "far fa-dot-circle"},
+                  "browse-openwayback": {name: "OpenWayback Browse", icon: "far fa-dot-circle"},
+                };
+var itemsDownload={"download-local": {name: "WCT Download", icon: "fas fa-tint"},
+                  "download-livesite": {name: "Live Site Download", icon: "fas fa-tint"},
+                  "download-openwayback": {name: "OpenWayback Download", icon: "fas fa-tint"},
                 };
 
 var itemsExportLinks={
@@ -212,8 +210,8 @@ var contextMenuItemsUrlBasic={
                   "sep2": "---------",
                   "pruneHarvest": {name: "Prune", icon: "far fa-times-circle", items: itemsPruneHarvest},
                   "sep3": "---------",
-                  "browse": {name: "Browse", icon: "fab fa-chrome"},
-                  "download": {name: "Download", icon: "fas fa-download"},
+                  "browse": {name: "Browse", icon: "fab fa-internet-explorer text-primary", items: itemsBrowse},
+                  "download": {name: "Download", icon: "fas fa-download text-warning"},
                   "sep4": "---------",
                   "exportLinks": {name: "Export Data", icon: "fas fa-file-export", items: {
                       "exportInspect-selected": {"name": "Selected"},
@@ -227,20 +225,24 @@ var contextMenuItemsUrlTree={
                   "sep2": "---------",
                   "pruneHarvest": {name: "Prune", icon: "far fa-times-circle", items: itemsPruneHarvest},
                   "sep3": "---------",
-                  "browse": {name: "Browse", icon: "fab fa-chrome"},
-                  "download": {name: "Download", icon: "fas fa-download"},
+                  "browse": {name: "Browse", icon: "fab fa-internet-explorer text-primary", items: itemsBrowse},
+                  "download": {name: "Download", icon: "fas fa-download text-warning"},
                   "sep4": "---------",
                   "exportLinks": {name: "Export Data", icon: "fas fa-file-export", items: {
                       "exportInspect-selected": {"name": "Selected"},
                       "exportInspect-all": {"name": "All"}
                   }}
                 };
+var contextMenuItemsFolderTree={
+                  "pruneFolder": {name: "Prune Folder", icon: "far fa-times-circle"},
+                };
 var contextMenuItemsPrune={
     "hoppath-current": {name: "HopPath", icon: "fas fa-link"},
     "sep1": "---------",
     "undo": {name: "Undo", icon: "fas fa-undo", items: itemsUndo},
-    // "sep2": "---------",
-    // "browse": {name: "Browse or Download", icon: "fab fa-chrome"},
+    "sep2": "---------",
+    "browse": {name: "Browse", icon: "fab fa-internet-explorer text-primary", items: itemsBrowse},
+    "download": {name: "Download", icon: "fas fa-download text-warning"},
     "sep3": "---------",
     "exportLinks": {name: "Export Data", icon: "fas fa-file-export", items: {
         "exportPrune-selected": {"name": "Selected"},

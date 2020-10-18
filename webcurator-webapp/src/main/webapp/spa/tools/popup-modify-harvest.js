@@ -163,7 +163,11 @@ class HierarchyTree{
 			renderColumns: function(event, data) {
 				var nodeData = data.node.data;
 				var $tdList = $(data.node.tr).find(">td");
-				$tdList.eq(2).text(nodeData.contentType);
+
+				if (nodeData.contentType && nodeData.contentType!=='unknown') {
+					$tdList.eq(2).text(nodeData.contentType);
+				}
+
 				if (nodeData.statusCode > 0) {
 					$tdList.eq(3).text(nodeData.statusCode);
 				}
@@ -180,13 +184,19 @@ class HierarchyTree{
 				nodeData.url=data.node.title;
 				$(data.node.tr).attr("data", JSON.stringify(nodeData));
 				$(data.node.tr).attr("id", "tree-row-"+nodeData.id);
+
+				if (nodeData.viewType && nodeData.viewType===2 && nodeData.id===-1){
+					$(data.node.tr).attr("menu", "folder");
+				}else{
+					$(data.node.tr).attr("menu", "url");
+				}
 			},
 			
 	    };
 
 	    var that=this;
         $.contextMenu({
-		        selector: this.container + ' tr', 
+		        selector: this.container + ' tr[menu="url"]', 
 		        trigger: 'right',
 		        reposition: true,
 		        callback: function(key, options) {
@@ -195,6 +205,16 @@ class HierarchyTree{
 		        },
 		        items: contextMenuItemsUrlTree
     	});
+    	// $.contextMenu({
+		   //      selector: this.container + ' tr[menu="folder"]', 
+		   //      trigger: 'right',
+		   //      reposition: true,
+		   //      callback: function(key, options) {
+		   //          var node=JSON.parse($(this).attr('data'));
+		   //          contextMenuCallback(key, node, that, gPopupModifyHarvest);
+		   //      },
+		   //      items: contextMenuItemsFolderTree
+    	// });
 	} 
 
 	draw(dataset){

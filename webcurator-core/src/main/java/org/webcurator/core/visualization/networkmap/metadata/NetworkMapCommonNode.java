@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.webcurator.common.util.Utils;
 
 public class NetworkMapCommonNode {
-    protected long id;
+    protected long id = -1;
     /////////////////////////////////////////////////////////////////////////////////////////
     // 1. Domain: the total items of all urls contained in this domain.
     // 2. URL: the total items of all urls directly link to this url and the url itself
@@ -79,6 +79,9 @@ public class NetworkMapCommonNode {
     }
 
     public String getContentType() {
+        if (Utils.isEmpty(this.contentType) || contentType.equalsIgnoreCase("null")) {
+            return "unknown";
+        }
         return contentType;
     }
 
