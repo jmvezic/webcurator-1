@@ -23,16 +23,10 @@ function downloadUrl(data){
 
 	var url='/curator/tools/download/'+harvestResultId+'/?url='+btoa(data.url);
 
+	downloadRemote(url, data.url);
+}
 
-    // var a = document.createElement("a");
-    // document.body.appendChild(a);
-    // a.style = "display: none";
-    // a.href = url;
-    // a.download = data.url;
-    // a.target="_blank";
-    // a.click();
-
-
+function downloadRemote(url, name){
 	fetch(url).then((res) => {
 		if (res.ok) {
 			return res.blob();
@@ -45,11 +39,9 @@ function downloadUrl(data){
 	}).then((blob) => {
 		console.log(blob);
 		if(blob){
-			saveAs(blob, data.url);
+			saveAs(blob, name);
 		}
 	});
-
-	// saveAs(url,data.url);
 }
 
 

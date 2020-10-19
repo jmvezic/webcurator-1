@@ -290,6 +290,12 @@ class HierarchyTree{
 		});
 		return data;
 	}
+
+	clearAll(){
+		if($.ui.fancytree.getTree(this.container)){
+			$.ui.fancytree.getTree(this.container).destroy();
+		}
+	}
 }
 
 class PopupModifyHarvest{
