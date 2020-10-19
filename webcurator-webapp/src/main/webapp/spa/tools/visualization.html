@@ -764,8 +764,7 @@ to get the desired effect
         var currentVersion=rsp.currentVersion;
         var globalVersion=rsp.globalVersion;
         if (rsp.retrieveResult === "0") {
-          _browse_type=rsp.browseType;
-          _browse_base_url=rsp.browseBaseUrl;
+          _browse_openwayback=rsp.openWayBack;
           initData();
         }else if(rsp.retrieveResult === "9" && confirm("Index file is missing or need to be updated. Would you reindex the harvest result?")) {        //If could not get the BDB version or the BDB does not exit, then prompt with users to confim redex.
           reindex();

@@ -96,10 +96,8 @@ public class HarvestModificationHandler {
     @Value("${core.base.dir}")
     private String baseDir;
 
-    @Value("${visualization.browseType}")
-    private String visualizationBrowseType;
-    @Value("${visualization.browseBaseUrl}")
-    private String visualizationBrowseBaseUrl;
+    @Value("${qualityReviewToolController.archiveUrl}")
+    private String openWayBack;
 
     @Autowired
     private BrowseHelper browseHelper;
@@ -481,7 +479,7 @@ public class HarvestModificationHandler {
             }
         }
 
-        String baseUrl = visualizationBrowseBaseUrl;
+        String baseUrl = "/curator/tools/";
 
         String strStatusCode = getHeaderValue(headers, "HTTP-RESPONSE-STATUS-CODE");
         if (headers.size() == 0 || Utils.isEmpty(strStatusCode)) {
@@ -567,8 +565,7 @@ public class HarvestModificationHandler {
         map.put("retrieveResult", Integer.toString(versionDTO.getRetrieveResult()));
         map.put("globalVersion", versionDTO.getGlobalVersion());
         map.put("currentVersion", versionDTO.getCurrentVersion());
-        map.put("browseType", visualizationBrowseType);
-        map.put("browseBaseUrl", visualizationBrowseBaseUrl);
+        map.put("openWayBack", openWayBack);
         return map;
     }
 }
